@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { register } from "@/services/auth.api";
 
 interface RegisterResponse {
-  success: boolean;
+  // success: boolean;
   message?: string;
   user?: {
     id: string;
@@ -49,11 +49,11 @@ export default function SignupPage() {
         form.role
       );
 
-      if (res.success && res.user && res.token) {
+      if (res.user && res.token) {
         localStorage.setItem("token", res.token);
 
         const role = res.user.role;
-
+alert(res.message ?? "Signup successful!");
         router.push(
           role === "admin"
             ? "/admin-dashboard"
@@ -167,7 +167,7 @@ export default function SignupPage() {
         <p className="text-center text-sm text-gray-600 mt-6">
           Already have an account?{" "}
           <span
-            onClick={() => router.push("/login")}
+            onClick={() => router.push("/")}
             className="text-indigo-600 font-semibold cursor-pointer hover:underline"
           >
             Login

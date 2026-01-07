@@ -12,7 +12,7 @@ interface RegisterResponse {
     firstName: string;
     lastName: string;
     email: string;
-    role: string;
+    role: "admin" | "vendor" | "customer";
   };
   token?: string;
 }
@@ -26,7 +26,7 @@ export default function SignupPage() {
     lastName: "",
     email: "",
     password: "",
-    role: "user",
+    role: "customer",
   });
 
   function handleChange(
@@ -49,13 +49,17 @@ export default function SignupPage() {
         form.role
       );
 
-      if (res.success) {
-        alert(`Congratulations! Signup successful as ${form.role}.`);
+      if (res.success && res.user && res.token) {
+        localStorage.setItem("token", res.token);
+
+        const role = res.user.role;
 
         router.push(
-          form.role === "admin"
+          role === "admin"
             ? "/admin-dashboard"
-            : "/user-dashboard"
+            : role === "vendor"
+            ? "/vendor-dashboard"
+            : "/customer-dashboard"
         );
       } else {
         alert(res.message ?? "Signup failed!");
@@ -145,7 +149,8 @@ export default function SignupPage() {
               onChange={handleChange}
               className="w-full mt-1 px-4 py-2 rounded-xl bg-gray-100 border border-gray-300 focus:ring-2 focus:ring-indigo-400 outline-none transition"
             >
-              <option value="user">User</option>
+              <option value="customer">Customer</option>
+              <option value="vendor">Vendor</option>
               <option value="admin">Admin</option>
             </select>
           </div>

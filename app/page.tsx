@@ -41,10 +41,10 @@ export default function LoginPage() {
 
         router.push(
           role === "admin"
-            ? "/admin-dashboard"
+            ? "/Admin-dashboard"
             : role === "vendor"
-            ? "/vendor-dashboard"
-            : "/customer-dashboard"
+            ? "/Vendor-dashboard"
+            : "/Customer-dashboard"
         );
       } else {
         alert(res.data.message || "Login failed");

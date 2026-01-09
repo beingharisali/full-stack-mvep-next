@@ -58,7 +58,7 @@ alert(res.message ?? "Signup successful!");
           role === "admin"
             ? "/Admin-dashboard"
             : role === "vendor"
-            ? "/Vendor-dashboard"
+            ? "/Vendor/dashboard"
             : "/Customer-dashboard"
         );
       } else {

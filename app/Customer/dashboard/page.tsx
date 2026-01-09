@@ -1,11 +1,16 @@
-import React from 'react'
+import Navbar from '@/app/components/Navbar'
 
+import React from 'react'
 
 function page() {
   return (
     <div>
       
-      <h1 className='font-bold flex justify-center m-10'>Wellcome to Customer Dashbaord</h1>
+      <Navbar/>
+      <div className='flex'>
+      
+      <h1 className='font-bold flex justify-center m-10'>Wellcome to Vendor Dashbaord</h1>
+      </div>
     </div>
   )
 }

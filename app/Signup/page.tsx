@@ -56,10 +56,10 @@ export default function SignupPage() {
 alert(res.message ?? "Signup successful!");
         router.push(
           role === "admin"
-            ? "/Admin-dashboard"
+            ? "/Admin/dashboard"
             : role === "vendor"
             ? "/Vendor/dashboard"
-            : "/Customer-dashboard"
+            : "/Customer/dashboard"
         );
       } else {
         alert(res.message ?? "Signup failed!");

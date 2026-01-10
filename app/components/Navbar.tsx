@@ -11,16 +11,16 @@ export default function Navbar() {
           href="/"
           className="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0"
         >
-          <span className="ml-3 text-xl">Tailblocks</span>
+          <span className="ml-3 text-xl">MVEP</span>
         </Link>
 
         {/* Nav Links */}
         <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center">
           <Link href="#" className="mr-5 hover:text-gray-900">
-            First Link
+            Home
           </Link>
           <Link href="#" className="mr-5 hover:text-gray-900">
-            Second Link
+            Contact
           </Link>
           <Link href="#" className="mr-5 hover:text-gray-900">
             Third Link

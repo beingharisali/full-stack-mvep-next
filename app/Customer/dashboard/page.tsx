@@ -10,6 +10,7 @@ function page() {
       <div className='flex'>
       <Sidebar/>
       <h1 className='font-bold flex justify-center m-10'>Wellcome to Customer Dashbaord</h1>
+      <p>This is the Customer Dashbaord</p>
       </div>
     </div>
   )

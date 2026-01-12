@@ -33,6 +33,8 @@ export default function ProductManagementPage() {
   const [minStock, setMinStock] = useState('');
   const [maxStock, setMaxStock] = useState('');
   const [statusFilter, setStatusFilter] = useState('');
+  const [sortBy, setSortBy] = useState('');
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalProducts, setTotalProducts] = useState(0);
@@ -43,7 +45,7 @@ export default function ProductManagementPage() {
 
   useEffect(() => {
     fetchProducts();
-  }, [currentPage, searchTerm, categoryFilter, brandFilter, minPrice, maxPrice, minStock, maxStock, statusFilter]);
+  }, [currentPage, searchTerm, categoryFilter, brandFilter, minPrice, maxPrice, minStock, maxStock, statusFilter, sortBy, sortOrder]);
 
   const fetchProducts = async () => {
     try {
@@ -61,6 +63,10 @@ export default function ProductManagementPage() {
       if (minStock) params.numericFilters = `stock>=${minStock}`;
       if (maxStock) params.numericFilters = params.numericFilters ? `${params.numericFilters},stock<=${maxStock}` : `stock<=${maxStock}`;
       if (statusFilter) params.isActive = statusFilter === 'active';
+      
+      if (sortBy) {
+        params.sort = sortOrder === 'asc' ? sortBy : `-${sortBy}`;
+      }
       
       const response = await http.get('/admin/products', { params });
       
@@ -276,6 +282,44 @@ export default function ProductManagementPage() {
                     </select>
                   </div>
                   
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Sort By
+                    </label>
+                    <select
+                      value={sortBy}
+                      onChange={(e) => {
+                        setSortBy(e.target.value);
+                        setCurrentPage(1);
+                      }}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                      <option value="">Default</option>
+                      <option value="name">Name</option>
+                      <option value="price">Price</option>
+                      <option value="stock">Stock</option>
+                      <option value="category">Category</option>
+                      <option value="createdAt">Date Added</option>
+                    </select>
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Order
+                    </label>
+                    <select
+                      value={sortOrder}
+                      onChange={(e) => {
+                        setSortOrder(e.target.value as 'asc' | 'desc');
+                        setCurrentPage(1);
+                      }}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                      <option value="desc">Descending</option>
+                      <option value="asc">Ascending</option>
+                    </select>
+                  </div>
+                  
                   <div className="flex items-end">
                     <button
                       onClick={() => {
@@ -287,6 +331,8 @@ export default function ProductManagementPage() {
                         setMinStock('');
                         setMaxStock('');
                         setStatusFilter('');
+                        setSortBy('');
+                        setSortOrder('desc');
                         setCurrentPage(1);
                       }}
                       className="w-full px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600"

@@ -5,29 +5,53 @@ import Navbar from '@/app/components/Navbar';
 import Sidebar from '@/app/components/Sidebar';
 import ProtectedRoute from '../../../components/ProtectedRoute';
 import { useAuth } from '../../../context/AuthContext';
-import { Product, getProducts, deleteProduct, createProduct, updateProduct } from '../../../services/product.api';
+import http from '../../../services/http';
+
+interface Product {
+  _id: string;
+  name: string;
+  price: number;
+  stock: number;
+  images?: string[];
+  description?: string;
+  category?: string;
+  brand?: string;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
 
 export default function ProductManagementPage() {
   const { user } = useAuth();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalProducts, setTotalProducts] = useState(0);
+  const itemsPerPage = 10;
   const [showModal, setShowModal] = useState(false);
   const [currentProduct, setCurrentProduct] = useState<Partial<Product> | null>(null);
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [currentPage, searchTerm]);
 
   const fetchProducts = async () => {
     try {
       setLoading(true);
-      const response = await getProducts({
-        page: 1,
-        limit: 100 
+      const response = await http.get('/admin/products', {
+        params: {
+          page: currentPage,
+          limit: itemsPerPage,
+          ...(searchTerm && { name: searchTerm })
+        }
       });
-      setProducts(response.products);
+      
+      setProducts(response.data.products);
+      setTotalPages(response.data.totalPages);
+      setTotalProducts(response.data.totalProducts);
     } catch (error) {
       console.error('Error fetching products:', error);
     } finally {
@@ -38,8 +62,12 @@ export default function ProductManagementPage() {
   const handleDeleteProduct = async (productId: string) => {
     if (window.confirm('Are you sure you want to delete this product?')) {
       try {
-        await deleteProduct(productId);
-        fetchProducts();
+        await http.delete(`/admin/products/${productId}`);
+        if (products.length === 1 && currentPage > 1) {
+          setCurrentPage(prev => prev - 1);
+        } else {
+          fetchProducts();
+        }
       } catch (error) {
         console.error('Error deleting product:', error);
       }
@@ -63,9 +91,9 @@ export default function ProductManagementPage() {
 
     try {
       if (isEditing && currentProduct._id) {
-        await updateProduct(currentProduct._id, currentProduct as any);
+        await http.patch(`/admin/products/${currentProduct._id}`, currentProduct as any);
       } else {
-        await createProduct(currentProduct as any);
+        await http.post('/admin/products', currentProduct as any);
       }
       
       setShowModal(false);
@@ -76,11 +104,7 @@ export default function ProductManagementPage() {
     }
   };
 
-  const filteredProducts = products.filter(product =>
-    product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    product.category?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    product.brand?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const displayedProducts = products;
 
   return (
     <ProtectedRoute allowedRoles={['admin']} redirectPath="/">
@@ -98,7 +122,10 @@ export default function ProductManagementPage() {
                     <input
                       type="text"
                       value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
+                      onChange={(e) => {
+                        setSearchTerm(e.target.value);
+                        setCurrentPage(1); 
+                      }}
                       placeholder="Search products by name, category, or brand..."
                       className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
@@ -109,6 +136,53 @@ export default function ProductManagementPage() {
                   >
                     Add New Product
                   </button>
+                </div>
+                
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mt-4 pt-4 border-t">
+                  <p className="text-sm text-gray-600 mb-4 sm:mb-0">
+                    Showing {(currentPage - 1) * itemsPerPage + 1} to {Math.min(currentPage * itemsPerPage, totalProducts)} of {totalProducts} products
+                  </p>
+                  
+                  <div className="flex space-x-2">
+                    <button
+                      onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                      disabled={currentPage === 1}
+                      className={`px-3 py-1 rounded-md ${currentPage === 1 ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-gray-300 text-gray-700 hover:bg-gray-400'}`}
+                    >
+                      Previous
+                    </button>
+                    
+                    {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                      let pageNum;
+                      if (totalPages <= 5) {
+                        pageNum = i + 1;
+                      } else if (currentPage <= 3) {
+                        pageNum = i + 1;
+                      } else if (currentPage >= totalPages - 2) {
+                        pageNum = totalPages - 4 + i;
+                      } else {
+                        pageNum = currentPage - 2 + i;
+                      }
+                      
+                      return (
+                        <button
+                          key={pageNum}
+                          onClick={() => setCurrentPage(pageNum)}
+                          className={`px-3 py-1 rounded-md ${currentPage === pageNum ? 'bg-blue-600 text-white' : 'bg-gray-300 text-gray-700 hover:bg-gray-400'}`}
+                        >
+                          {pageNum}
+                        </button>
+                      );
+                    })}
+                    
+                    <button
+                      onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                      disabled={currentPage === totalPages}
+                      className={`px-3 py-1 rounded-md ${currentPage === totalPages ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-gray-300 text-gray-700 hover:bg-gray-400'}`}
+                    >
+                      Next
+                    </button>
+                  </div>
                 </div>
               </div>
               
@@ -142,7 +216,7 @@ export default function ProductManagementPage() {
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
-                      {filteredProducts.map((product) => (
+                      {displayedProducts.map((product) => (
                         <tr key={product._id} className="hover:bg-gray-50">
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="flex items-center">
@@ -205,7 +279,7 @@ export default function ProductManagementPage() {
                     </tbody>
                   </table>
                   
-                  {filteredProducts.length === 0 && !loading && (
+                  {displayedProducts.length === 0 && !loading && (
                     <div className="text-center py-12">
                       <p className="text-gray-500 text-lg">No products found</p>
                       <p className="text-gray-400">Try adjusting your search criteria</p>

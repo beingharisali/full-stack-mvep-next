@@ -5,7 +5,21 @@ import Navbar from '@/app/components/Navbar';
 import Sidebar from '@/app/components/Sidebar';
 import ProtectedRoute from '../../../components/ProtectedRoute';
 import { useAuth } from '../../../context/AuthContext';
-import { Product, getProducts, deleteProduct, createProduct, updateProduct } from '../../../services/product.api';
+import http from '../../../services/http';
+
+interface Product {
+  _id: string;
+  name: string;
+  price: number;
+  stock: number;
+  images?: string[];
+  description?: string;
+  category?: string;
+  brand?: string;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
 
 export default function ProductManagementPage() {
   const { user } = useAuth();
@@ -23,11 +37,13 @@ export default function ProductManagementPage() {
   const fetchProducts = async () => {
     try {
       setLoading(true);
-      const response = await getProducts({
-        page: 1,
-        limit: 100 
+      const response = await http.get('/admin/products', {
+        params: {
+          page: 1,
+          limit: 100 
+        }
       });
-      setProducts(response.products);
+      setProducts(response.data.products);
     } catch (error) {
       console.error('Error fetching products:', error);
     } finally {
@@ -38,7 +54,7 @@ export default function ProductManagementPage() {
   const handleDeleteProduct = async (productId: string) => {
     if (window.confirm('Are you sure you want to delete this product?')) {
       try {
-        await deleteProduct(productId);
+        await http.delete(`/admin/products/${productId}`);
         fetchProducts();
       } catch (error) {
         console.error('Error deleting product:', error);
@@ -63,9 +79,9 @@ export default function ProductManagementPage() {
 
     try {
       if (isEditing && currentProduct._id) {
-        await updateProduct(currentProduct._id, currentProduct as any);
+        await http.patch(`/admin/products/${currentProduct._id}`, currentProduct as any);
       } else {
-        await createProduct(currentProduct as any);
+        await http.post('/admin/products', currentProduct as any);
       }
       
       setShowModal(false);

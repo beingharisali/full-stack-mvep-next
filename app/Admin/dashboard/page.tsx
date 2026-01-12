@@ -25,7 +25,7 @@ function AdminDashboardPage() {
                 <h2 className="text-xl font-semibold mb-4">Manage Products</h2>
                 <p className="text-gray-600 mb-4">View, add, edit, and manage all products</p>
                 <Link 
-                  href="/products" 
+                  href="/Admin/products" 
                   className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 inline-block"
                 >
                   Manage Products

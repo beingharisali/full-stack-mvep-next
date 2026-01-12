@@ -51,21 +51,26 @@ export async function getProductById(id: string): Promise<SingleProductResponse>
 }
 
 export async function createProduct(
-  productData: Omit<Product, '_id' | 'createdAt' | 'updatedAt' | 'isActive'>
+  productData: Omit<Product, '_id' | 'createdAt' | 'updatedAt' | 'isActive'>,
+  isAdmin = false
 ): Promise<SingleProductResponse> {
-  const response = await http.post("/products", productData);
+  const url = isAdmin ? "/admin/products" : "/products";
+  const response = await http.post(url, productData);
   return response.data;
 }
 
 export async function updateProduct(
   id: string,
-  productData: Partial<Omit<Product, '_id' | 'createdAt' | 'updatedAt' | 'isActive'>>
+  productData: Partial<Omit<Product, '_id' | 'createdAt' | 'updatedAt' | 'isActive'>>,
+  isAdmin = false
 ): Promise<SingleProductResponse> {
-  const response = await http.patch(`/products/${id}`, productData);
+  const url = isAdmin ? `/admin/products/${id}` : `/products/${id}`;
+  const response = await http.patch(url, productData);
   return response.data;
 }
 
-export async function deleteProduct(id: string): Promise<{ msg: string }> {
-  const response = await http.delete(`/products/${id}`);
+export async function deleteProduct(id: string, isAdmin = false): Promise<{ msg: string }> {
+  const url = isAdmin ? `/admin/products/${id}` : `/products/${id}`;
+  const response = await http.delete(url);
   return response.data;
 }

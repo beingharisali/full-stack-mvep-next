@@ -10,7 +10,6 @@ const CartPage: React.FC = () => {
   const { cart, removeFromCart, updateQuantity, getCartTotal, getCartItemCount } = useCart();
 
   const handleCheckout = () => {
-    // Handle checkout process
     console.log('Proceeding to checkout');
   };
 

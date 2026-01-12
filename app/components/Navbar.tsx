@@ -1,12 +1,19 @@
 "use client";
 
 import Link from "next/link";
+import { useAuth } from '../../context/AuthContext';
 
 export default function Navbar() {
+  const { user, logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+    window.location.href = "/"; // Refresh the page to update UI
+  };
+
   return (
     <header className="text-gray-600 body-font border-b">
       <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
-        {/* Logo */}
         <Link
           href="/"
           className="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0"
@@ -14,7 +21,6 @@ export default function Navbar() {
           <span className="ml-3 text-xl">MVEP</span>
         </Link>
 
-        {/* Nav Links */}
         <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center">
           <Link href="/" className="mr-5 hover:text-gray-900">
             Home
@@ -30,21 +36,36 @@ export default function Navbar() {
           </Link>
         </nav>
 
-        {/* Button */}
-        <button className="inline-flex items-center bg-gray-100 border-0 py-1 px-3 hover:bg-gray-200 rounded text-base mt-4 md:mt-0">
-          Button
-          <svg
-            fill="none"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            className="w-4 h-4 ml-1"
-            viewBox="0 0 24 24"
+        {/* User Info and Logout Button */}
+        {user ? (
+          <div className="flex items-center space-x-4">
+            <span className="text-gray-700">Hello, {user.firstName} ({user.role})</span>
+            <button 
+              onClick={handleLogout}
+              className="inline-flex items-center bg-red-600 text-white border-0 py-1 px-3 rounded text-base hover:bg-red-700"
+            >
+              Logout
+            </button>
+          </div>
+        ) : (
+          <Link 
+            href="/"
+            className="inline-flex items-center bg-gray-100 border-0 py-1 px-3 hover:bg-gray-200 rounded text-base"
           >
-            <path d="M5 12h14M12 5l7 7-7 7" />
-          </svg>
-        </button>
+            Login
+            <svg
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              className="w-4 h-4 ml-1"
+              viewBox="0 0 24 24"
+            >
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </Link>
+        )}
       </div>
     </header>
   );

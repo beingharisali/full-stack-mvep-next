@@ -25,14 +25,10 @@ export async function register(
 	return res.data;
 }
 
-// export async function getProfile(): Promise<{ user: User } | null> {
-//   try {
-//     const res = await http.get("/auth/profile");
-//     return res.data;
-//   } catch {
-//     return null;
-//   }
-// }
+export async function getProfile(): Promise<{ user: User }> {
+  const res = await http.get("/auth/profile");
+  return res.data;
+}
 
 export async function logoutApi(): Promise<void> {
 	localStorage.removeItem("token");

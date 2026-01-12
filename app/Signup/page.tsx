@@ -2,10 +2,9 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { register } from "@/services/auth.api";
+import { useAuth } from '../../context/AuthContext';
 
 interface RegisterResponse {
-  // success: boolean;
   message?: string;
   user?: {
     id: string;
@@ -19,7 +18,7 @@ interface RegisterResponse {
 
 export default function SignupPage() {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
+  const { register, user, loading } = useAuth();
 
   const [form, setForm] = useState({
     firstName: "",
@@ -38,10 +37,9 @@ export default function SignupPage() {
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setLoading(true);
 
     try {
-      const res: RegisterResponse = await register(
+      await register(
         form.firstName,
         form.lastName,
         form.email,
@@ -49,20 +47,15 @@ export default function SignupPage() {
         form.role
       );
 
-      if (res.user && res.token) {
-        localStorage.setItem("token", res.token);
-
-        const role = res.user.role;
-alert(res.message ?? "Signup successful!");
+      if (user) {
+        alert("Signup successful!");
         router.push(
-          role === "admin"
+          user.role === "admin"
             ? "/Admin/dashboard"
-            : role === "vendor"
+            : user.role === "vendor"
             ? "/Vendor/dashboard"
             : "/Customer/dashboard"
         );
-      } else {
-        alert(res.message ?? "Signup failed!");
       }
     } catch (err: unknown) {
       if (err instanceof Error) {
@@ -70,8 +63,6 @@ alert(res.message ?? "Signup successful!");
       } else {
         alert("Something went wrong!");
       }
-    } finally {
-      setLoading(false);
     }
   }
 

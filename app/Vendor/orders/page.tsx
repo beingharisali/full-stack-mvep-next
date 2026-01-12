@@ -25,7 +25,6 @@ interface Order {
   createdAt: string;
 }
 
-//testing
 
 export default function VendorOrdersPage() {
   const { user } = useAuth();

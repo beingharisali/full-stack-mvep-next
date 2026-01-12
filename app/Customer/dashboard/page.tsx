@@ -4,7 +4,7 @@ import Navbar from '@/app/components/Navbar'
 import Sidebar from '@/app/components/Sidebar'
 import Link from 'next/link';
 import React from 'react'
-import ProtectedRoute from '../../../components/ProtectedRoute';
+import ProtectedRoute from '../../../shared/ProtectedRoute';
 import { useAuth } from '../../../context/AuthContext';
 
 function CustomerDashboardPage() {

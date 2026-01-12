@@ -15,16 +15,16 @@ export default function Sidebar() {
         return [
           { href: '/', icon: Home, label: 'Home' },
           { href: '/products', icon: ShoppingCart, label: 'Products' },
-          { href: '#', icon: Users, label: 'Users' },
-          { href: '#', icon: Package, label: 'Orders' },
-          { href: '#', icon: BarChart, label: 'Analytics' },
-          { href: '#', icon: Settings, label: 'Settings' },
+          { href: '/Admin/users', icon: Users, label: 'Users' },
+          { href: '/Admin/orders', icon: Package, label: 'Orders' },
+          { href: '/Admin/analytics', icon: BarChart, label: 'Analytics' },
+          { href: '/Admin/settings', icon: Settings, label: 'Settings' },
         ];
       case 'vendor':
         return [
           { href: '/', icon: Home, label: 'Home' },
           { href: '/products', icon: ShoppingCart, label: 'Products' },
-          { href: '#', icon: Package, label: 'My Products' },
+          { href: '/products', icon: Package, label: 'Manage Products' },
           { href: '#', icon: FileText, label: 'Orders' },
           { href: '#', icon: BarChart, label: 'Reports' },
           { href: '#', icon: Settings, label: 'Settings' },
@@ -46,12 +46,10 @@ export default function Sidebar() {
 
   return (
     <aside className="h-screen w-64 bg-gray-900 text-white flex flex-col">
-      {/* Logo */}
       <div className="h-16 flex items-center justify-center text-2xl font-bold border-b border-gray-700">
         {user ? `${user.role.charAt(0).toUpperCase() + user.role.slice(1)} Dashboard` : 'Dashboard'}
       </div>
 
-      {/* Navigation */}
       <nav className="flex-1 px-4 py-6 space-y-2">
         {menuItems.map((item, index) => (
           <Link

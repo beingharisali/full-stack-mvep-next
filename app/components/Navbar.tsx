@@ -8,7 +8,7 @@ export default function Navbar() {
 
   const handleLogout = () => {
     logout();
-    window.location.href = "/"; // Refresh the page to update UI
+    window.location.href = "/"; 
   };
 
   return (
@@ -36,7 +36,6 @@ export default function Navbar() {
           </Link>
         </nav>
 
-        {/* User Info and Logout Button */}
         {user ? (
           <div className="flex items-center space-x-4">
             <span className="text-gray-700">Hello, {user.firstName} ({user.role})</span>

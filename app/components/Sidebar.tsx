@@ -14,7 +14,7 @@ export default function Sidebar() {
       case 'admin':
         return [
           { href: '/', icon: Home, label: 'Home' },
-          { href: '/products', icon: ShoppingCart, label: 'Products' },
+          { href: '/Admin/products', icon: ShoppingCart, label: 'Products' },
           { href: '/Admin/users', icon: Users, label: 'Users' },
           { href: '/Admin/orders', icon: Package, label: 'Orders' },
           { href: '/Admin/analytics', icon: BarChart, label: 'Analytics' },

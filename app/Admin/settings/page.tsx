@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Navbar from '@/app/components/Navbar';
 import Sidebar from '@/app/components/Sidebar';
-import ProtectedRoute from '../../../components/ProtectedRoute';
+import ProtectedRoute from '../../../shared/ProtectedRoute';
 import { useAuth } from '../../../context/AuthContext';
 
 export default function SettingsPage() {

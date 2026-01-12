@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Navbar from '@/app/components/Navbar';
 import Sidebar from '@/app/components/Sidebar';
-import ProtectedRoute from '../../../components/ProtectedRoute';
+import ProtectedRoute from '../../../shared/ProtectedRoute';
 import { Product, getProductById } from '@/services/product.api';
 
 export default function ProductDetailPage() {

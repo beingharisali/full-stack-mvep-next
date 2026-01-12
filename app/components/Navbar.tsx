@@ -16,17 +16,17 @@ export default function Navbar() {
 
         {/* Nav Links */}
         <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center">
-          <Link href="#" className="mr-5 hover:text-gray-900">
+          <Link href="/" className="mr-5 hover:text-gray-900">
             Home
+          </Link>
+          <Link href="/products" className="mr-5 hover:text-gray-900">
+            Products
           </Link>
           <Link href="#" className="mr-5 hover:text-gray-900">
             Contact
           </Link>
           <Link href="#" className="mr-5 hover:text-gray-900">
             Third Link
-          </Link>
-          <Link href="#" className="mr-5 hover:text-gray-900">
-            Fourth Link
           </Link>
         </nav>
 

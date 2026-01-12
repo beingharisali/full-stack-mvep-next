@@ -13,7 +13,7 @@ export default function Sidebar() {
     switch (user.role) {
       case 'admin':
         return [
-          { href: '/', icon: Home, label: 'Home' },
+          { href: '/Admin/dashboard', icon: Home, label: 'Home' },
           { href: '/Admin/products', icon: ShoppingCart, label: 'Products' },
           { href: '/Admin/users', icon: Users, label: 'Users' },
           { href: '/Admin/orders', icon: Package, label: 'Orders' },

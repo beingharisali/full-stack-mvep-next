@@ -22,7 +22,7 @@ export default function Navbar() {
         </Link>
 
         <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center">
-          <Link href="/" className="mr-5 hover:text-gray-900">
+          <Link href="/Admin/dashboard" className="mr-5 hover:text-gray-900">
             Home
           </Link>
           <Link href="/products" className="mr-5 hover:text-gray-900">

@@ -36,7 +36,7 @@ function AdminDashboardPage() {
                 <h2 className="text-xl font-semibold mb-4">Manage Users</h2>
                 <p className="text-gray-600 mb-4">View and manage all users in the system</p>
                 <Link 
-                  href="#" 
+                  href="/Admin/users" 
                   className="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 inline-block"
                 >
                   Manage Users
@@ -47,7 +47,7 @@ function AdminDashboardPage() {
                 <h2 className="text-xl font-semibold mb-4">System Analytics</h2>
                 <p className="text-gray-600 mb-4">View comprehensive system analytics</p>
                 <Link 
-                  href="#" 
+                  href="/Admin/analytics" 
                   className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 inline-block"
                 >
                   View Analytics
@@ -58,7 +58,7 @@ function AdminDashboardPage() {
                 <h2 className="text-xl font-semibold mb-4">Orders Management</h2>
                 <p className="text-gray-600 mb-4">Monitor and manage all orders</p>
                 <Link 
-                  href="#" 
+                  href="/Admin/orders" 
                   className="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 inline-block"
                 >
                   Manage Orders
@@ -69,7 +69,7 @@ function AdminDashboardPage() {
                 <h2 className="text-xl font-semibold mb-4">Categories</h2>
                 <p className="text-gray-600 mb-4">Manage product categories</p>
                 <Link 
-                  href="#" 
+                  href="/Admin/categories" 
                   className="px-4 py-2 bg-yellow-600 text-white rounded-md hover:bg-yellow-700 inline-block"
                 >
                   Manage Categories
@@ -80,7 +80,7 @@ function AdminDashboardPage() {
                 <h2 className="text-xl font-semibold mb-4">System Settings</h2>
                 <p className="text-gray-600 mb-4">Configure system-wide settings</p>
                 <Link 
-                  href="#" 
+                  href="/Admin/settings" 
                   className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 inline-block"
                 >
                   System Settings

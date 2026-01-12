@@ -1,58 +1,65 @@
+'use client';
+
 import Navbar from '@/app/components/Navbar'
 import Sidebar from '@/app/components/Sidebar'
 import Link from 'next/link';
 import React from 'react'
+import ProtectedRoute from '../../../components/ProtectedRoute';
+import { useAuth } from '../../../context/AuthContext';
 
-function page() {
+function CustomerDashboardPage() {
+  const { user } = useAuth();
+
   return (
-    <div>
-      
-      <Navbar/>
-      <div className='flex'>
-      <Sidebar/>
-      <div className="flex-1 p-6">
-        <div className="max-w-7xl mx-auto">
-          <h1 className='font-bold text-2xl mb-6'>Welcome to Customer Dashboard</h1>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="bg-white rounded-lg shadow-md p-6">
-              <h2 className="text-xl font-semibold mb-4">Browse Products</h2>
-              <p className="text-gray-600 mb-4">Discover and shop from our wide range of products</p>
-              <Link 
-                href="/products" 
-                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 inline-block"
-              >
-                Browse Products
-              </Link>
-            </div>
+    <ProtectedRoute allowedRoles={['customer']} redirectPath="/">
+      <div>
+        <Navbar/>
+        <div className='flex'>
+        <Sidebar/>
+        <div className="flex-1 p-6">
+          <div className="max-w-7xl mx-auto">
+            <h1 className='font-bold text-2xl mb-6'>Welcome to Customer Dashboard, {user?.firstName}!</h1>
             
-            <div className="bg-white rounded-lg shadow-md p-6">
-              <h2 className="text-xl font-semibold mb-4">My Orders</h2>
-              <p className="text-gray-600 mb-4">Track and manage your orders</p>
-              <Link 
-                href="#" 
-                className="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 inline-block"
-              >
-                My Orders
-              </Link>
-            </div>
-            
-            <div className="bg-white rounded-lg shadow-md p-6">
-              <h2 className="text-xl font-semibold mb-4">Wishlist</h2>
-              <p className="text-gray-600 mb-4">Manage items you want to purchase later</p>
-              <Link 
-                href="#" 
-                className="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 inline-block"
-              >
-                View Wishlist
-              </Link>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="bg-white rounded-lg shadow-md p-6">
+                <h2 className="text-xl font-semibold mb-4">Browse Products</h2>
+                <p className="text-gray-600 mb-4">Discover and shop from our wide range of products</p>
+                <Link 
+                  href="/products" 
+                  className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 inline-block"
+                >
+                  Browse Products
+                </Link>
+              </div>
+              
+              <div className="bg-white rounded-lg shadow-md p-6">
+                <h2 className="text-xl font-semibold mb-4">My Orders</h2>
+                <p className="text-gray-600 mb-4">Track and manage your orders</p>
+                <Link 
+                  href="#" 
+                  className="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 inline-block"
+                >
+                  My Orders
+                </Link>
+              </div>
+              
+              <div className="bg-white rounded-lg shadow-md p-6">
+                <h2 className="text-xl font-semibold mb-4">Wishlist</h2>
+                <p className="text-gray-600 mb-4">Manage items you want to purchase later</p>
+                <Link 
+                  href="#" 
+                  className="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 inline-block"
+                >
+                  View Wishlist
+                </Link>
+              </div>
             </div>
           </div>
         </div>
+        </div>
       </div>
-      </div>
-    </div>
+    </ProtectedRoute>
   )
 }
 
-export default page
+export default CustomerDashboardPage

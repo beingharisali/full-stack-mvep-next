@@ -1,8 +1,7 @@
 "use client";
 import { useState, ChangeEvent, FormEvent } from "react";
 import { useRouter } from "next/navigation";
-import http from "@/services/http"; 
-// import SignupPage from "./Signup/page";
+import { useAuth } from '../context/AuthContext';
 type LoginForm = {
   email: string;
   password: string;
@@ -11,7 +10,7 @@ type LoginForm = {
 
 export default function LoginPage() {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
+  const { login, loading } = useAuth();
 
   const [form, setForm] = useState<LoginForm>({
     email: "",
@@ -27,32 +26,23 @@ export default function LoginPage() {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    setLoading(true);
 
     try {
-      const res = await http.post("/auth/login", form);
+      await login(form.email, form.password);
 
-      if (res.data.user && res.data.token) {
-        localStorage.setItem("token", res.data.token);
-
-        const role = res.data.user.role;
-        alert(res.data.message || "login successful");
-  
+      if (true) { 
+        alert("Login successful");
 
         router.push(
-          role === "admin"
+          form.role === "admin"
             ? "/Admin/dashboard"
-            : role === "vendor"
+            : form.role === "vendor"
             ? "/Vendor/dashboard"
             : "/Customer/dashboard"
         );
-      } else {
-        alert(res.data.message || "Login failed");
       }
     } catch (err: any) {
-      alert(err.response?.data?.message || "Something went wrong!");
-    } finally {
-      setLoading(false);
+      alert(err || "Something went wrong!");
     }
   };
 
@@ -115,7 +105,7 @@ export default function LoginPage() {
         <p className="text-center text-sm text-gray-500 mt-6">
           Don’t have an account?{" "}
          <span
-  onClick={() => router.push("/Signup")} // Note the capital S
+  onClick={() => router.push("/Signup")}
   className="text-indigo-600 font-medium cursor-pointer hover:underline"
 >
   Signup

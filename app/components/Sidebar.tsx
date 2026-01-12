@@ -1,55 +1,68 @@
 "use client";
 
 import Link from "next/link";
-import { Home, Users, Settings, BarChart, ShoppingCart } from "lucide-react";
+import { Home, Users, Settings, BarChart, ShoppingCart, Package, FileText } from "lucide-react";
+import { useAuth } from '../../context/AuthContext';
 
 export default function Sidebar() {
+  const { user } = useAuth();
+
+  const getMenuItems = () => {
+    if (!user) return []; 
+
+    switch (user.role) {
+      case 'admin':
+        return [
+          { href: '/', icon: Home, label: 'Home' },
+          { href: '/products', icon: ShoppingCart, label: 'Products' },
+          { href: '#', icon: Users, label: 'Users' },
+          { href: '#', icon: Package, label: 'Orders' },
+          { href: '#', icon: BarChart, label: 'Analytics' },
+          { href: '#', icon: Settings, label: 'Settings' },
+        ];
+      case 'vendor':
+        return [
+          { href: '/', icon: Home, label: 'Home' },
+          { href: '/products', icon: ShoppingCart, label: 'Products' },
+          { href: '#', icon: Package, label: 'My Products' },
+          { href: '#', icon: FileText, label: 'Orders' },
+          { href: '#', icon: BarChart, label: 'Reports' },
+          { href: '#', icon: Settings, label: 'Settings' },
+        ];
+      case 'customer':
+        return [
+          { href: '/', icon: Home, label: 'Home' },
+          { href: '/products', icon: ShoppingCart, label: 'Products' },
+          { href: '#', icon: Package, label: 'My Orders' },
+          { href: '#', icon: FileText, label: 'Wishlist' },
+          { href: '#', icon: Settings, label: 'Account' },
+        ];
+      default:
+        return [];
+    }
+  };
+
+  const menuItems = getMenuItems();
+
   return (
     <aside className="h-screen w-64 bg-gray-900 text-white flex flex-col">
+      {/* Logo */}
       <div className="h-16 flex items-center justify-center text-2xl font-bold border-b border-gray-700">
-        Dashboard
+        {user ? `${user.role.charAt(0).toUpperCase() + user.role.slice(1)} Dashboard` : 'Dashboard'}
       </div>
 
+      {/* Navigation */}
       <nav className="flex-1 px-4 py-6 space-y-2">
-        <Link
-          href="#"
-          className="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800 transition"
-        >
-          <Home size={20} />
-          <span>Home</span>
-        </Link>
-
-        <Link
-          href="#"
-          className="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800 transition"
-        >
-          <Users size={20} />
-          <span>Users</span>
-        </Link>
-
-        <Link
-          href="/products"
-          className="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800 transition"
-        >
-          <ShoppingCart size={20} />
-          <span>Products</span>
-        </Link>
-
-        <Link
-          href="#"
-          className="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800 transition"
-        >
-          <BarChart size={20} />
-          <span>Reports</span>
-        </Link>
-
-        <Link
-          href="#"
-          className="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800 transition"
-        >
-          <Settings size={20} />
-          <span>Settings</span>
-        </Link>
+        {menuItems.map((item, index) => (
+          <Link
+            key={index}
+            href={item.href}
+            className="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800 transition"
+          >
+            <item.icon size={20} />
+            <span>{item.label}</span>
+          </Link>
+        ))}
       </nav>
     </aside>
   );

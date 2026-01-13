@@ -13,29 +13,41 @@ const CustomerDashboard: React.FC = () => {
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<'all' | 'featured'>('all');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [categoryFilter, setCategoryFilter] = useState('');
+  const [priceRange, setPriceRange] = useState({ min: '', max: '' });
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalProducts, setTotalProducts] = useState(0);
+  const [categories, setCategories] = useState<string[]>([]);
   const router = useRouter();
 
-  const itemsPerPage = 8; // Default page size
+  const itemsPerPage = 8; 
 
   useEffect(() => {
+    fetchCategories();
     if (activeTab === 'all') {
       fetchProducts();
     } else {
       fetchFeaturedProducts();
     }
-  }, [activeTab, currentPage]);
+  }, [activeTab, currentPage, searchTerm, categoryFilter, priceRange]);
 
   const fetchProducts = async () => {
     try {
       setLoading(true);
       
-      const response: ProductListResponse = await getProducts({ 
+      const params: any = {
         limit: itemsPerPage,
-        page: currentPage
-      });
+        page: currentPage,
+      };
+
+      if (searchTerm) params.name = searchTerm;
+      if (categoryFilter) params.category = categoryFilter;
+      if (priceRange.min) params.minPrice = parseFloat(priceRange.min);
+      if (priceRange.max) params.maxPrice = parseFloat(priceRange.max);
+
+      const response: ProductListResponse = await getProducts(params);
       setProducts(response.products);
       setTotalPages(response.totalPages);
       setTotalProducts(response.totalProducts);
@@ -58,6 +70,16 @@ const CustomerDashboard: React.FC = () => {
     }
   };
 
+  const fetchCategories = async () => {
+    try {
+      const response = await getProducts({ limit: 100 });
+      const uniqueCategories = Array.from(new Set(response.products.map(p => p.category).filter(Boolean))) as string[];
+      setCategories(uniqueCategories);
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+    }
+  };
+
   const handleAddToCart = (product: Product) => {
     alert(`${product.name} added to cart!`);
   };
@@ -66,6 +88,13 @@ const CustomerDashboard: React.FC = () => {
     if (page >= 1 && page <= totalPages) {
       setCurrentPage(page);
     }
+  };
+
+  const handleClearFilters = () => {
+    setSearchTerm('');
+    setCategoryFilter('');
+    setPriceRange({ min: '', max: '' });
+    setCurrentPage(1); 
   };
 
   return (
@@ -121,7 +150,7 @@ const CustomerDashboard: React.FC = () => {
                     <button 
                       onClick={() => {
                         setActiveTab('all');
-                        setCurrentPage(1); // Reset to first page when switching tabs
+                        setCurrentPage(1);
                       }}
                       className={`px-4 py-2 rounded-md ${
                         activeTab === 'all' 
@@ -134,7 +163,7 @@ const CustomerDashboard: React.FC = () => {
                     <button 
                       onClick={() => {
                         setActiveTab('featured');
-                        setCurrentPage(1); // Reset to first page when switching tabs
+                        setCurrentPage(1);
                       }}
                       className={`px-4 py-2 rounded-md ${
                         activeTab === 'featured' 
@@ -153,7 +182,87 @@ const CustomerDashboard: React.FC = () => {
                   </div>
                 </div>
                 
-                {/* Featured Products Section */}
+                {activeTab === 'all' && (
+                  <div className="bg-white rounded-lg shadow-md p-4 mb-6">
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                      <div>
+                        <label htmlFor="search" className="block text-sm font-medium text-gray-700 mb-1">
+                          Search
+                        </label>
+                        <input
+                          type="text"
+                          id="search"
+                          value={searchTerm}
+                          onChange={(e) => {
+                            setSearchTerm(e.target.value);
+                            setCurrentPage(1); 
+                          }}
+                          placeholder="Search products..."
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        />
+                      </div>
+                      
+                      <div>
+                        <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-1">
+                          Category
+                        </label>
+                        <select
+                          id="category"
+                          value={categoryFilter}
+                          onChange={(e) => {
+                            setCategoryFilter(e.target.value);
+                            setCurrentPage(1); 
+                          }}
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        >
+                          <option value="">All Categories</option>
+                          {categories.map((category, index) => (
+                            <option key={index} value={category}>{category}</option>
+                          ))}
+                        </select>
+                      </div>
+                      
+                      <div className="grid grid-cols-2 gap-2">
+                        <div>
+                          <label htmlFor="minPrice" className="block text-sm font-medium text-gray-700 mb-1">
+                            Min Price
+                          </label>
+                          <input
+                            type="number"
+                            id="minPrice"
+                            value={priceRange.min}
+                            onChange={(e) => setPriceRange({...priceRange, min: e.target.value})}
+                            placeholder="Min"
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          />
+                        </div>
+                        <div>
+                          <label htmlFor="maxPrice" className="block text-sm font-medium text-gray-700 mb-1">
+                            Max Price
+                          </label>
+                          <input
+                            type="number"
+                            id="maxPrice"
+                            value={priceRange.max}
+                            onChange={(e) => setPriceRange({...priceRange, max: e.target.value})}
+                            placeholder="Max"
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          />
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-end">
+                        <button
+                          onClick={handleClearFilters}
+                          className="w-full px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
+                        >
+                          Clear Filters
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+                
                 {activeTab === 'featured' && (
                   <div>
                     <div className="mb-6">
@@ -177,7 +286,6 @@ const CustomerDashboard: React.FC = () => {
                   </div>
                 )}
                 
-                {/* All Products Section with Pagination */}
                 {activeTab === 'all' && (
                   <div>
                     {loading ? (
@@ -214,19 +322,15 @@ const CustomerDashboard: React.FC = () => {
                               {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => {
                                 let pageNum: number;
                                 if (totalPages <= 5) {
-                                  // Show all pages if total is 5 or less
                                   pageNum = i + 1;
                                 } else if (currentPage <= 3) {
-                                  // Show first 3 pages, then ellipsis, then last page
                                   if (i < 3) pageNum = i + 1;
                                   else if (i === 3) pageNum = totalPages;
-                                  else return null; // Skip if beyond range
+                                  else return null; 
                                 } else if (currentPage >= totalPages - 2) {
-                                  // Show first page, then ellipsis, then last 3 pages
                                   if (i === 0) pageNum = 1;
                                   else pageNum = totalPages - 3 + i;
                                 } else {
-                                  // Show first page, Ellipsis, Current-1, Current, Current+1, Ellipsis, Last page
                                   if (i === 0) pageNum = 1;
                                   else if (i === 1) return <span key="ellipsis1" className="px-4 py-2 border-t border-b border-gray-300 text-sm font-medium bg-white text-gray-700">...</span>;
                                   else if (i === 2) pageNum = currentPage;
@@ -234,7 +338,6 @@ const CustomerDashboard: React.FC = () => {
                                   else pageNum = totalPages;
                                 }
                                 
-                                // Skip if pageNum is not valid
                                 if (!pageNum || isNaN(pageNum)) return null;
                                 
                                 return (

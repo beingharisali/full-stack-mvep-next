@@ -13,9 +13,13 @@ const CustomerProductsPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('');
+  const [brandFilter, setBrandFilter] = useState('');
   const [priceRange, setPriceRange] = useState({ min: '', max: '' });
+  const [stockRange, setStockRange] = useState({ min: '', max: '' });
+  const [statusFilter, setStatusFilter] = useState(''); 
   const [sortBy, setSortBy] = useState('-createdAt');
   const [categories, setCategories] = useState<string[]>([]);
+  const [brands, setBrands] = useState<string[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalProducts, setTotalProducts] = useState(0);
@@ -25,12 +29,12 @@ const CustomerProductsPage: React.FC = () => {
 
   useEffect(() => {
     fetchProducts();
-    fetchCategories();
+    fetchCategoriesAndBrands();
   }, []);
 
   useEffect(() => {
     fetchFilteredProducts();
-  }, [searchTerm, categoryFilter, priceRange, sortBy, currentPage]);
+  }, [searchTerm, categoryFilter, brandFilter, priceRange, stockRange, statusFilter, sortBy, currentPage]);
 
   const fetchProducts = async () => {
     try {
@@ -61,8 +65,12 @@ const CustomerProductsPage: React.FC = () => {
 
       if (searchTerm) params.name = searchTerm;
       if (categoryFilter) params.category = categoryFilter;
+      if (brandFilter) params.brand = brandFilter;
       if (priceRange.min) params.minPrice = parseFloat(priceRange.min);
       if (priceRange.max) params.maxPrice = parseFloat(priceRange.max);
+      if (stockRange.min) params.minStock = parseInt(stockRange.min);
+      if (stockRange.max) params.maxStock = parseInt(stockRange.max);
+      if (statusFilter) params.isActive = statusFilter === 'active';
 
       const response: ProductListResponse = await getProducts(params);
       setProducts(response.products);
@@ -75,14 +83,16 @@ const CustomerProductsPage: React.FC = () => {
     }
   };
 
-  const fetchCategories = async () => {
+  const fetchCategoriesAndBrands = async () => {
     try {
-      
+    
       const response = await getProducts({ limit: 100 });
       const uniqueCategories = Array.from(new Set(response.products.map(p => p.category).filter(Boolean))) as string[];
+      const uniqueBrands = Array.from(new Set(response.products.map(p => p.brand).filter(Boolean))) as string[];
       setCategories(uniqueCategories);
+      setBrands(uniqueBrands);
     } catch (error) {
-      console.error('Error fetching categories:', error);
+      console.error('Error fetching categories and brands:', error);
     }
   };
 
@@ -93,8 +103,11 @@ const CustomerProductsPage: React.FC = () => {
   const handleClearFilters = () => {
     setSearchTerm('');
     setCategoryFilter('');
+    setBrandFilter('');
     setPriceRange({ min: '', max: '' });
-    setCurrentPage(1);
+    setStockRange({ min: '', max: '' });
+    setStatusFilter('');
+    setCurrentPage(1); 
   };
 
   const handlePageChange = (page: number) => {
@@ -114,7 +127,7 @@ const CustomerProductsPage: React.FC = () => {
               <h1 className="text-3xl font-bold text-gray-800 mb-6">Shop Products</h1>
               
               <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
                   <div>
                     <label htmlFor="search" className="block text-sm font-medium text-gray-700 mb-1">
                       Search
@@ -125,7 +138,7 @@ const CustomerProductsPage: React.FC = () => {
                       value={searchTerm}
                       onChange={(e) => {
                         setSearchTerm(e.target.value);
-                        setCurrentPage(1);
+                        setCurrentPage(1); // Reset to first page on search
                       }}
                       placeholder="Search products..."
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -141,13 +154,33 @@ const CustomerProductsPage: React.FC = () => {
                       value={categoryFilter}
                       onChange={(e) => {
                         setCategoryFilter(e.target.value);
-                        setCurrentPage(1);
+                        setCurrentPage(1); // Reset to first page on filter change
                       }}
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
                       <option value="">All Categories</option>
                       {categories.map((category, index) => (
                         <option key={index} value={category}>{category}</option>
+                      ))}
+                    </select>
+                  </div>
+                  
+                  <div>
+                    <label htmlFor="brand" className="block text-sm font-medium text-gray-700 mb-1">
+                      Brand
+                    </label>
+                    <select
+                      id="brand"
+                      value={brandFilter}
+                      onChange={(e) => {
+                        setBrandFilter(e.target.value);
+                        setCurrentPage(1); // Reset to first page on filter change
+                      }}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                      <option value="">All Brands</option>
+                      {brands.map((brand, index) => (
+                        <option key={index} value={brand}>{brand}</option>
                       ))}
                     </select>
                   </div>
@@ -181,24 +214,51 @@ const CustomerProductsPage: React.FC = () => {
                     </div>
                   </div>
                   
+                  <div className="grid grid-cols-2 gap-2">
+                    <div>
+                      <label htmlFor="minStock" className="block text-sm font-medium text-gray-700 mb-1">
+                        Min Stock
+                      </label>
+                      <input
+                        type="number"
+                        id="minStock"
+                        value={stockRange.min}
+                        onChange={(e) => setStockRange({...stockRange, min: e.target.value})}
+                        placeholder="Min"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="maxStock" className="block text-sm font-medium text-gray-700 mb-1">
+                        Max Stock
+                      </label>
+                      <input
+                        type="number"
+                        id="maxStock"
+                        value={stockRange.max}
+                        onChange={(e) => setStockRange({...stockRange, max: e.target.value})}
+                        placeholder="Max"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
+                  </div>
+                  
                   <div>
-                    <label htmlFor="sort" className="block text-sm font-medium text-gray-700 mb-1">
-                      Sort By
+                    <label htmlFor="status" className="block text-sm font-medium text-gray-700 mb-1">
+                      Status
                     </label>
                     <select
-                      id="sort"
-                      value={sortBy}
+                      id="status"
+                      value={statusFilter}
                       onChange={(e) => {
-                        setSortBy(e.target.value);
-                        setCurrentPage(1);
+                        setStatusFilter(e.target.value);
+                        setCurrentPage(1); // Reset to first page on filter change
                       }}
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
-                      <option value="-createdAt">Newest</option>
-                      <option value="name">Name A-Z</option>
-                      <option value="-name">Name Z-A</option>
-                      <option value="price">Price Low-High</option>
-                      <option value="-price">Price High-Low</option>
+                      <option value="">All Statuses</option>
+                      <option value="active">Active</option>
+                      <option value="inactive">Inactive</option>
                     </select>
                   </div>
                 </div>

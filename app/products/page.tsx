@@ -6,6 +6,7 @@ import Navbar from '@/app/components/Navbar';
 import Sidebar from '@/app/components/Sidebar';
 import ProtectedRoute from '../../shared/ProtectedRoute';
 import { Product, getProducts } from '@/services/product.api';
+import ProductCard from '../components/ProductCard';
 
 export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -49,9 +50,7 @@ export default function ProductsPage() {
     }
   };
 
-  const handleViewDetails = (id: string) => {
-    router.push(`/products/${id}`);
-  };
+
 
   const handlePageChange = (page: number) => {
     if (page >= 1 && page <= totalPages) {
@@ -180,51 +179,11 @@ export default function ProductsPage() {
                 <>
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                     {products.map((product) => (
-                      <div 
+                      <ProductCard 
                         key={product._id} 
-                        className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 cursor-pointer"
-                        onClick={() => handleViewDetails(product._id)}
-                      >
-                        <div className="h-48 bg-gray-200 flex items-center justify-center">
-                          {product.images && product.images.length > 0 ? (
-                            <img 
-                              src={product.images[0]} 
-                              alt={product.name} 
-                              className="h-full w-full object-cover"
-                              onError={(e) => {
-                                const target = e.target as HTMLImageElement;
-                                target.src = '/placeholder-image.jpg';
-                              }}
-                            />
-                          ) : (
-                            <div className="h-full w-full bg-gray-200 flex items-center justify-center text-gray-500">
-                              No Image
-                            </div>
-                          )}
-                        </div>
-                        
-                        <div className="p-4">
-                          <h3 className="font-semibold text-lg truncate">{product.name}</h3>
-                          <p className="text-gray-600 text-sm truncate">{product.description || 'No description'}</p>
-                          
-                          <div className="mt-3 flex justify-between items-center">
-                            <span className="text-lg font-bold text-blue-600">${product.price.toFixed(2)}</span>
-                            <span className={`px-2 py-1 rounded-full text-xs ${
-                              product.stock > 0 
-                                ? 'bg-green-100 text-green-800' 
-                                : 'bg-red-100 text-red-800'
-                            }`}>
-                              {product.stock > 0 ? `${product.stock} in stock` : 'Out of stock'}
-                            </span>
-                          </div>
-                          
-                          {product.category && (
-                            <div className="mt-2">
-                              <span className="text-xs text-gray-500">Category: {product.category}</span>
-                            </div>
-                          )}
-                        </div>
-                      </div>
+                        product={product}
+                        onAddToCartClick={() => {}}
+                      />
                     ))}
                   </div>
                   

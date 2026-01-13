@@ -138,7 +138,7 @@ const CustomerProductsPage: React.FC = () => {
                       value={searchTerm}
                       onChange={(e) => {
                         setSearchTerm(e.target.value);
-                        setCurrentPage(1); // Reset to first page on search
+                        setCurrentPage(1); 
                       }}
                       placeholder="Search products..."
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -154,7 +154,7 @@ const CustomerProductsPage: React.FC = () => {
                       value={categoryFilter}
                       onChange={(e) => {
                         setCategoryFilter(e.target.value);
-                        setCurrentPage(1); // Reset to first page on filter change
+                        setCurrentPage(1); 
                       }}
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
@@ -174,7 +174,7 @@ const CustomerProductsPage: React.FC = () => {
                       value={brandFilter}
                       onChange={(e) => {
                         setBrandFilter(e.target.value);
-                        setCurrentPage(1); // Reset to first page on filter change
+                        setCurrentPage(1); 
                       }}
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
@@ -252,13 +252,36 @@ const CustomerProductsPage: React.FC = () => {
                       value={statusFilter}
                       onChange={(e) => {
                         setStatusFilter(e.target.value);
-                        setCurrentPage(1); // Reset to first page on filter change
+                        setCurrentPage(1); 
                       }}
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
                       <option value="">All Statuses</option>
                       <option value="active">Active</option>
                       <option value="inactive">Inactive</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label htmlFor="sort" className="block text-sm font-medium text-gray-700 mb-1">
+                      Sort By
+                    </label>
+                    <select
+                      id="sort"
+                      value={sortBy}
+                      onChange={(e) => {
+                        setSortBy(e.target.value);
+                        setCurrentPage(1); 
+                      }}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                      <option value="-createdAt">Newest</option>
+                      <option value="createdAt">Oldest</option>
+                      <option value="name">Name A-Z</option>
+                      <option value="-name">Name Z-A</option>
+                      <option value="price">Price Low-High</option>
+                      <option value="-price">Price High-Low</option>
+                      <option value="stock">Stock Low-High</option>
+                      <option value="-stock">Stock High-Low</option>
                     </select>
                   </div>
                 </div>

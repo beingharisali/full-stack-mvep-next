@@ -5,6 +5,7 @@ import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
 import ProtectedRoute from '../../shared/ProtectedRoute';
 import { useCart } from '../../context/CartContext';
+import Link from 'next/link';
 
 const CartPage: React.FC = () => {
   const { cart, removeFromCart, updateQuantity, getCartTotal, getCartItemCount } = useCart();
@@ -97,12 +98,14 @@ const CartPage: React.FC = () => {
                     </p>
                     
                     <div className="flex flex-col sm:flex-row sm:space-x-4 space-y-4 sm:space-y-0">
-                      <button
-                        onClick={handleCheckout}
-                        className="flex-1 bg-indigo-600 border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                      >
-                        Checkout
-                      </button>
+                      <Link href="/checkout">
+                        <button
+                          type="button"
+                          className="flex-1 bg-indigo-600 border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        >
+                          Checkout
+                        </button>
+                      </Link>
                       <button
                         className="flex-1 bg-white border border-gray-300 rounded-md shadow-sm py-3 px-4 text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                       >

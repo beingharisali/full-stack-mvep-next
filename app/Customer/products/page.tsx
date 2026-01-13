@@ -6,7 +6,7 @@ import Navbar from '../../components/Navbar';
 import Sidebar from '../../components/Sidebar';
 import ProtectedRoute from '../../../shared/ProtectedRoute';
 import ProductCard from '../../components/ProductCard';
-import { Product, getProducts } from '../../../services/product.api';
+import { Product, getProducts, ProductListResponse } from '../../../services/product.api';
 
 const CustomerProductsPage: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -16,7 +16,12 @@ const CustomerProductsPage: React.FC = () => {
   const [priceRange, setPriceRange] = useState({ min: '', max: '' });
   const [sortBy, setSortBy] = useState('-createdAt');
   const [categories, setCategories] = useState<string[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalProducts, setTotalProducts] = useState(0);
   const router = useRouter();
+
+  const itemsPerPage = 12; 
 
   useEffect(() => {
     fetchProducts();
@@ -25,13 +30,18 @@ const CustomerProductsPage: React.FC = () => {
 
   useEffect(() => {
     fetchFilteredProducts();
-  }, [searchTerm, categoryFilter, priceRange, sortBy]);
+  }, [searchTerm, categoryFilter, priceRange, sortBy, currentPage]);
 
   const fetchProducts = async () => {
     try {
       setLoading(true);
-      const response = await getProducts({ limit: 20 });
+      const response: ProductListResponse = await getProducts({ 
+        limit: itemsPerPage,
+        page: currentPage
+      });
       setProducts(response.products);
+      setTotalPages(response.totalPages);
+      setTotalProducts(response.totalProducts);
     } catch (error) {
       console.error('Error fetching products:', error);
     } finally {
@@ -44,6 +54,8 @@ const CustomerProductsPage: React.FC = () => {
       setLoading(true);
       
       const params: any = {
+        page: currentPage,
+        limit: itemsPerPage,
         sort: sortBy,
       };
 
@@ -52,8 +64,10 @@ const CustomerProductsPage: React.FC = () => {
       if (priceRange.min) params.minPrice = parseFloat(priceRange.min);
       if (priceRange.max) params.maxPrice = parseFloat(priceRange.max);
 
-      const response = await getProducts(params);
+      const response: ProductListResponse = await getProducts(params);
       setProducts(response.products);
+      setTotalPages(response.totalPages);
+      setTotalProducts(response.totalProducts);
     } catch (error) {
       console.error('Error fetching filtered products:', error);
     } finally {
@@ -63,7 +77,7 @@ const CustomerProductsPage: React.FC = () => {
 
   const fetchCategories = async () => {
     try {
-     
+      
       const response = await getProducts({ limit: 100 });
       const uniqueCategories = Array.from(new Set(response.products.map(p => p.category).filter(Boolean))) as string[];
       setCategories(uniqueCategories);
@@ -80,6 +94,13 @@ const CustomerProductsPage: React.FC = () => {
     setSearchTerm('');
     setCategoryFilter('');
     setPriceRange({ min: '', max: '' });
+    setCurrentPage(1);
+  };
+
+  const handlePageChange = (page: number) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
   };
 
   return (
@@ -102,7 +123,10 @@ const CustomerProductsPage: React.FC = () => {
                       type="text"
                       id="search"
                       value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
+                      onChange={(e) => {
+                        setSearchTerm(e.target.value);
+                        setCurrentPage(1);
+                      }}
                       placeholder="Search products..."
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
@@ -115,7 +139,10 @@ const CustomerProductsPage: React.FC = () => {
                     <select
                       id="category"
                       value={categoryFilter}
-                      onChange={(e) => setCategoryFilter(e.target.value)}
+                      onChange={(e) => {
+                        setCategoryFilter(e.target.value);
+                        setCurrentPage(1);
+                      }}
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
                       <option value="">All Categories</option>
@@ -161,7 +188,10 @@ const CustomerProductsPage: React.FC = () => {
                     <select
                       id="sort"
                       value={sortBy}
-                      onChange={(e) => setSortBy(e.target.value)}
+                      onChange={(e) => {
+                        setSortBy(e.target.value);
+                        setCurrentPage(1);
+                      }}
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
                       <option value="-createdAt">Newest</option>
@@ -173,13 +203,16 @@ const CustomerProductsPage: React.FC = () => {
                   </div>
                 </div>
                 
-                <div className="mt-4 flex justify-end space-x-2">
+                <div className="mt-4 flex justify-between">
                   <button
                     onClick={handleClearFilters}
                     className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
                   >
                     Clear Filters
                   </button>
+                  <div className="text-sm text-gray-600">
+                    Showing {((currentPage - 1) * itemsPerPage) + 1}-{Math.min(currentPage * itemsPerPage, totalProducts)} of {totalProducts} products
+                  </div>
                 </div>
               </div>
               
@@ -205,6 +238,72 @@ const CustomerProductsPage: React.FC = () => {
                     <div className="text-center py-12">
                       <p className="text-gray-500 text-lg">No products found</p>
                       <p className="text-gray-400">Try adjusting your search or filter criteria</p>
+                    </div>
+                  )}
+                  
+                  {totalPages > 1 && (
+                    <div className="mt-10 flex justify-center">
+                      <nav className="inline-flex rounded-md shadow">
+                        <button
+                          onClick={() => handlePageChange(currentPage - 1)}
+                          disabled={currentPage === 1}
+                          className={`px-4 py-2 rounded-l-md border border-gray-300 text-sm font-medium ${
+                            currentPage === 1 
+                              ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
+                              : 'bg-white text-gray-700 hover:bg-gray-50'
+                          }`}
+                        >
+                          Previous
+                        </button>
+                        
+                        {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => {
+                          let pageNum: number;
+                          if (totalPages <= 5) {
+                            pageNum = i + 1;
+                          } else if (currentPage <= 3) {
+                            if (i < 3) pageNum = i + 1;
+                            else if (i === 3) pageNum = totalPages;
+                            else return null;
+                          } else if (currentPage >= totalPages - 2) {
+                            if (i === 0) pageNum = 1;
+                            else pageNum = totalPages - 3 + i;
+                          } else {
+                            if (i === 0) pageNum = 1;
+                            else if (i === 1) return <span key="ellipsis1" className="px-4 py-2 border-t border-b border-gray-300 text-sm font-medium bg-white text-gray-700">...</span>;
+                            else if (i === 2) pageNum = currentPage;
+                            else if (i === 3) return <span key="ellipsis2" className="px-4 py-2 border-t border-b border-gray-300 text-sm font-medium bg-white text-gray-700">...</span>;
+                            else pageNum = totalPages;
+                          }
+                          
+                          if (!pageNum || isNaN(pageNum)) return null;
+                          
+                          return (
+                            <button
+                              key={pageNum}
+                              onClick={() => handlePageChange(pageNum)}
+                              className={`px-4 py-2 border-t border-b border-gray-300 text-sm font-medium ${
+                                currentPage === pageNum
+                                  ? 'bg-blue-600 text-white'
+                                  : 'bg-white text-gray-700 hover:bg-gray-50'
+                              }`}
+                            >
+                              {pageNum}
+                            </button>
+                          );
+                        })}
+                        
+                        <button
+                          onClick={() => handlePageChange(currentPage + 1)}
+                          disabled={currentPage === totalPages}
+                          className={`px-4 py-2 rounded-r-md border border-gray-300 text-sm font-medium ${
+                            currentPage === totalPages 
+                              ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
+                              : 'bg-white text-gray-700 hover:bg-gray-50'
+                          }`}
+                        >
+                          Next
+                        </button>
+                      </nav>
                     </div>
                   )}
                 </>

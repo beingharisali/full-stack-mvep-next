@@ -6,30 +6,39 @@ import Navbar from '../../components/Navbar';
 import Sidebar from '../../components/Sidebar';
 import ProtectedRoute from '../../../shared/ProtectedRoute';
 import ProductCard from '../../components/ProductCard';
-import { Product, getProducts } from '../../../services/product.api';
+import { Product, getProducts, ProductListResponse } from '../../../services/product.api';
 
 const CustomerDashboard: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<'all' | 'featured'>('all');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalProducts, setTotalProducts] = useState(0);
   const router = useRouter();
 
+  const itemsPerPage = 8; // Default page size
+
   useEffect(() => {
-    fetchProducts();
-  }, []);
+    if (activeTab === 'all') {
+      fetchProducts();
+    } else {
+      fetchFeaturedProducts();
+    }
+  }, [activeTab, currentPage]);
 
   const fetchProducts = async () => {
     try {
       setLoading(true);
       
-      // Fetch all products
-      const allProductsRes = await getProducts({ limit: 8 });
-      setProducts(allProductsRes.products);
-      
-      // Fetch featured products (most recent)
-      const featuredRes = await getProducts({ limit: 4, sort: '-createdAt' });
-      setFeaturedProducts(featuredRes.products);
+      const response: ProductListResponse = await getProducts({ 
+        limit: itemsPerPage,
+        page: currentPage
+      });
+      setProducts(response.products);
+      setTotalPages(response.totalPages);
+      setTotalProducts(response.totalProducts);
     } catch (error) {
       console.error('Error fetching products:', error);
     } finally {
@@ -37,8 +46,26 @@ const CustomerDashboard: React.FC = () => {
     }
   };
 
+  const fetchFeaturedProducts = async () => {
+    try {
+      setLoading(true);
+      const response = await getProducts({ limit: 4, sort: '-createdAt' });
+      setFeaturedProducts(response.products);
+    } catch (error) {
+      console.error('Error fetching featured products:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleAddToCart = (product: Product) => {
     alert(`${product.name} added to cart!`);
+  };
+
+  const handlePageChange = (page: number) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
   };
 
   return (
@@ -92,7 +119,10 @@ const CustomerDashboard: React.FC = () => {
                   <h2 className="text-2xl font-bold text-gray-800">Discover Products</h2>
                   <div className="flex space-x-2">
                     <button 
-                      onClick={() => setActiveTab('all')}
+                      onClick={() => {
+                        setActiveTab('all');
+                        setCurrentPage(1); // Reset to first page when switching tabs
+                      }}
                       className={`px-4 py-2 rounded-md ${
                         activeTab === 'all' 
                           ? 'bg-blue-600 text-white' 
@@ -102,7 +132,10 @@ const CustomerDashboard: React.FC = () => {
                       All Products
                     </button>
                     <button 
-                      onClick={() => setActiveTab('featured')}
+                      onClick={() => {
+                        setActiveTab('featured');
+                        setCurrentPage(1); // Reset to first page when switching tabs
+                      }}
                       className={`px-4 py-2 rounded-md ${
                         activeTab === 'featured' 
                           ? 'bg-blue-600 text-white' 
@@ -144,7 +177,7 @@ const CustomerDashboard: React.FC = () => {
                   </div>
                 )}
                 
-                {/* All Products Section */}
+                {/* All Products Section with Pagination */}
                 {activeTab === 'all' && (
                   <div>
                     {loading ? (
@@ -152,15 +185,88 @@ const CustomerDashboard: React.FC = () => {
                         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
                       </div>
                     ) : (
-                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                        {products.map((product) => (
-                          <ProductCard 
-                            key={product._id} 
-                            product={product}
-                            onAddToCartClick={handleAddToCart}
-                          />
-                        ))}
-                      </div>
+                      <>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                          {products.map((product) => (
+                            <ProductCard 
+                              key={product._id} 
+                              product={product}
+                              onAddToCartClick={handleAddToCart}
+                            />
+                          ))}
+                        </div>
+                        
+                        {totalPages > 1 && (
+                          <div className="mt-8 flex justify-center">
+                            <nav className="inline-flex rounded-md shadow">
+                              <button
+                                onClick={() => handlePageChange(currentPage - 1)}
+                                disabled={currentPage === 1}
+                                className={`px-4 py-2 rounded-l-md border border-gray-300 text-sm font-medium ${
+                                  currentPage === 1 
+                                    ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
+                                    : 'bg-white text-gray-700 hover:bg-gray-50'
+                                }`}
+                              >
+                                Previous
+                              </button>
+                              
+                              {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => {
+                                let pageNum: number;
+                                if (totalPages <= 5) {
+                                  // Show all pages if total is 5 or less
+                                  pageNum = i + 1;
+                                } else if (currentPage <= 3) {
+                                  // Show first 3 pages, then ellipsis, then last page
+                                  if (i < 3) pageNum = i + 1;
+                                  else if (i === 3) pageNum = totalPages;
+                                  else return null; // Skip if beyond range
+                                } else if (currentPage >= totalPages - 2) {
+                                  // Show first page, then ellipsis, then last 3 pages
+                                  if (i === 0) pageNum = 1;
+                                  else pageNum = totalPages - 3 + i;
+                                } else {
+                                  // Show first page, Ellipsis, Current-1, Current, Current+1, Ellipsis, Last page
+                                  if (i === 0) pageNum = 1;
+                                  else if (i === 1) return <span key="ellipsis1" className="px-4 py-2 border-t border-b border-gray-300 text-sm font-medium bg-white text-gray-700">...</span>;
+                                  else if (i === 2) pageNum = currentPage;
+                                  else if (i === 3) return <span key="ellipsis2" className="px-4 py-2 border-t border-b border-gray-300 text-sm font-medium bg-white text-gray-700">...</span>;
+                                  else pageNum = totalPages;
+                                }
+                                
+                                // Skip if pageNum is not valid
+                                if (!pageNum || isNaN(pageNum)) return null;
+                                
+                                return (
+                                  <button
+                                    key={pageNum}
+                                    onClick={() => handlePageChange(pageNum)}
+                                    className={`px-4 py-2 border-t border-b border-gray-300 text-sm font-medium ${
+                                      currentPage === pageNum
+                                        ? 'bg-blue-600 text-white'
+                                        : 'bg-white text-gray-700 hover:bg-gray-50'
+                                    }`}
+                                  >
+                                    {pageNum}
+                                  </button>
+                                );
+                              })}
+                              
+                              <button
+                                onClick={() => handlePageChange(currentPage + 1)}
+                                disabled={currentPage === totalPages}
+                                className={`px-4 py-2 rounded-r-md border border-gray-300 text-sm font-medium ${
+                                  currentPage === totalPages 
+                                    ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
+                                    : 'bg-white text-gray-700 hover:bg-gray-50'
+                                }`}
+                              >
+                                Next
+                              </button>
+                            </nav>
+                          </div>
+                        )}
+                      </>
                     )}
                   </div>
                 )}

@@ -16,6 +16,7 @@ const CustomerDashboard: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('');
   const [priceRange, setPriceRange] = useState({ min: '', max: '' });
+  const [sortBy, setSortBy] = useState('-createdAt'); 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalProducts, setTotalProducts] = useState(0);
@@ -40,6 +41,7 @@ const CustomerDashboard: React.FC = () => {
       const params: any = {
         limit: itemsPerPage,
         page: currentPage,
+        sort: sortBy, 
       };
 
       if (searchTerm) params.name = searchTerm;
@@ -150,7 +152,7 @@ const CustomerDashboard: React.FC = () => {
                     <button 
                       onClick={() => {
                         setActiveTab('all');
-                        setCurrentPage(1);
+                        setCurrentPage(1); 
                       }}
                       className={`px-4 py-2 rounded-md ${
                         activeTab === 'all' 
@@ -163,7 +165,7 @@ const CustomerDashboard: React.FC = () => {
                     <button 
                       onClick={() => {
                         setActiveTab('featured');
-                        setCurrentPage(1);
+                        setCurrentPage(1); 
                       }}
                       className={`px-4 py-2 rounded-md ${
                         activeTab === 'featured' 
@@ -184,7 +186,7 @@ const CustomerDashboard: React.FC = () => {
                 
                 {activeTab === 'all' && (
                   <div className="bg-white rounded-lg shadow-md p-4 mb-6">
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
                       <div>
                         <label htmlFor="search" className="block text-sm font-medium text-gray-700 mb-1">
                           Search
@@ -249,6 +251,30 @@ const CustomerDashboard: React.FC = () => {
                             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                           />
                         </div>
+                      </div>
+                      
+                      <div>
+                        <label htmlFor="sort" className="block text-sm font-medium text-gray-700 mb-1">
+                          Sort By
+                        </label>
+                        <select
+                          id="sort"
+                          value={sortBy}
+                          onChange={(e) => {
+                            setSortBy(e.target.value);
+                            setCurrentPage(1); 
+                          }}
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        >
+                          <option value="-createdAt">Newest</option>
+                          <option value="createdAt">Oldest</option>
+                          <option value="name">Name A-Z</option>
+                          <option value="-name">Name Z-A</option>
+                          <option value="price">Price Low-High</option>
+                          <option value="-price">Price High-Low</option>
+                          <option value="stock">Stock Low-High</option>
+                          <option value="-stock">Stock High-Low</option>
+                        </select>
                       </div>
                       
                       <div className="flex items-end">

@@ -1,13 +1,16 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
 import ProtectedRoute from '../../shared/ProtectedRoute';
 import { useCart } from '../../context/CartContext';
+import { createOrder } from '../../services/order.api';
 
 const CheckoutPage: React.FC = () => {
   const { cart, getCartTotal, clearCart } = useCart();
+  const router = useRouter();
   
   const [formData, setFormData] = useState({
     firstName: '',
@@ -33,11 +36,54 @@ const CheckoutPage: React.FC = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Order submitted:', { formData, cart });
-    alert('Order placed successfully!');
-    clearCart();
+    
+    try {
+      const orderItems = cart.items.map(item => ({
+        product: item._id,
+        name: item.name,
+        price: item.price,
+        quantity: item.quantity,
+        images: item.images,
+      }));
+      
+      const subtotal = getCartTotal();
+      const shipping = 5.99;
+      const tax = subtotal * 0.08;
+      const total = subtotal + shipping + tax;
+      
+      const orderData = {
+        items: orderItems,
+        totalAmount: total,
+        shippingAddress: {
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          phone: formData.phone,
+          address: formData.address,
+          city: formData.city,
+          state: formData.state,
+          zipCode: formData.zipCode,
+          country: formData.country,
+        },
+        paymentMethod: 'card',
+        transactionId: `TXN_${Date.now()}`, 
+      };
+      
+      const order = await createOrder(orderData);
+      
+      console.log('Order created:', order);
+      alert('Order placed successfully!');
+      clearCart();
+      
+      setTimeout(() => {
+        router.push(`/Customer/orders/${order._id}`);
+      }, 1500);
+    } catch (error) {
+      console.error('Error creating order:', error);
+      alert('Failed to place order. Please try again.');
+    }
   };
 
   if (cart.items.length === 0) {

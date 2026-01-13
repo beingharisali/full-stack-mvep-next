@@ -10,6 +10,14 @@ import Link from 'next/link';
 const CartPage: React.FC = () => {
   const { cart, removeFromCart, updateQuantity, getCartTotal, getCartItemCount } = useCart();
 
+  const handleRemoveFromCart = async (productId: string) => {
+    await removeFromCart(productId);
+  };
+
+  const handleUpdateQuantity = async (productId: string, quantity: number) => {
+    await updateQuantity(productId, quantity);
+  };
+
   const handleCheckout = () => {
     console.log('Proceeding to checkout');
   };
@@ -58,7 +66,7 @@ const CartPage: React.FC = () => {
                           <div className="mt-4 flex items-center">
                             <div className="flex items-center">
                               <button
-                                onClick={() => updateQuantity(item._id, item.quantity - 1)}
+                                onClick={() => handleUpdateQuantity(item._id, item.quantity - 1)}
                                 className="px-3 py-1 bg-gray-200 rounded-l-md text-gray-600 hover:bg-gray-300"
                                 disabled={item.quantity <= 1}
                               >
@@ -68,7 +76,7 @@ const CartPage: React.FC = () => {
                                 {item.quantity}
                               </span>
                               <button
-                                onClick={() => updateQuantity(item._id, item.quantity + 1)}
+                                onClick={() => handleUpdateQuantity(item._id, item.quantity + 1)}
                                 className="px-3 py-1 bg-gray-200 rounded-r-md text-gray-600 hover:bg-gray-300"
                                 disabled={item.quantity >= item.stock}
                               >
@@ -77,7 +85,7 @@ const CartPage: React.FC = () => {
                             </div>
                             
                             <button
-                              onClick={() => removeFromCart(item._id)}
+                              onClick={() => handleRemoveFromCart(item._id)}
                               className="ml-6 text-red-600 hover:text-red-800 text-sm font-medium"
                             >
                               Remove

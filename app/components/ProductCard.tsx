@@ -1,0 +1,135 @@
+'use client';
+
+import { Product } from '../../services/product.api';
+import { useCart } from '../../context/CartContext';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+
+interface ProductCardProps {
+  product: Product;
+  showAddToCart?: boolean;
+  onAddToCartClick?: (product: Product) => void;
+}
+
+const ProductCard: React.FC<ProductCardProps> = ({ 
+  product, 
+  showAddToCart = true,
+  onAddToCartClick 
+}) => {
+  const router = useRouter();
+  const { addToCart } = useCart();
+  const [quantity, setQuantity] = useState(1);
+  const [isAdding, setIsAdding] = useState(false);
+
+  const handleViewDetails = () => {
+    router.push(`/products/${product._id}`);
+  };
+
+  const handleAddToCart = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsAdding(true);
+    
+    try {
+      await addToCart(product._id, quantity);
+      if (onAddToCartClick) {
+        onAddToCartClick(product);
+      } else {
+        alert(`${quantity} ${product.name}(s) added to cart!`);
+      }
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+      alert('Failed to add item to cart. Please try again.');
+    } finally {
+      setIsAdding(false);
+    }
+  };
+
+  return (
+    <div 
+      className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 cursor-pointer"
+      onClick={handleViewDetails}
+    >
+      <div className="h-48 bg-gray-200 flex items-center justify-center">
+        {product.images && product.images.length > 0 ? (
+          <img 
+            src={product.images[0]} 
+            alt={product.name} 
+            className="h-full w-full object-cover"
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              target.src = '/placeholder-image.jpg';
+            }}
+          />
+        ) : (
+          <div className="h-full w-full bg-gray-200 flex items-center justify-center text-gray-500">
+            No Image
+          </div>
+        )}
+      </div>
+      
+      <div className="p-4">
+        <h3 className="font-semibold text-lg truncate">{product.name}</h3>
+        <p className="text-gray-600 text-sm truncate">{product.description || 'No description'}</p>
+        
+        <div className="mt-3 flex justify-between items-center">
+          <span className="text-lg font-bold text-blue-600">${product.price.toFixed(2)}</span>
+          <span className={`px-2 py-1 rounded-full text-xs ${
+            product.stock > 0 
+              ? 'bg-green-100 text-green-800' 
+              : 'bg-red-100 text-red-800'
+          }`}>
+            {product.stock > 0 ? `${product.stock} in stock` : 'Out of stock'}
+          </span>
+        </div>
+        
+        {product.category && (
+          <div className="mt-2">
+            <span className="text-xs text-gray-500">Category: {product.category}</span>
+          </div>
+        )}
+        
+        {showAddToCart && product.isActive && product.stock > 0 && (
+          <div className="mt-4 flex items-center">
+            <div className="flex items-center border rounded-md mr-2">
+              <button 
+                className="px-2 py-1 text-gray-600 hover:bg-gray-100 disabled:opacity-50"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (quantity > 1) setQuantity(quantity - 1);
+                }}
+                disabled={quantity <= 1}
+              >
+                -
+              </button>
+              <span className="px-2 py-1 text-sm">{quantity}</span>
+              <button 
+                className="px-2 py-1 text-gray-600 hover:bg-gray-100 disabled:opacity-50"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (quantity < product.stock) setQuantity(quantity + 1);
+                }}
+                disabled={quantity >= product.stock}
+              >
+                +
+              </button>
+            </div>
+            
+            <button
+              onClick={handleAddToCart}
+              disabled={isAdding}
+              className={`flex-1 px-3 py-2 rounded-md text-white text-sm font-medium ${
+                isAdding 
+                  ? 'bg-gray-400 cursor-not-allowed' 
+                  : 'bg-blue-600 hover:bg-blue-700'
+              }`}
+            >
+              {isAdding ? 'Adding...' : 'Add to Cart'}
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default ProductCard;

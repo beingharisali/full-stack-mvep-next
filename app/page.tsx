@@ -1,5 +1,5 @@
 "use client";
-import { useState, ChangeEvent, FormEvent } from "react";
+import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from '../context/AuthContext';
 type LoginForm = {
@@ -10,13 +10,25 @@ type LoginForm = {
 
 export default function LoginPage() {
   const router = useRouter();
-  const { login, loading } = useAuth();
+  const { login, loading, isAuthenticated, user } = useAuth();
 
   const [form, setForm] = useState<LoginForm>({
     email: "",
     password: "",
     role: "customer",
   });
+
+  useEffect(() => {
+    if (isAuthenticated() && user) {
+      router.push(
+        user.role === "admin"
+          ? "/Admin/dashboard"
+          : user.role === "vendor"
+          ? "/Vendor/dashboard"
+          : "/Customer/dashboard"
+      );
+    }
+  }, [isAuthenticated, user, router]);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>

@@ -135,7 +135,7 @@ const CustomerDashboard: React.FC = () => {
               </div>
               
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">
-                <div className="bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg shadow p-6 text-white">
+                <div className="bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg shadow p-6 text-white w-100">
                   <h2 className="text-xl font-semibold mb-2">My Orders</h2>
                   <p className="text-blue-100">Track your recent orders</p>
                   <button 
@@ -146,7 +146,7 @@ const CustomerDashboard: React.FC = () => {
                   </button>
                 </div>
                 
-                <div className="bg-gradient-to-r from-green-500 to-green-600 rounded-lg shadow p-6 text-white">
+                {/* <div className="bg-gradient-to-r from-green-500 to-green-600 rounded-lg shadow p-6 text-white">
                   <h2 className="text-xl font-semibold mb-2">My Profile</h2>
                   <p className="text-green-100">Manage your account details</p>
                   <button 
@@ -155,9 +155,9 @@ const CustomerDashboard: React.FC = () => {
                   >
                     Edit Profile
                   </button>
-                </div>
+                </div> */}
                 
-                <div className="bg-gradient-to-r from-purple-500 to-purple-600 rounded-lg shadow p-6 text-white">
+                <div className="bg-gradient-to-r from-purple-500 to-purple-600 rounded-lg shadow p-6 text-white w-100">
                   <h2 className="text-xl font-semibold mb-2">Shopping Cart</h2>
                   <p className="text-purple-100">Review items in your cart</p>
                   <button 

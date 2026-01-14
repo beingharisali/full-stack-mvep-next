@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from '../../context/AuthContext';
 
@@ -18,7 +18,7 @@ interface RegisterResponse {
 
 export default function SignupPage() {
   const router = useRouter();
-  const { register, user, loading } = useAuth();
+  const { register, user, loading, isAuthenticated } = useAuth();
 
   const [form, setForm] = useState({
     firstName: "",
@@ -27,6 +27,18 @@ export default function SignupPage() {
     password: "",
     role: "customer",
   });
+
+  useEffect(() => {
+    if (isAuthenticated() && user) {
+      router.push(
+        user.role === "admin"
+          ? "/Admin/dashboard"
+          : user.role === "vendor"
+          ? "/Vendor/dashboard"
+          : "/Customer/dashboard"
+      );
+    }
+  }, [isAuthenticated, user, router]);
 
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>

@@ -114,7 +114,13 @@ export default function ProductsPage() {
                         type="number"
                         id="minPrice"
                         value={priceRange.min}
-                        onChange={(e) => setPriceRange({...priceRange, min: e.target.value})}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          if (value === '' || (parseFloat(value) >= 0)) {
+                            setPriceRange({...priceRange, min: value});
+                          }
+                        }}
+                        min="0"
                         placeholder="Min"
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                       />
@@ -127,7 +133,13 @@ export default function ProductsPage() {
                         type="number"
                         id="maxPrice"
                         value={priceRange.max}
-                        onChange={(e) => setPriceRange({...priceRange, max: e.target.value})}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          if (value === '' || (parseFloat(value) >= 0)) {
+                            setPriceRange({...priceRange, max: value});
+                          }
+                        }}
+                        min="0"
                         placeholder="Max"
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                       />

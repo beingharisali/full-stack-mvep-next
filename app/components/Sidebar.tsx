@@ -24,18 +24,18 @@ export default function Sidebar() {
         return [
           { href: '/Vendor/dashboard', icon: Home, label: 'Home' },
           { href: '/products', icon: ShoppingCart, label: 'Products' },
-          { href: '/products', icon: Package, label: 'Manage Products' },
+          // { href: '/products', icon: Package, label: 'Manage Products' },
           { href: '/Vendor/orders', icon: FileText, label: 'Orders' },
-          { href: '#', icon: BarChart, label: 'Reports' },
-          { href: '#', icon: Settings, label: 'Settings' },
+          // { href: '', icon: BarChart, label: 'Reports' },
+          // { href: '', icon: Settings, label: 'Settings' },
         ];
       case 'customer':
         return [
           { href: '/Customer/dashboard', icon: Home, label: 'Home' },
           { href: '/Customer/products', icon: ShoppingCart, label: 'Products' },
           { href: '/Customer/orders', icon: Package, label: 'My Orders' },
-          { href: '#', icon: FileText, label: 'Wishlist' },
-          { href: '#', icon: Settings, label: 'Account' },
+          // { href: '', icon: FileText, label: 'Wishlist' },
+          // { href: '', icon: Settings, label: 'Account' },
         ];
       default:
         return [];

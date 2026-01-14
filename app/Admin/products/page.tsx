@@ -206,9 +206,13 @@ export default function ProductManagementPage() {
                       type="number"
                       value={minPrice}
                       onChange={(e) => {
-                        setMinPrice(e.target.value);
-                        setCurrentPage(1); 
+                        const value = e.target.value;
+                        if (value === '' || (parseFloat(value) >= 0)) {
+                          setMinPrice(value);
+                          setCurrentPage(1);
+                        }
                       }}
+                      min="0"
                       placeholder="Min price"
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
@@ -222,9 +226,13 @@ export default function ProductManagementPage() {
                       type="number"
                       value={maxPrice}
                       onChange={(e) => {
-                        setMaxPrice(e.target.value);
-                        setCurrentPage(1); 
+                        const value = e.target.value;
+                        if (value === '' || (parseFloat(value) >= 0)) {
+                          setMaxPrice(value);
+                          setCurrentPage(1);
+                        }
                       }}
+                      min="0"
                       placeholder="Max price"
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
@@ -238,9 +246,13 @@ export default function ProductManagementPage() {
                       type="number"
                       value={minStock}
                       onChange={(e) => {
-                        setMinStock(e.target.value);
-                        setCurrentPage(1); 
+                        const value = e.target.value;
+                        if (value === '' || (parseInt(value) >= 0)) {
+                          setMinStock(value);
+                          setCurrentPage(1);
+                        }
                       }}
+                      min="0"
                       placeholder="Min stock"
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
@@ -254,9 +266,13 @@ export default function ProductManagementPage() {
                       type="number"
                       value={maxStock}
                       onChange={(e) => {
-                        setMaxStock(e.target.value);
-                        setCurrentPage(1); 
+                        const value = e.target.value;
+                        if (value === '' || (parseInt(value) >= 0)) {
+                          setMaxStock(value);
+                          setCurrentPage(1);
+                        }
                       }}
+                      min="0"
                       placeholder="Max stock"
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />

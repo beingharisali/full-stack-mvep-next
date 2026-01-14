@@ -104,62 +104,71 @@ export default function AnalyticsPage() {
                 
                 <div className="bg-white rounded-lg shadow-md p-6">
                   <h3 className="text-lg font-medium text-gray-900 mb-4">User Distribution</h3>
-                  <div className="h-80 flex items-center justify-center">
-                    <div className="relative w-64 h-64">
+                  <div className="flex items-center justify-center gap-8">
+                    <div className="relative w-48 h-48">
                       <div className="absolute inset-0 flex items-center justify-center">
                         <div className="text-center">
-                          <p className="text-2xl font-bold">124</p>
-                          <p className="text-sm text-gray-500">Total Users</p>
+                          <p className="text-xl font-bold">124</p>
+                          <p className="text-xs text-gray-500">Total Users</p>
                         </div>
                       </div>
                       <svg className="w-full h-full" viewBox="0 0 100 100">
                         <circle 
                           cx="50" 
                           cy="50" 
-                          r="45" 
+                          r="40" 
                           fill="none" 
                           stroke="#3b82f6" 
-                          strokeWidth="15" 
-                          strokeDasharray="204.20352248333654" 
+                          strokeWidth="12" 
+                          strokeDasharray="163.36281798666925" 
                           strokeDashoffset="0"
                           transform="rotate(-90 50 50)"
                         />
                         <circle 
                           cx="50" 
                           cy="50" 
-                          r="45" 
+                          r="40" 
                           fill="none" 
                           stroke="#10b981" 
-                          strokeWidth="15" 
-                          strokeDasharray="157.07963267948966" 
-                          strokeDashoffset="-204.20352248333654"
+                          strokeWidth="12" 
+                          strokeDasharray="125.66370614359172" 
+                          strokeDashoffset="-163.36281798666925"
                           transform="rotate(-90 50 50)"
                         />
                         <circle 
                           cx="50" 
                           cy="50" 
-                          r="45" 
+                          r="40" 
                           fill="none" 
                           stroke="#ef4444" 
-                          strokeWidth="15" 
-                          strokeDasharray="62.83185307179586" 
-                          strokeDashoffset="-361.2831853071796"
+                          strokeWidth="12" 
+                          strokeDasharray="50.26548245723769" 
+                          strokeDashoffset="-289.02652413026097"
                           transform="rotate(-90 50 50)"
                         />
                       </svg>
                     </div>
-                    <div className="absolute right-0 mt-20">
-                      <div className="flex items-center mb-2">
-                        <div className="w-4 h-4 bg-blue-500 rounded mr-2"></div>
-                        <span className="text-sm">Customers (65%)</span>
-                      </div>
-                      <div className="flex items-center mb-2">
-                        <div className="w-4 h-4 bg-green-500 rounded mr-2"></div>
-                        <span className="text-sm">Vendors (25%)</span>
+                    <div className="flex flex-col space-y-3">
+                      <div className="flex items-center">
+                        <div className="w-4 h-4 bg-blue-500 rounded mr-3"></div>
+                        <div>
+                          <p className="text-sm font-medium">Customers</p>
+                          <p className="text-xs text-gray-500">65%</p>
+                        </div>
                       </div>
                       <div className="flex items-center">
-                        <div className="w-4 h-4 bg-red-500 rounded mr-2"></div>
-                        <span className="text-sm">Admins (10%)</span>
+                        <div className="w-4 h-4 bg-green-500 rounded mr-3"></div>
+                        <div>
+                          <p className="text-sm font-medium">Vendors</p>
+                          <p className="text-xs text-gray-500">25%</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center">
+                        <div className="w-4 h-4 bg-red-500 rounded mr-3"></div>
+                        <div>
+                          <p className="text-sm font-medium">Admins</p>
+                          <p className="text-xs text-gray-500">10%</p>
+                        </div>
                       </div>
                     </div>
                   </div>

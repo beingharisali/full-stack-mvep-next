@@ -44,33 +44,33 @@ export interface CreateOrderResponse {
 }
 
 export async function createOrder(orderData: CreateOrderRequest): Promise<Order> {
-  const res = await http.post("/orders", orderData);
+  const res = await http.post("/order/create", orderData);
   return res.data;
 }
 
 export async function getUserOrders(): Promise<Order[]> {
-  const res = await http.get("/orders/myorders");
+  const res = await http.get("/order/get");
   return res.data;
 }
 
 export async function getOrderById(orderId: string): Promise<Order> {
-  const res = await http.get(`/orders/${orderId}`);
+  const res = await http.get(`/order/single/${orderId}`);
   return res.data;
 }
 
 export async function getAllOrders(): Promise<Order[]> {
-  const res = await http.get("/orders");
+  const res = await http.get("/order/get");
   return res.data;
 }
 
 export async function updateOrderStatus(orderId: string, status: string): Promise<Order> {
-  const res = await http.patch(`/orders/${orderId}`, { status });
+  const res = await http.put(`/order/update/${orderId}`, { status });
   return res.data;
 }
 
 
 
 export async function deleteOrder(orderId: string): Promise<Order> {
-  const res = await http.delete(`/orders/${orderId}`);
+  const res = await http.delete(`/order/delete/${orderId}`);
   return res.data;
 }

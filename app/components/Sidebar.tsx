@@ -22,18 +22,18 @@ export default function Sidebar() {
         ];
       case 'vendor':
         return [
-          { href: '/', icon: Home, label: 'Home' },
+          { href: '/Vendor/dashboard', icon: Home, label: 'Home' },
           { href: '/products', icon: ShoppingCart, label: 'Products' },
           { href: '/products', icon: Package, label: 'Manage Products' },
-          { href: '#', icon: FileText, label: 'Orders' },
+          { href: '/Vendor/orders', icon: FileText, label: 'Orders' },
           { href: '#', icon: BarChart, label: 'Reports' },
           { href: '#', icon: Settings, label: 'Settings' },
         ];
       case 'customer':
         return [
-          { href: '/', icon: Home, label: 'Home' },
-          { href: '/products', icon: ShoppingCart, label: 'Products' },
-          { href: '#', icon: Package, label: 'My Orders' },
+          { href: '/Customer/dashboard', icon: Home, label: 'Home' },
+          { href: '/Customer/products', icon: ShoppingCart, label: 'Products' },
+          { href: '/Customer/orders', icon: Package, label: 'My Orders' },
           { href: '#', icon: FileText, label: 'Wishlist' },
           { href: '#', icon: Settings, label: 'Account' },
         ];

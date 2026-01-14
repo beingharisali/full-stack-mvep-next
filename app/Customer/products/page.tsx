@@ -214,7 +214,13 @@ const CustomerProductsPage: React.FC = () => {
                         type="number"
                         id="minPrice"
                         value={priceRange.min}
-                        onChange={(e) => setPriceRange({...priceRange, min: e.target.value})}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          if (value === '' || (parseFloat(value) >= 0)) {
+                            setPriceRange({...priceRange, min: value});
+                          }
+                        }}
+                        min="0"
                         placeholder="Min"
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                       />
@@ -227,7 +233,13 @@ const CustomerProductsPage: React.FC = () => {
                         type="number"
                         id="maxPrice"
                         value={priceRange.max}
-                        onChange={(e) => setPriceRange({...priceRange, max: e.target.value})}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          if (value === '' || (parseFloat(value) >= 0)) {
+                            setPriceRange({...priceRange, max: value});
+                          }
+                        }}
+                        min="0"
                         placeholder="Max"
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                       />
@@ -243,7 +255,13 @@ const CustomerProductsPage: React.FC = () => {
                         type="number"
                         id="minStock"
                         value={stockRange.min}
-                        onChange={(e) => setStockRange({...stockRange, min: e.target.value})}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          if (value === '' || (parseInt(value) >= 0)) {
+                            setStockRange({...stockRange, min: value});
+                          }
+                        }}
+                        min="0"
                         placeholder="Min"
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                       />
@@ -256,7 +274,13 @@ const CustomerProductsPage: React.FC = () => {
                         type="number"
                         id="maxStock"
                         value={stockRange.max}
-                        onChange={(e) => setStockRange({...stockRange, max: e.target.value})}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          if (value === '' || (parseInt(value) >= 0)) {
+                            setStockRange({...stockRange, max: value});
+                          }
+                        }}
+                        min="0"
                         placeholder="Max"
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                       />

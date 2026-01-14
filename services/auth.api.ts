@@ -3,9 +3,10 @@ import { User } from "../types/user";
 
 export async function login(
 	email: string,
-	password: string
+	password: string,
+	role?: string
 ): Promise<{ user: User; token: string }> {
-	const res = await http.post("/auth/login", { email, password });
+	const res = await http.post("/auth/login", { email, password, role });
 	return res.data;
 }
 export async function register(

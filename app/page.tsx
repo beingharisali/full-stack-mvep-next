@@ -28,19 +28,17 @@ export default function LoginPage() {
     e.preventDefault();
 
     try {
-      await login(form.email, form.password);
+      await login(form.email, form.password, form.role);
+      
+      alert("Login successful");
 
-      if (true) { 
-        alert("Login successful");
-
-        router.push(
-          form.role === "admin"
-            ? "/Admin/dashboard"
-            : form.role === "vendor"
-            ? "/Vendor/dashboard"
-            : "/Customer/dashboard"
-        );
-      }
+      router.push(
+        form.role === "admin"
+          ? "/Admin/dashboard"
+          : form.role === "vendor"
+          ? "/Vendor/dashboard"
+          : "/Customer/dashboard"
+      );
     } catch (err: any) {
       alert(err || "Something went wrong!");
     }

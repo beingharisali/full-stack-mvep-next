@@ -71,6 +71,6 @@ export async function updateOrderStatus(orderId: string, status: string): Promis
 
 
 export async function deleteOrder(orderId: string): Promise<Order> {
-  const res = await http.delete('/orders/${orderId}');
+  const res = await http.delete(`/orders/${orderId}`);
   return res.data;
 }

@@ -67,3 +67,10 @@ export async function updateOrderStatus(orderId: string, status: string): Promis
   const res = await http.patch(`/orders/${orderId}`, { status });
   return res.data;
 }
+
+
+
+export async function deleteOrder(orderId: string): Promise<Order> {
+  const res = await http.delete('/orders/${orderId}');
+  return res.data;
+}

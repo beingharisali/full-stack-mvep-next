@@ -3,6 +3,7 @@ import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from '../context/AuthContext';
 import toast from 'react-hot-toast';
+
 type LoginForm = {
   email: string;
   password: string;
@@ -11,7 +12,7 @@ type LoginForm = {
 
 export default function LoginPage() {
   const router = useRouter();
-  const { login, loading, isAuthenticated, user } = useAuth();
+  const { login, loading: loginLoading, isAuthenticated, user, loading: authLoading } = useAuth();
 
   const [form, setForm] = useState<LoginForm>({
     email: "",
@@ -30,6 +31,28 @@ export default function LoginPage() {
       );
     }
   }, [isAuthenticated, user, router]);
+
+  if (authLoading) {
+    return (
+      <section className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-600 to-purple-600 px-4">
+        <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-8 text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Checking authentication...</p>
+        </div>
+      </section>
+    );
+  }
+
+  if (isAuthenticated() && user) {
+    return (
+      <section className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-600 to-purple-600 px-4">
+        <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-8 text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Redirecting...</p>
+        </div>
+      </section>
+    );
+  }
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -58,7 +81,7 @@ export default function LoginPage() {
   };
 
   return (
-    <section className="min-h-screen flex items-center justify-center bg-linear-to-br from-indigo-600 to-purple-600 px-4">
+    <section className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-600 to-purple-600 px-4">
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-8">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-800">Login</h1>
@@ -106,10 +129,10 @@ export default function LoginPage() {
 
           <button
             type="submit"
-            disabled={loading}
+            disabled={loginLoading}
             className="w-full bg-indigo-600 text-white py-2 rounded-lg font-semibold disabled:opacity-50"
           >
-            {loading ? "Logging in..." : "Login"}
+            {loginLoading ? "Logging in..." : "Login"}
           </button>
         </form>
 

@@ -2,6 +2,7 @@
 import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from '../context/AuthContext';
+import toast from 'react-hot-toast';
 type LoginForm = {
   email: string;
   password: string;
@@ -42,7 +43,7 @@ export default function LoginPage() {
     try {
       await login(form.email, form.password, form.role);
       
-      alert("Login successful");
+      toast.success("Login successful");
 
       router.push(
         form.role === "admin"
@@ -52,7 +53,7 @@ export default function LoginPage() {
           : "/Customer/dashboard"
       );
     } catch (err: any) {
-      alert(err || "Something went wrong!");
+      toast.error(err || "Something went wrong!");
     }
   };
 

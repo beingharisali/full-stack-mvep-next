@@ -11,11 +11,15 @@ export interface OrderItem {
 
 export interface ShippingAddress {
   _id?: string;
-  product: string;
-  name: string;
-  price: number;
-  quantity: number;
-  images?: string[];
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  address: string;
+  city: string;
+  state: string;
+  zipCode: string;
+  country: string;
 }
 
 export interface Order {

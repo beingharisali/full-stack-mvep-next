@@ -4,6 +4,7 @@ import { Product } from '../../services/product.api';
 import { useCart } from '../../context/CartContext';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 
 interface ProductCardProps {
   product: Product;
@@ -34,11 +35,11 @@ const ProductCard: React.FC<ProductCardProps> = ({
       if (onAddToCartClick) {
         onAddToCartClick(product);
       } else {
-        alert(`${quantity} ${product.name}(s) added to cart!`);
+        toast.success(`${quantity} ${product.name}(s) added to cart!`);
       }
     } catch (error) {
       console.error('Error adding to cart:', error);
-      alert('Failed to add item to cart. Please try again.');
+      toast.error('Failed to add item to cart. Please try again.');
     } finally {
       setIsAdding(false);
     }

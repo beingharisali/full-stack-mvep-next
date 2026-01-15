@@ -7,6 +7,7 @@ import Sidebar from '../../components/Sidebar';
 import ProtectedRoute from '../../../shared/ProtectedRoute';
 import ProductCard from '../../components/ProductCard';
 import { Product, getProducts, ProductListResponse } from '../../../services/product.api';
+import toast from 'react-hot-toast';
 
 const CustomerProductsPage: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -97,7 +98,7 @@ const CustomerProductsPage: React.FC = () => {
   };
 
   const handleAddToCart = (product: Product) => {
-    alert(`${product.name} added to cart!`);
+    toast.success(`${product.name} added to cart!`);
   };
 
   const handleClearFilters = () => {

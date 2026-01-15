@@ -7,6 +7,7 @@ import Sidebar from '../../components/Sidebar';
 import ProtectedRoute from '../../../shared/ProtectedRoute';
 import ProductCard from '../../components/ProductCard';
 import { Product, getProducts, ProductListResponse } from '../../../services/product.api';
+import toast from 'react-hot-toast';
 
 const CustomerDashboard: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -83,7 +84,7 @@ const CustomerDashboard: React.FC = () => {
   };
 
   const handleAddToCart = (product: Product) => {
-    alert(`${product.name} added to cart!`);
+    toast.success(`${product.name} added to cart!`);
   };
 
   const handlePageChange = (page: number) => {
@@ -151,7 +152,7 @@ const CustomerDashboard: React.FC = () => {
                   <p className="text-green-100">Manage your account details</p>
                   <button 
                     className="mt-4 px-4 py-2 bg-white text-green-600 rounded-md hover:bg-green-50 transition-colors"
-                    onClick={() => alert('Profile page coming soon!')}
+                    onClick={() => toast.info('Profile page coming soon!')
                   >
                     Edit Profile
                   </button>

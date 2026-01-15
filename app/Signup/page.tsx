@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from '../../context/AuthContext';
+import toast from 'react-hot-toast';
 
 interface RegisterResponse {
   message?: string;
@@ -60,7 +61,7 @@ export default function SignupPage() {
       );
 
       if (user) {
-        alert("Signup successful!");
+        toast.success("Signup successful!");
         router.push(
           user.role === "admin"
             ? "/Admin/dashboard"
@@ -71,9 +72,9 @@ export default function SignupPage() {
       }
     } catch (err: unknown) {
       if (err instanceof Error) {
-        alert(err.message);
+        toast.error(err.message);
       } else {
-        alert("Something went wrong!");
+        toast.error("Something went wrong!");
       }
     }
   }

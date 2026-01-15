@@ -8,6 +8,7 @@ import {
   updateCartItem as updateCartItemAPI, 
   clearCart as clearCartAPI 
 } from '../services/cart.api';
+import toast from 'react-hot-toast';
 
 interface CartItem {
   _id: string;
@@ -132,9 +133,11 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       dispatch({ type: 'SET_CART', payload: { items: cartData.items || [] } });
       dispatch({ type: 'SET_LOADING', payload: { loading: false } });
     } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Failed to load cart';
+      toast.error(errorMessage);
       dispatch({ 
         type: 'SET_ERROR', 
-        payload: { error: error instanceof Error ? error.message : 'Failed to load cart' } 
+        payload: { error: errorMessage } 
       });
       dispatch({ type: 'SET_LOADING', payload: { loading: false } });
     }
@@ -151,9 +154,11 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       dispatch({ type: 'SET_CART', payload: { items: result.items } });
       dispatch({ type: 'SET_LOADING', payload: { loading: false } });
     } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Failed to add item to cart';
+      toast.error(errorMessage);
       dispatch({ 
         type: 'SET_ERROR', 
-        payload: { error: error instanceof Error ? error.message : 'Failed to add item to cart' } 
+        payload: { error: errorMessage } 
       });
       dispatch({ type: 'SET_LOADING', payload: { loading: false } });
     }
@@ -166,9 +171,11 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       dispatch({ type: 'SET_CART', payload: { items: result.items } });
       dispatch({ type: 'SET_LOADING', payload: { loading: false } });
     } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Failed to remove item from cart';
+      toast.error(errorMessage);
       dispatch({ 
         type: 'SET_ERROR', 
-        payload: { error: error instanceof Error ? error.message : 'Failed to remove item from cart' } 
+        payload: { error: errorMessage } 
       });
       dispatch({ type: 'SET_LOADING', payload: { loading: false } });
     }
@@ -181,9 +188,11 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       dispatch({ type: 'SET_CART', payload: { items: result.items } });
       dispatch({ type: 'SET_LOADING', payload: { loading: false } });
     } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Failed to update item quantity';
+      toast.error(errorMessage);
       dispatch({ 
         type: 'SET_ERROR', 
-        payload: { error: error instanceof Error ? error.message : 'Failed to update item quantity' } 
+        payload: { error: errorMessage } 
       });
       dispatch({ type: 'SET_LOADING', payload: { loading: false } });
     }
@@ -196,9 +205,11 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       dispatch({ type: 'SET_CART', payload: { items: result.items } });
       dispatch({ type: 'SET_LOADING', payload: { loading: false } });
     } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Failed to clear cart';
+      toast.error(errorMessage);
       dispatch({ 
         type: 'SET_ERROR', 
-        payload: { error: error instanceof Error ? error.message : 'Failed to clear cart' } 
+        payload: { error: errorMessage } 
       });
       dispatch({ type: 'SET_LOADING', payload: { loading: false } });
     }

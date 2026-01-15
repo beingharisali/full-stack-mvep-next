@@ -7,6 +7,7 @@ import Sidebar from '../components/Sidebar';
 import ProtectedRoute from '../../shared/ProtectedRoute';
 import { useCart } from '../../context/CartContext';
 import { createOrder } from '../../services/order.api';
+import toast from 'react-hot-toast';
 
 const CheckoutPage: React.FC = () => {
   const { cart, getCartTotal, clearCart } = useCart();
@@ -74,7 +75,7 @@ const CheckoutPage: React.FC = () => {
       const order = await createOrder(orderData);
       
       console.log('Order created:', order);
-      alert('Order placed successfully!');
+      toast.success('Order placed successfully!');
       clearCart();
       
       setTimeout(() => {
@@ -82,7 +83,7 @@ const CheckoutPage: React.FC = () => {
       }, 1500);
     } catch (error) {
       console.error('Error creating order:', error);
-      alert('Failed to place order. Please try again.');
+      toast.error('Failed to place order. Please try again.');
     }
   };
 

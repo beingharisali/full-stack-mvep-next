@@ -5,6 +5,7 @@ import Navbar from '@/app/components/Navbar';
 import Sidebar from '@/app/components/Sidebar';
 import ProtectedRoute from '../../../shared/ProtectedRoute';
 import { useAuth } from '../../../context/AuthContext';
+import toast from 'react-hot-toast';
 
 export default function SettingsPage() {
   const { user } = useAuth();
@@ -38,7 +39,7 @@ export default function SettingsPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Saving settings:', formData);
-    alert('Settings saved successfully!');
+    toast.success('Settings saved successfully!');
   };
 
   return (

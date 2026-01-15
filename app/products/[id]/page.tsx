@@ -7,6 +7,7 @@ import Sidebar from '@/app/components/Sidebar';
 import ProtectedRoute from '../../../shared/ProtectedRoute';
 import { Product, getProductById } from '@/services/product.api';
 import { useCart } from '../../../context/CartContext';
+import toast from 'react-hot-toast';
 
 export default function ProductDetailPage() {
   const { id } = useParams();
@@ -41,12 +42,12 @@ export default function ProductDetailPage() {
   const handleAddToCart = async () => {
     if (product) {
       await addToCart(product._id, quantity);
-      alert(`Added ${quantity} of "${product?.name}" to cart`);
+      toast.success(`Added ${quantity} of "${product?.name}" to cart`);
     }
   };
 
   const handleBuyNow = () => {
-    alert(`Proceeding to checkout with "${product?.name}"`);
+    toast(`Proceeding to checkout with "${product?.name}"`);
   };
 
   if (loading) {

@@ -47,8 +47,18 @@ const CustomerDashboard: React.FC = () => {
 
       if (searchTerm) params.name = searchTerm;
       if (categoryFilter) params.category = categoryFilter;
-      if (priceRange.min) params.minPrice = parseFloat(priceRange.min);
-      if (priceRange.max) params.maxPrice = parseFloat(priceRange.max);
+      if (priceRange.min) {
+        const minPrice = parseFloat(priceRange.min);
+        if (!isNaN(minPrice) && minPrice >= 0) {
+          params.minPrice = minPrice;
+        }
+      }
+      if (priceRange.max) {
+        const maxPrice = parseFloat(priceRange.max);
+        if (!isNaN(maxPrice) && maxPrice >= 0) {
+          params.maxPrice = maxPrice;
+        }
+      }
 
       const response: ProductListResponse = await getProducts(params);
       setProducts(response.products);
@@ -258,8 +268,14 @@ const CustomerDashboard: React.FC = () => {
                             type="number"
                             id="minPrice"
                             value={priceRange.min}
-                            onChange={(e) => setPriceRange({...priceRange, min: e.target.value})}
+                            onChange={(e) => {
+                              const value = e.target.value;
+                              if (value === '' || parseFloat(value) >= 0) {
+                                setPriceRange({...priceRange, min: value});
+                              }
+                            }}
                             placeholder="Min"
+                            min="0"
                             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                           />
                         </div>
@@ -271,8 +287,14 @@ const CustomerDashboard: React.FC = () => {
                             type="number"
                             id="maxPrice"
                             value={priceRange.max}
-                            onChange={(e) => setPriceRange({...priceRange, max: e.target.value})}
+                            onChange={(e) => {
+                              const value = e.target.value;
+                              if (value === '' || parseFloat(value) >= 0) {
+                                setPriceRange({...priceRange, max: value});
+                              }
+                            }}
                             placeholder="Max"
+                            min="0"
                             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                           />
                         </div>

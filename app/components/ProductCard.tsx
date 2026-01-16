@@ -73,7 +73,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         <p className="text-gray-600 text-sm truncate">{product.description || 'No description'}</p>
         
         <div className="mt-3 flex justify-between items-center">
-          <span className="text-lg font-bold text-blue-600">${product.price.toFixed(2)}</span>
+          <span className="text-lg font-bold text-blue-600">${Math.max(0, product.price).toFixed(2)}</span>
           <span className={`px-2 py-1 rounded-full text-xs ${
             product.stock > 0 
               ? 'bg-green-100 text-green-800' 

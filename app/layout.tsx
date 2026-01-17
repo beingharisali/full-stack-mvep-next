@@ -34,7 +34,7 @@ export default function RootLayout({
           <CartProvider>
             {children}
             <Toaster 
-              position="top-center"
+              position="top-right"
               toastOptions={{
                 duration: 4000,
                 style: {

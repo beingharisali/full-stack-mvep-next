@@ -180,4 +180,4 @@ export default function SignupPage() {
       </div>
     </section>
   );
-}
+}   

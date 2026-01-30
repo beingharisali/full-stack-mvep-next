@@ -69,9 +69,8 @@ export default function ProductManagementPage() {
         params.sort = sortOrder === 'asc' ? sortBy : `-${sortBy}`;
       }
       
-      const response = await http.get('/products/admin/list', { params });
+      const response = await http.get('/products/admin', { params });
       
-      console.log('Products API Response:', response.data);
       setProducts(response.data.products);
       setTotalPages(response.data.totalPages);
       setTotalProducts(response.data.totalProducts);

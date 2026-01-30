@@ -209,7 +209,8 @@ export default function OrdersManagementPage() {
               </div>
               
               {loading ? (
-                <div className="flex justify-center items-center h-64">
+                <div className="flex flex-col justify-center items-center h-64">
+                  <p className="mb-4 text-gray-700 text-lg">Loading orders...</p>
                   <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
                 </div>
               ) : (

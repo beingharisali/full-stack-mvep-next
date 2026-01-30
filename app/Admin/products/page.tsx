@@ -6,6 +6,7 @@ import Sidebar from '@/app/components/Sidebar';
 import ProtectedRoute from '../../../shared/ProtectedRoute';
 import { useAuth } from '../../../context/AuthContext';
 import http from '../../../services/http';
+import toast from 'react-hot-toast';
 
 interface Product {
   _id: string;
@@ -68,8 +69,9 @@ export default function ProductManagementPage() {
         params.sort = sortOrder === 'asc' ? sortBy : `-${sortBy}`;
       }
       
-      const response = await http.get('/admin/products', { params });
+      const response = await http.get('/products/admin/list', { params });
       
+      console.log('Products API Response:', response.data);
       setProducts(response.data.products);
       setTotalPages(response.data.totalPages);
       setTotalProducts(response.data.totalProducts);
@@ -83,7 +85,7 @@ export default function ProductManagementPage() {
   const handleDeleteProduct = async (productId: string) => {
     if (window.confirm('Are you sure you want to delete this product?')) {
       try {
-        await http.delete(`/admin/products/${productId}`);
+        await http.delete(`/products/admin/${productId}`);
         if (products.length === 1 && currentPage > 1) {
           setCurrentPage(prev => prev - 1);
         } else {
@@ -96,7 +98,16 @@ export default function ProductManagementPage() {
   };
 
   const handleAddProduct = () => {
-    setCurrentProduct(null);
+    setCurrentProduct({
+      name: '',
+      price: 0,
+      stock: 0,
+      images: [''],
+      description: '',
+      category: '',
+      brand: '',
+      isActive: true
+    });
     setIsEditing(false);
     setShowModal(true);
   };
@@ -110,18 +121,71 @@ export default function ProductManagementPage() {
   const handleSaveProduct = async () => {
     if (!currentProduct) return;
 
+    if (!currentProduct.name?.trim()) {
+      toast.error('Product name is required');
+      return;
+    }
+    
+    if (currentProduct.price === undefined || currentProduct.price === null || currentProduct.price < 0) {
+      toast.error('Valid price is required');
+      return;
+    }
+    
+    if (currentProduct.stock === undefined || currentProduct.stock === null || currentProduct.stock < 0) {
+      toast.error('Valid stock is required');
+      return;
+    }
+    
+    if (currentProduct.name.length > 200) {
+      toast.error('Product name cannot exceed 200 characters');
+      return;
+    }
+    
+    if (currentProduct.description && currentProduct.description.length > 1000) {
+      toast.error('Description cannot exceed 1000 characters');
+      return;
+    }
+    
+    if (currentProduct.category && currentProduct.category.length > 100) {
+      toast.error('Category cannot exceed 100 characters');
+      return;
+    }
+    
+    if (currentProduct.brand && currentProduct.brand.length > 100) {
+      toast.error('Brand cannot exceed 100 characters');
+      return;
+    }
+    
+    if (currentProduct.images && currentProduct.images.length > 0 && currentProduct.images[0]) {
+      try {
+        new URL(currentProduct.images[0]);
+      } catch (e) {
+        toast.error('Please enter a valid image URL');
+        return;
+      }
+    }
+    
+    const productData = { ...currentProduct };
+    if (productData.images && (!productData.images[0] || productData.images[0].trim() === '')) {
+      delete productData.images;
+    }
+    
     try {
       if (isEditing && currentProduct._id) {
-        await http.patch(`/admin/products/${currentProduct._id}`, currentProduct as any);
+        await http.patch(`/products/admin/${currentProduct._id}`, productData as any);
+        toast.success('Product updated successfully!');
       } else {
-        await http.post('/admin/products', currentProduct as any);
+        await http.post('/products/admin', productData as any);
+        toast.success('Product created successfully!');
       }
       
       setShowModal(false);
       setCurrentProduct(null);
       fetchProducts();
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error saving product:', error);
+      const errorMessage = error.response?.data?.msg || error.message || 'Failed to save product';
+      toast.error(errorMessage);
     }
   };
 
@@ -595,14 +659,15 @@ export default function ProductManagementPage() {
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Images URL</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Image URL (Optional)</label>
                   <input
                     type="text"
                     value={currentProduct?.images?.[0] || ''}
                     onChange={(e) => setCurrentProduct({...currentProduct!, images: [e.target.value]})}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="Image URL"
+                    placeholder="https://example.com/image.jpg"
                   />
+                  <p className="text-xs text-gray-500 mt-1">Enter any valid image URL (optional)</p>
                 </div>
                 
                 <div className="flex items-center">
@@ -625,7 +690,8 @@ export default function ProductManagementPage() {
                 </button>
                 <button
                   onClick={handleSaveProduct}
-                  className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                  disabled={!currentProduct?.name?.trim() || currentProduct.price === undefined || currentProduct.price < 0 || currentProduct.stock === undefined || currentProduct.stock < 0}
+                  className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
                 >
                   {isEditing ? 'Update Product' : 'Create Product'}
                 </button>

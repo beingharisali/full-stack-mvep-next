@@ -44,6 +44,7 @@ const CustomerProductsPage: React.FC = () => {
         limit: itemsPerPage,
         page: currentPage
       });
+      console.log('Customer Products API Response:', response);
       setProducts(response.products);
       setTotalPages(response.totalPages);
       setTotalProducts(response.totalProducts);

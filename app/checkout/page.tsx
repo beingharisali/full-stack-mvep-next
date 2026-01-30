@@ -79,7 +79,7 @@ const CheckoutPage: React.FC = () => {
       clearCart();
       
       setTimeout(() => {
-        router.push(`/Customer/orders/${order._id}`);
+        router.push('/Customer/orders');
       }, 1500);
     } catch (error) {
       console.error('Error creating order:', error);

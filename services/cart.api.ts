@@ -2,9 +2,16 @@ import http from "./http";
 
 export interface CartItem {
   _id: string;
+  product: {
+    _id: string;
+    name: string;
+    price: number;
+    images?: string[];
+    stock: number;
+  };
+  quantity: number;
   name: string;
   price: number;
-  quantity: number;
   images?: string[];
   stock: number;
 }

@@ -11,11 +11,20 @@ const CartPage: React.FC = () => {
   const { cart, removeFromCart, updateQuantity, getCartTotal, getCartItemCount } = useCart();
 
   const handleRemoveFromCart = async (productId: string) => {
-    await removeFromCart(productId);
+    try {
+      await removeFromCart(productId);
+    } catch (error) {
+      console.error('Failed to remove item:', error);
+    }
   };
 
   const handleUpdateQuantity = async (productId: string, quantity: number) => {
-    await updateQuantity(productId, quantity);
+    if (quantity < 1) return;
+    try {
+      await updateQuantity(productId, quantity);
+    } catch (error) {
+      console.error('Failed to update quantity:', error);
+    }
   };
 
   const handleCheckout = () => {
@@ -58,16 +67,16 @@ const CartPage: React.FC = () => {
                           <div className="flex items-start justify-between">
                             <div>
                               <h3 className="text-lg font-medium text-gray-900">{item.name}</h3>
-                              <p className="mt-1 text-sm text-gray-500">${(item.price || 0).toFixed(2)} each</p>
+                              <p className="mt-1 text-sm text-gray-500">${item.price.toFixed(2)} each</p>
                             </div>
-                            <p className="text-lg font-medium text-gray-900">${((item.price || 0) * item.quantity).toFixed(2)}</p>
+                            <p className="text-lg font-medium text-gray-900">${(item.price * item.quantity).toFixed(2)}</p>
                           </div>
                           
                           <div className="mt-4 flex items-center">
                             <div className="flex items-center">
                               <button
                                 onClick={() => handleUpdateQuantity(item._id, item.quantity - 1)}
-                                className="px-3 py-1 bg-gray-200 rounded-l-md text-gray-600 hover:bg-gray-300"
+                                className="px-3 py-1 bg-gray-200 rounded-l-md text-gray-600 hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
                                 disabled={item.quantity <= 1}
                               >
                                 -
@@ -77,7 +86,7 @@ const CartPage: React.FC = () => {
                               </span>
                               <button
                                 onClick={() => handleUpdateQuantity(item._id, item.quantity + 1)}
-                                className="px-3 py-1 bg-gray-200 rounded-r-md text-gray-600 hover:bg-gray-300"
+                                className="px-3 py-1 bg-gray-200 rounded-r-md text-gray-600 hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
                                 disabled={item.quantity >= item.stock}
                               >
                                 +
@@ -98,7 +107,7 @@ const CartPage: React.FC = () => {
                   
                   <div className="border-t border-gray-200 p-6">
                     <div className="flex justify-between text-lg font-medium text-gray-900 mb-4">
-                      <p>Subtotal</p>
+                      <p>Subtotal ({getCartItemCount()} items)</p>
                       <p>${getCartTotal().toFixed(2)}</p>
                     </div>
                     <p className="text-sm text-gray-500 mb-6">
@@ -114,11 +123,14 @@ const CartPage: React.FC = () => {
                           Checkout
                         </button>
                       </Link>
-                      <button
-                        className="flex-1 bg-white border border-gray-300 rounded-md shadow-sm py-3 px-4 text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                      >
-                        Continue Shopping
-                      </button>
+                      <Link href="/products">
+                        <button
+                          type="button"
+                          className="flex-1 bg-white border border-gray-300 rounded-md shadow-sm py-3 px-4 text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        >
+                          Continue Shopping
+                        </button>
+                      </Link>
                     </div>
                   </div>
                 </div>

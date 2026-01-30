@@ -12,9 +12,16 @@ import toast from 'react-hot-toast';
 
 interface CartItem {
   _id: string;
+  product: {
+    _id: string;
+    name: string;
+    price: number;
+    images?: string[];
+    stock: number;
+  };
+  quantity: number;
   name: string;
   price: number;
-  quantity: number;
   images?: string[];
   stock: number;
 }
@@ -56,9 +63,18 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 const cartReducer = (state: CartState, action: CartAction): CartState => {
   switch (action.type) {
     case 'SET_CART':
+      const transformedItems = action.payload.items.map(item => ({
+        _id: item.product?._id || item._id,
+        product: item.product,
+        quantity: item.quantity,
+        name: item.product?.name || item.name || '',
+        price: item.product?.price || item.price || 0,
+        images: item.product?.images || item.images || [],
+        stock: item.product?.stock || item.stock || 0
+      }));
       return {
         ...state,
-        items: action.payload.items,
+        items: transformedItems,
       };
       
     case 'ADD_ITEM':
@@ -69,14 +85,21 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
           ...state,
           items: state.items.map(item =>
             item._id === action.payload.product._id
-              ? { ...item, quantity: item.quantity + action.payload.product.quantity, price: item.price || action.payload.product.price || 0 }
+              ? { 
+                  ...item, 
+                  quantity: item.quantity + action.payload.product.quantity,
+                  price: item.product?.price || item.price || 0
+                }
               : item
           ),
         };
       } else {
         return {
           ...state,
-          items: [...state.items, { ...action.payload.product, price: action.payload.product.price || 0 }],
+          items: [...state.items, { 
+            ...action.payload.product, 
+            price: action.payload.product.product?.price || action.payload.product.price || 0 
+          }],
         };
       }
       
@@ -91,7 +114,11 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
         ...state,
         items: state.items.map(item =>
           item._id === action.payload.productId
-            ? { ...item, quantity: Math.max(1, action.payload.quantity), price: item.price || 0 }
+            ? { 
+                ...item, 
+                quantity: Math.max(1, action.payload.quantity), 
+                price: item.product?.price || item.price || 0 
+              }
             : item
         ),
       };

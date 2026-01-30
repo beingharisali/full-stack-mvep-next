@@ -93,6 +93,7 @@ export default function ProductDetailPage() {
                       <Image
                         key={i}
                         src={img}
+                        alt={`Product image ${i + 1}`}
                         className={`h-16 w-16 object-cover border cursor-pointer ${
                           selectedImageIndex === i
                             ? "border-blue-500"
@@ -105,7 +106,6 @@ export default function ProductDetailPage() {
                 )}
               </div>
 
-              {/* INFO */}
               <div>
                 <h1 className="text-3xl font-bold">{product.name}</h1>
 

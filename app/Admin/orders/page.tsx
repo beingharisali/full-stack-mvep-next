@@ -5,31 +5,38 @@ import Navbar from '@/app/components/Navbar';
 import Sidebar from '@/app/components/Sidebar';
 import ProtectedRoute from '../../../shared/ProtectedRoute';
 import { useAuth } from '../../../context/AuthContext';
-import http from '../../../services/http';
+import { getAllOrdersEnhanced, updateOrderStatusEnhanced, OrderEnhanced, OrderSummary } from '../../../services/order.api';
 
-interface Order {
+interface OrderDisplay {
   _id: string;
   customer: {
     firstName: string;
     lastName: string;
     email: string;
+    role: string;
   };
   products: Array<{
     name: string;
     quantity: number;
     price: number;
+    subtotal: number;
   }>;
   totalAmount: number;
   status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
+  statusHistory: any[];
+  statusInfo: any;
   createdAt: string;
+  updatedAt: string;
 }
 
 export default function OrdersManagementPage() {
   const { user } = useAuth();
-  const [orders, setOrders] = useState<Order[]>([]);
+  const [orders, setOrders] = useState<OrderDisplay[]>([]);
   const [loading, setLoading] = useState(true);
   const [statusFilter, setStatusFilter] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
+  const [statusSummary, setStatusSummary] = useState<OrderSummary['statusSummary'] | null>(null);
+  const [updatingOrderId, setUpdatingOrderId] = useState<string | null>(null);
 
   useEffect(() => {
     fetchOrders();
@@ -38,64 +45,33 @@ export default function OrdersManagementPage() {
   const fetchOrders = async () => {
     try {
       setLoading(true);
-     
-      const mockOrders: Order[] = [
-        {
-          _id: '1',
-          customer: { firstName: 'John', lastName: 'Doe', email: 'john@example.com' },
-          products: [
-            { name: 'Laptop', quantity: 1, price: 999.99 },
-            { name: 'Mouse', quantity: 2, price: 29.99 }
-          ],
-          totalAmount: 1059.97,
-          status: 'delivered',
-          createdAt: '2023-05-15T10:30:00Z'
-        },
-        {
-          _id: '2',
-          customer: { firstName: 'Jane', lastName: 'Smith', email: 'jane@example.com' },
-          products: [
-            { name: 'Smartphone', quantity: 1, price: 699.99 }
-          ],
-          totalAmount: 699.99,
-          status: 'processing',
-          createdAt: '2023-05-16T14:22:00Z'
-        },
-        {
-          _id: '3',
-          customer: { firstName: 'Bob', lastName: 'Johnson', email: 'bob@example.com' },
-          products: [
-            { name: 'Headphones', quantity: 1, price: 199.99 },
-            { name: 'Charger', quantity: 1, price: 29.99 }
-          ],
-          totalAmount: 229.98,
-          status: 'pending',
-          createdAt: '2023-05-17T09:15:00Z'
-        },
-        {
-          _id: '4',
-          customer: { firstName: 'Alice', lastName: 'Williams', email: 'alice@example.com' },
-          products: [
-            { name: 'Tablet', quantity: 1, price: 399.99 }
-          ],
-          totalAmount: 399.99,
-          status: 'shipped',
-          createdAt: '2023-05-18T16:45:00Z'
-        },
-        {
-          _id: '5',
-          customer: { firstName: 'Charlie', lastName: 'Brown', email: 'charlie@example.com' },
-          products: [
-            { name: 'Keyboard', quantity: 1, price: 89.99 },
-            { name: 'Monitor', quantity: 1, price: 299.99 }
-          ],
-          totalAmount: 389.98,
-          status: 'cancelled',
-          createdAt: '2023-05-19T11:30:00Z'
-        }
-      ];
       
-      setOrders(mockOrders);
+      const response = await getAllOrdersEnhanced();
+      
+      const transformedOrders: OrderDisplay[] = response.orders.map(order => ({
+        _id: order._id,
+        customer: {
+          firstName: order.user.name.split(' ')[0] || '',
+          lastName: order.user.name.split(' ')[1] || '',
+          email: order.user.email,
+          role: (order.user as any).role || 'customer'
+        },
+        products: order.items.map(item => ({
+          name: item.product.name,
+          quantity: item.quantity,
+          price: item.product.price,
+          subtotal: item.subtotal
+        })),
+        totalAmount: order.totalAmount,
+        status: order.status as any,
+        statusHistory: order.statusHistory,
+        statusInfo: order.statusInfo,
+        createdAt: order.createdAt,
+        updatedAt: order.updatedAt
+      }));
+      
+      setOrders(transformedOrders);
+      setStatusSummary(response.statusSummary);
     } catch (error) {
       console.error('Error fetching orders:', error);
     } finally {
@@ -114,13 +90,45 @@ export default function OrdersManagementPage() {
     return matchesStatus && matchesSearch;
   });
 
-  const updateOrderStatus = async (orderId: string, newStatus: Order['status']) => {
+  const updateOrderStatus = async (orderId: string, newStatus: string) => {
     try {
+      setUpdatingOrderId(orderId);
+      const response = await updateOrderStatusEnhanced(orderId, newStatus);
+      
       setOrders(orders.map(order => 
-        order._id === orderId ? { ...order, status: newStatus } : order
+        order._id === orderId 
+          ? { 
+              ...order, 
+              status: response.order.status as any,
+              statusInfo: {
+                ...order.statusInfo,
+                currentStatus: response.order.status,
+                statusDisplay: response.order.statusDisplay,
+                lastUpdated: response.order.lastUpdated
+              }
+            } 
+          : order
       ));
+      
+      if (statusSummary) {
+        const response = await getAllOrdersEnhanced();
+        setStatusSummary(response.statusSummary);
+      }
     } catch (error) {
       console.error('Error updating order status:', error);
+    } finally {
+      setUpdatingOrderId(null);
+    }
+  };
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'pending': return 'bg-yellow-100 text-yellow-800';
+      case 'processing': return 'bg-blue-100 text-blue-800';
+      case 'shipped': return 'bg-indigo-100 text-indigo-800';
+      case 'delivered': return 'bg-green-100 text-green-800';
+      case 'cancelled': return 'bg-red-100 text-red-800';
+      default: return 'bg-gray-100 text-gray-800';
     }
   };
 
@@ -133,6 +141,31 @@ export default function OrdersManagementPage() {
           <main className="flex-1 p-6">
             <div className="max-w-7xl mx-auto">
               <h1 className="text-3xl font-bold text-gray-800 mb-6">Orders Management</h1>
+              
+              {statusSummary && (
+                <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
+                  <div className="bg-white rounded-lg shadow p-4">
+                    <div className="text-sm text-gray-500">Total Orders</div>
+                    <div className="text-2xl font-bold text-gray-900">{statusSummary.total}</div>
+                  </div>
+                  <div className="bg-white rounded-lg shadow p-4">
+                    <div className="text-sm text-gray-500">Pending</div>
+                    <div className="text-2xl font-bold text-yellow-600">{statusSummary.pending}</div>
+                  </div>
+                  <div className="bg-white rounded-lg shadow p-4">
+                    <div className="text-sm text-gray-500">Processing</div>
+                    <div className="text-2xl font-bold text-blue-600">{statusSummary.processing}</div>
+                  </div>
+                  <div className="bg-white rounded-lg shadow p-4">
+                    <div className="text-sm text-gray-500">Shipped</div>
+                    <div className="text-2xl font-bold text-indigo-600">{statusSummary.shipped}</div>
+                  </div>
+                  <div className="bg-white rounded-lg shadow p-4">
+                    <div className="text-sm text-gray-500">Delivered</div>
+                    <div className="text-2xl font-bold text-green-600">{statusSummary.delivered}</div>
+                  </div>
+                </div>
+              )}
               
               <div className="bg-white rounded-lg shadow-md p-6 mb-6">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -162,11 +195,14 @@ export default function OrdersManagementPage() {
                   </div>
                   
                   <div className="flex space-x-2">
-                    <button className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
-                      Export
+                    <button 
+                      onClick={fetchOrders}
+                      className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                    >
+                      Refresh
                     </button>
                     <button className="flex-1 px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
-                      New Order
+                      Export
                     </button>
                   </div>
                 </div>
@@ -198,7 +234,7 @@ export default function OrdersManagementPage() {
                           Status
                         </th>
                         <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          Date
+                          Last Updated
                         </th>
                         <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                           Actions
@@ -209,7 +245,7 @@ export default function OrdersManagementPage() {
                       {filteredOrders.map((order) => (
                         <tr key={order._id} className="hover:bg-gray-50">
                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                            #{order._id}
+                            #{order._id.substring(0, 8)}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="text-sm font-medium text-gray-900">
@@ -217,6 +253,9 @@ export default function OrdersManagementPage() {
                             </div>
                             <div className="text-sm text-gray-500">
                               {order.customer.email}
+                            </div>
+                            <div className="text-xs text-gray-400">
+                              {order.customer.role}
                             </div>
                           </td>
                           <td className="px-6 py-4">
@@ -231,26 +270,26 @@ export default function OrdersManagementPage() {
                             ${order.totalAmount.toFixed(2)}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
-                            <select
-                              value={order.status}
-                              onChange={(e) => updateOrderStatus(order._id, e.target.value as Order['status'])}
-                              className={`px-2 py-1 text-xs rounded-full capitalize ${
-                                order.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
-                                order.status === 'processing' ? 'bg-blue-100 text-blue-800' :
-                                order.status === 'shipped' ? 'bg-indigo-100 text-indigo-800' :
-                                order.status === 'delivered' ? 'bg-green-100 text-green-800' :
-                                'bg-red-100 text-red-800'
-                              }`}
-                            >
-                              <option value="pending">Pending</option>
-                              <option value="processing">Processing</option>
-                              <option value="shipped">Shipped</option>
-                              <option value="delivered">Delivered</option>
-                              <option value="cancelled">Cancelled</option>
-                            </select>
+                            <div className="flex flex-col space-y-1">
+                              <select
+                                value={order.status}
+                                onChange={(e) => updateOrderStatus(order._id, e.target.value)}
+                                disabled={updatingOrderId === order._id}
+                                className={`px-2 py-1 text-xs rounded-full capitalize ${getStatusColor(order.status)}`}
+                              >
+                                <option value="pending">Pending</option>
+                                <option value="processing">Processing</option>
+                                <option value="shipped">Shipped</option>
+                                <option value="delivered">Delivered</option>
+                                <option value="cancelled">Cancelled</option>
+                              </select>
+                              {order.statusInfo?.isRecent && (
+                                <span className="text-xs text-green-600">Recently updated</span>
+                              )}
+                            </div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {new Date(order.createdAt).toLocaleDateString()}
+                            {new Date(order.updatedAt).toLocaleDateString()}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                             <button className="text-indigo-600 hover:text-indigo-900 mr-3">View</button>

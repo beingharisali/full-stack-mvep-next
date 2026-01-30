@@ -69,14 +69,14 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
           ...state,
           items: state.items.map(item =>
             item._id === action.payload.product._id
-              ? { ...item, quantity: item.quantity + action.payload.product.quantity }
+              ? { ...item, quantity: item.quantity + action.payload.product.quantity, price: item.price || action.payload.product.price || 0 }
               : item
           ),
         };
       } else {
         return {
           ...state,
-          items: [...state.items, action.payload.product],
+          items: [...state.items, { ...action.payload.product, price: action.payload.product.price || 0 }],
         };
       }
       
@@ -91,7 +91,7 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
         ...state,
         items: state.items.map(item =>
           item._id === action.payload.productId
-            ? { ...item, quantity: Math.max(1, action.payload.quantity) }
+            ? { ...item, quantity: Math.max(1, action.payload.quantity), price: item.price || 0 }
             : item
         ),
       };
@@ -216,7 +216,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   };
 
   const getCartTotal = () => {
-    return cart.items.reduce((total, item) => total + item.price * item.quantity, 0);
+    return cart.items.reduce((total, item) => total + (item.price || 0) * item.quantity, 0);
   };
 
   const getCartItemCount = () => {

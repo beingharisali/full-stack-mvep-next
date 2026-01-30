@@ -5,9 +5,9 @@ import Navbar from '@/app/components/Navbar';
 import Sidebar from '@/app/components/Sidebar';
 import ProtectedRoute from '../../../shared/ProtectedRoute';
 import { useAuth } from '../../../context/AuthContext';
-import http from '../../../services/http';
+import { getAllOrdersEnhanced, updateOrderStatusEnhanced, OrderEnhanced } from '../../../services/order.api';
 
-interface Order {
+interface OrderDisplay {
   _id: string;
   customer: {
     firstName: string;
@@ -19,19 +19,23 @@ interface Order {
     name: string;
     quantity: number;
     price: number;
+    subtotal: number;
   }>;
   totalAmount: number;
   status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
+  statusHistory: any[];
+  statusInfo: any;
   createdAt: string;
+  updatedAt: string;
 }
-
 
 export default function VendorOrdersPage() {
   const { user } = useAuth();
-  const [orders, setOrders] = useState<Order[]>([]);
+  const [orders, setOrders] = useState<OrderDisplay[]>([]);
   const [loading, setLoading] = useState(true);
   const [statusFilter, setStatusFilter] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
+  const [updatingOrderId, setUpdatingOrderId] = useState<string | null>(null);
 
   useEffect(() => {
     fetchOrders();
@@ -41,42 +45,31 @@ export default function VendorOrdersPage() {
     try {
       setLoading(true);
       
-      const mockOrders: Order[] = [
-        {
-          _id: '1',
-          customer: { firstName: 'John', lastName: 'Doe', email: 'john@example.com' },
-          products: [
-            { _id: '1', name: 'Laptop', quantity: 1, price: 999.99 },
-            { _id: '2', name: 'Mouse', quantity: 2, price: 29.99 }
-          ],
-          totalAmount: 1059.97,
-          status: 'delivered',
-          createdAt: '2023-05-15T10:30:00Z'
-        },
-        {
-          _id: '2',
-          customer: { firstName: 'Jane', lastName: 'Smith', email: 'jane@example.com' },
-          products: [
-            { _id: '3', name: 'Smartphone', quantity: 1, price: 699.99 }
-          ],
-          totalAmount: 699.99,
-          status: 'processing',
-          createdAt: '2023-05-16T14:22:00Z'
-        },
-        {
-          _id: '3',
-          customer: { firstName: 'Bob', lastName: 'Johnson', email: 'bob@example.com' },
-          products: [
-            { _id: '4', name: 'Headphones', quantity: 1, price: 199.99 },
-            { _id: '5', name: 'Charger', quantity: 1, price: 29.99 }
-          ],
-          totalAmount: 229.98,
-          status: 'pending',
-          createdAt: '2023-05-17T09:15:00Z'
-        }
-      ];
+      const response = await getAllOrdersEnhanced();
       
-      setOrders(mockOrders);
+      const transformedOrders: OrderDisplay[] = response.orders.map(order => ({
+        _id: order._id,
+        customer: {
+          firstName: order.user.name.split(' ')[0] || '',
+          lastName: order.user.name.split(' ')[1] || '',
+          email: order.user.email
+        },
+        products: order.items.map(item => ({
+          _id: item.product.id,
+          name: item.product.name,
+          quantity: item.quantity,
+          price: item.product.price,
+          subtotal: item.subtotal
+        })),
+        totalAmount: order.totalAmount,
+        status: order.status as any,
+        statusHistory: order.statusHistory,
+        statusInfo: order.statusInfo,
+        createdAt: order.createdAt,
+        updatedAt: order.updatedAt
+      }));
+      
+      setOrders(transformedOrders);
     } catch (error) {
       console.error('Error fetching orders:', error);
     } finally {
@@ -95,14 +88,40 @@ export default function VendorOrdersPage() {
     return matchesStatus && matchesSearch;
   });
 
-  const updateOrderStatus = async (orderId: string, newStatus: Order['status']) => {
+  const updateOrderStatus = async (orderId: string, newStatus: string) => {
     try {
+      setUpdatingOrderId(orderId);
+      const response = await updateOrderStatusEnhanced(orderId, newStatus);
       
       setOrders(orders.map(order => 
-        order._id === orderId ? { ...order, status: newStatus } : order
+        order._id === orderId 
+          ? { 
+              ...order, 
+              status: response.order.status as any,
+              statusInfo: {
+                ...order.statusInfo,
+                currentStatus: response.order.status,
+                statusDisplay: response.order.statusDisplay,
+                lastUpdated: response.order.lastUpdated
+              }
+            } 
+          : order
       ));
     } catch (error) {
       console.error('Error updating order status:', error);
+    } finally {
+      setUpdatingOrderId(null);
+    }
+  };
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'pending': return 'bg-yellow-100 text-yellow-800';
+      case 'processing': return 'bg-blue-100 text-blue-800';
+      case 'shipped': return 'bg-indigo-100 text-indigo-800';
+      case 'delivered': return 'bg-green-100 text-green-800';
+      case 'cancelled': return 'bg-red-100 text-red-800';
+      default: return 'bg-gray-100 text-gray-800';
     }
   };
 
@@ -144,7 +163,13 @@ export default function VendorOrdersPage() {
                   </div>
                   
                   <div className="flex space-x-2">
-                    <button className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                    <button 
+                      onClick={fetchOrders}
+                      className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                    >
+                      Refresh
+                    </button>
+                    <button className="flex-1 px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
                       Export
                     </button>
                   </div>
@@ -176,7 +201,7 @@ export default function VendorOrdersPage() {
                           Status
                         </th>
                         <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          Date
+                          Last Updated
                         </th>
                         <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                           Actions
@@ -187,7 +212,7 @@ export default function VendorOrdersPage() {
                       {filteredOrders.map((order) => (
                         <tr key={order._id} className="hover:bg-gray-50">
                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                            #{order._id}
+                            #{order._id.substring(0, 8)}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="text-sm font-medium text-gray-900">
@@ -209,26 +234,26 @@ export default function VendorOrdersPage() {
                             ${order.totalAmount.toFixed(2)}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
-                            <select
-                              value={order.status}
-                              onChange={(e) => updateOrderStatus(order._id, e.target.value as Order['status'])}
-                              className={`px-2 py-1 text-xs rounded-full capitalize ${
-                                order.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
-                                order.status === 'processing' ? 'bg-blue-100 text-blue-800' :
-                                order.status === 'shipped' ? 'bg-indigo-100 text-indigo-800' :
-                                order.status === 'delivered' ? 'bg-green-100 text-green-800' :
-                                'bg-red-100 text-red-800'
-                              }`}
-                            >
-                              <option value="pending">Pending</option>
-                              <option value="processing">Processing</option>
-                              <option value="shipped">Shipped</option>
-                              <option value="delivered">Delivered</option>
-                              <option value="cancelled">Cancelled</option>
-                            </select>
+                            <div className="flex flex-col space-y-1">
+                              <select
+                                value={order.status}
+                                onChange={(e) => updateOrderStatus(order._id, e.target.value)}
+                                disabled={updatingOrderId === order._id}
+                                className={`px-2 py-1 text-xs rounded-full capitalize ${getStatusColor(order.status)}`}
+                              >
+                                <option value="pending">Pending</option>
+                                <option value="processing">Processing</option>
+                                <option value="shipped">Shipped</option>
+                                <option value="delivered">Delivered</option>
+                                <option value="cancelled">Cancelled</option>
+                              </select>
+                              {order.statusInfo?.isRecent && (
+                                <span className="text-xs text-green-600">Recently updated</span>
+                              )}
+                            </div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {new Date(order.createdAt).toLocaleDateString()}
+                            {new Date(order.updatedAt).toLocaleDateString()}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                             <button className="text-indigo-600 hover:text-indigo-900 mr-3">View</button>

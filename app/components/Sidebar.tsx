@@ -45,7 +45,7 @@ export default function Sidebar() {
   const menuItems = getMenuItems();
 
   return (
-    <aside className="h-150vh w-64 bg-gray-900 text-white flex flex-col">
+    <aside className="h-screen w-64 bg-gray-900 text-white flex flex-col">
       <div className="h-16 flex items-center justify-center text-2xl font-bold border-b border-gray-700">
         {user ? `${user.role.charAt(0).toUpperCase() + user.role.slice(1)} Dashboard` : 'Dashboard'}
       </div>

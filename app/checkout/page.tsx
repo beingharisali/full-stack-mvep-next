@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
 import ProtectedRoute from '../../shared/ProtectedRoute';
@@ -12,6 +13,7 @@ import toast from 'react-hot-toast';
 const CheckoutPage: React.FC = () => {
   const { cart, getCartTotal, clearCart } = useCart();
   const router = useRouter();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   
   const [formData, setFormData] = useState({
     firstName: '',
@@ -93,11 +95,16 @@ const CheckoutPage: React.FC = () => {
         <div className="min-h-screen bg-gray-50">
           <Navbar />
           <div className="flex">
-            <Sidebar />
-            <main className="flex-1 p-6">
+            <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
+            <main className={`flex-1 p-4 md:p-6 transition-all duration-300 ${sidebarOpen ? 'md:ml-0' : ''}`}>
               <div className="max-w-4xl mx-auto text-center py-12">
-                <h1 className="text-3xl font-bold text-gray-800 mb-4">Checkout</h1>
+                <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4">Checkout</h1>
                 <p className="text-lg text-gray-600">Your cart is empty. Add some items to proceed to checkout.</p>
+                <Link href="/products" className="inline-block mt-6">
+                  <button className="px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
+                    Start Shopping
+                  </button>
+                </Link>
               </div>
             </main>
           </div>
@@ -111,13 +118,13 @@ const CheckoutPage: React.FC = () => {
       <div className="min-h-screen bg-gray-50">
         <Navbar />
         <div className="flex">
-          <Sidebar />
-          <main className="flex-1 p-6">
+          <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
+          <main className={`flex-1 p-4 md:p-6 transition-all duration-300 ${sidebarOpen ? 'md:ml-0' : ''}`}>
             <div className="max-w-7xl mx-auto">
-              <h1 className="text-3xl font-bold text-gray-800 mb-6">Checkout</h1>
+              <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6">Checkout</h1>
               
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <div className="bg-white p-6 rounded-lg shadow-md">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="bg-white p-4 md:p-6 rounded-lg shadow-md">
                   <h2 className="text-xl font-semibold text-gray-800 mb-4">Billing Information</h2>
                   
                   <form onSubmit={handleSubmit}>
@@ -336,22 +343,24 @@ const CheckoutPage: React.FC = () => {
                   </form>
                 </div>
                 
-                <div className="bg-white p-6 rounded-lg shadow-md">
+                <div className="bg-white p-4 md:p-6 rounded-lg shadow-md">
                   <h2 className="text-xl font-semibold text-gray-800 mb-4">Order Summary</h2>
                   
-                  <div className="divide-y divide-gray-200">
+                  <div className="divide-y divide-gray-200 max-h-96 overflow-y-auto">
                     {cart.items.map((item) => (
-                      <div key={item._id} className="py-4 flex justify-between">
-                        <div>
-                          <h3 className="font-medium text-gray-900">{item.name}</h3>
-                          <p className="text-sm text-gray-500">Qty: {item.quantity}</p>
+                      <div key={item._id} className="py-4">
+                        <div className="flex justify-between">
+                          <div>
+                            <h3 className="font-medium text-gray-900">{item.name}</h3>
+                            <p className="text-sm text-gray-500">Qty: {item.quantity}</p>
+                          </div>
+                          <p className="font-medium text-gray-900">${(item.price * item.quantity).toFixed(2)}</p>
                         </div>
-                        <p className="font-medium text-gray-900">${(item.price * item.quantity).toFixed(2)}</p>
                       </div>
                     ))}
                   </div>
                   
-                  <div className="mt-6 space-y-2">
+                  <div className="mt-6 space-y-2 border-t pt-4">
                     <div className="flex justify-between">
                       <span className="text-gray-600">Subtotal</span>
                       <span className="text-gray-900">${getCartTotal().toFixed(2)}</span>

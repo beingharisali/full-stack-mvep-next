@@ -47,10 +47,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
   return (
     <div 
-      className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 cursor-pointer"
+      className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 cursor-pointer h-full flex flex-col"
       onClick={handleViewDetails}
     >
-      <div className="h-48 bg-gray-200 flex items-center justify-center">
+      <div className="h-40 sm:h-48 bg-gray-200 flex items-center justify-center">
         {product.images && product.images.length > 0 ? (
           <img 
             src={product.images[0]} 
@@ -62,18 +62,18 @@ const ProductCard: React.FC<ProductCardProps> = ({
             }}
           />
         ) : (
-          <div className="h-full w-full bg-gray-200 flex items-center justify-center text-gray-500">
+          <div className="h-full w-full bg-gray-200 flex items-center justify-center text-gray-500 text-sm">
             No Image
           </div>
         )}
       </div>
       
-      <div className="p-4">
-        <h3 className="font-semibold text-lg truncate">{product.name}</h3>
-        <p className="text-gray-600 text-sm truncate">{product.description || 'No description'}</p>
+      <div className="p-3 sm:p-4 flex-1 flex flex-col">
+        <h3 className="font-semibold text-base sm:text-lg truncate">{product.name}</h3>
+        <p className="text-gray-600 text-xs sm:text-sm truncate mt-1 flex-1">{product.description || 'No description'}</p>
         
         <div className="mt-3 flex justify-between items-center">
-          <span className="text-lg font-bold text-blue-600">${Math.max(0, product.price).toFixed(2)}</span>
+          <span className="text-base sm:text-lg font-bold text-blue-600">${Math.max(0, product.price).toFixed(2)}</span>
           <span className={`px-2 py-1 rounded-full text-xs ${
             product.stock > 0 
               ? 'bg-green-100 text-green-800' 
@@ -90,10 +90,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
         )}
         
         {showAddToCart && product.isActive && product.stock > 0 && (
-          <div className="mt-4 flex items-center">
-            <div className="flex items-center border rounded-md mr-2">
+          <div className="mt-4 flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+            <div className="flex items-center border rounded-md">
               <button 
-                className="px-2 py-1 text-gray-600 hover:bg-gray-100 disabled:opacity-50"
+                className="px-2 py-1 text-gray-600 hover:bg-gray-100 disabled:opacity-50 text-sm"
                 onClick={(e) => {
                   e.stopPropagation();
                   if (quantity > 1) setQuantity(quantity - 1);
@@ -102,9 +102,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
               >
                 -
               </button>
-              <span className="px-2 py-1 text-sm">{quantity}</span>
+              <span className="px-2 py-1 text-sm min-w-[40px] text-center">{quantity}</span>
               <button 
-                className="px-2 py-1 text-gray-600 hover:bg-gray-100 disabled:opacity-50"
+                className="px-2 py-1 text-gray-600 hover:bg-gray-100 disabled:opacity-50 text-sm"
                 onClick={(e) => {
                   e.stopPropagation();
                   if (quantity < product.stock) setQuantity(quantity + 1);

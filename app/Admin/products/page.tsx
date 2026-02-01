@@ -43,6 +43,7 @@ export default function ProductManagementPage() {
   const [showModal, setShowModal] = useState(false);
   const [currentProduct, setCurrentProduct] = useState<Partial<Product> | null>(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     fetchProducts();
@@ -195,12 +196,12 @@ export default function ProductManagementPage() {
       <div className="min-h-screen bg-gray-50">
         <Navbar />
         <div className="flex">
-          <Sidebar />
-          <main className="flex-1 p-6">
+          <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
+          <main className={`flex-1 p-4 md:p-6 transition-all duration-300 ${sidebarOpen ? 'md:ml-0' : ''}`}>
             <div className="max-w-7xl mx-auto">
-              <h1 className="text-3xl font-bold text-gray-800 mb-6">Product Management</h1>
+              <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6">Product Management</h1>
               
-              <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+              <div className="bg-white rounded-lg shadow-md p-4 mb-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -250,99 +251,99 @@ export default function ProductManagementPage() {
                     />
                   </div>
                   
-                  <div className="flex justify-end items-end">
+                  <div className="flex items-end">
                     <button 
                       onClick={handleAddProduct}
-                      className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                      className="w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
                     >
                       Add New Product
                     </button>
                   </div>
                 </div>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Min Price
-                    </label>
-                    <input
-                      type="number"
-                      value={minPrice}
-                      onChange={(e) => {
-                        const value = e.target.value;
-                        if (value === '' || (parseFloat(value) >= 0)) {
-                          setMinPrice(value);
-                          setCurrentPage(1);
-                        }
-                      }}
-                      min="0"
-                      placeholder="Min price"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+                  <div className="grid grid-cols-2 gap-2">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Min Price
+                      </label>
+                      <input
+                        type="number"
+                        value={minPrice}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          if (value === '' || (parseFloat(value) >= 0)) {
+                            setMinPrice(value);
+                            setCurrentPage(1);
+                          }
+                        }}
+                        min="0"
+                        placeholder="Min"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Max Price
+                      </label>
+                      <input
+                        type="number"
+                        value={maxPrice}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          if (value === '' || (parseFloat(value) >= 0)) {
+                            setMaxPrice(value);
+                            setCurrentPage(1);
+                          }
+                        }}
+                        min="0"
+                        placeholder="Max"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
                   </div>
                   
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Max Price
-                    </label>
-                    <input
-                      type="number"
-                      value={maxPrice}
-                      onChange={(e) => {
-                        const value = e.target.value;
-                        if (value === '' || (parseFloat(value) >= 0)) {
-                          setMaxPrice(value);
-                          setCurrentPage(1);
-                        }
-                      }}
-                      min="0"
-                      placeholder="Max price"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
+                  <div className="grid grid-cols-2 gap-2">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Min Stock
+                      </label>
+                      <input
+                        type="number"
+                        value={minStock}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          if (value === '' || (parseInt(value) >= 0)) {
+                            setMinStock(value);
+                            setCurrentPage(1);
+                          }
+                        }}
+                        min="0"
+                        placeholder="Min"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Max Stock
+                      </label>
+                      <input
+                        type="number"
+                        value={maxStock}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          if (value === '' || (parseInt(value) >= 0)) {
+                            setMaxStock(value);
+                            setCurrentPage(1);
+                          }
+                        }}
+                        min="0"
+                        placeholder="Max"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
                   </div>
                   
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Min Stock
-                    </label>
-                    <input
-                      type="number"
-                      value={minStock}
-                      onChange={(e) => {
-                        const value = e.target.value;
-                        if (value === '' || (parseInt(value) >= 0)) {
-                          setMinStock(value);
-                          setCurrentPage(1);
-                        }
-                      }}
-                      min="0"
-                      placeholder="Min stock"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                  </div>
-                  
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Max Stock
-                    </label>
-                    <input
-                      type="number"
-                      value={maxStock}
-                      onChange={(e) => {
-                        const value = e.target.value;
-                        if (value === '' || (parseInt(value) >= 0)) {
-                          setMaxStock(value);
-                          setCurrentPage(1);
-                        }
-                      }}
-                      min="0"
-                      placeholder="Max stock"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                  </div>
-                </div>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       Status
@@ -361,6 +362,29 @@ export default function ProductManagementPage() {
                     </select>
                   </div>
                   
+                  <div className="flex items-end">
+                    <button
+                      onClick={() => {
+                        setSearchTerm('');
+                        setCategoryFilter('');
+                        setBrandFilter('');
+                        setMinPrice('');
+                        setMaxPrice('');
+                        setMinStock('');
+                        setMaxStock('');
+                        setStatusFilter('');
+                        setSortBy('');
+                        setSortOrder('desc');
+                        setCurrentPage(1);
+                      }}
+                      className="w-full px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition-colors"
+                    >
+                      Clear Filters
+                    </button>
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       Sort By
@@ -400,71 +424,9 @@ export default function ProductManagementPage() {
                   </div>
                   
                   <div className="flex items-end">
-                    <button
-                      onClick={() => {
-                        setSearchTerm('');
-                        setCategoryFilter('');
-                        setBrandFilter('');
-                        setMinPrice('');
-                        setMaxPrice('');
-                        setMinStock('');
-                        setMaxStock('');
-                        setStatusFilter('');
-                        setSortBy('');
-                        setSortOrder('desc');
-                        setCurrentPage(1);
-                      }}
-                      className="w-full px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600"
-                    >
-                      Clear Filters
-                    </button>
-                  </div>
-                </div>
-                
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between pt-4 border-t">
-                  <p className="text-sm text-gray-600 mb-4 sm:mb-0">
-                    Showing {(currentPage - 1) * itemsPerPage + 1} to {Math.min(currentPage * itemsPerPage, totalProducts)} of {totalProducts} products
-                  </p>
-                  
-                  <div className="flex space-x-2">
-                    <button
-                      onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                      disabled={currentPage === 1}
-                      className={`px-3 py-1 rounded-md ${currentPage === 1 ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-gray-300 text-gray-700 hover:bg-gray-400'}`}
-                    >
-                      Previous
-                    </button>
-                    
-                    {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-                      let pageNum;
-                      if (totalPages <= 5) {
-                        pageNum = i + 1;
-                      } else if (currentPage <= 3) {
-                        pageNum = i + 1;
-                      } else if (currentPage >= totalPages - 2) {
-                        pageNum = totalPages - 4 + i;
-                      } else {
-                        pageNum = currentPage - 2 + i;
-                      }
-                      
-                      return (
-                        <button
-                          key={pageNum}
-                          onClick={() => setCurrentPage(pageNum)}
-                          className={`px-3 py-1 rounded-md ${currentPage === pageNum ? 'bg-blue-600 text-white' : 'bg-gray-300 text-gray-700 hover:bg-gray-400'}`}
-                        >
-                          {pageNum}
-                        </button>
-                      );
-                    })}
-                    
-                    <button
-                      onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-                      disabled={currentPage === totalPages}
-                      className={`px-3 py-1 rounded-md ${currentPage === totalPages ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-gray-300 text-gray-700 hover:bg-gray-400'}`}
-                    >
-                      Next
-                    </button>
+                    <div className="text-sm text-gray-600">
+                      Showing {(currentPage - 1) * itemsPerPage + 1} to {Math.min(currentPage * itemsPerPage, totalProducts)} of {totalProducts} products
+                    </div>
                   </div>
                 </div>
               </div>
@@ -475,97 +437,150 @@ export default function ProductManagementPage() {
                 </div>
               ) : (
                 <div className="bg-white rounded-lg shadow-md overflow-hidden">
-                  <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="bg-gray-50">
-                      <tr>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          Product
-                        </th>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          Category
-                        </th>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          Price
-                        </th>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          Stock
-                        </th>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          Status
-                        </th>
-                        <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          Actions
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
-                      {displayedProducts.map((product) => (
-                        <tr key={product._id} className="hover:bg-gray-50">
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="flex items-center">
-                              <div className="flex-shrink-0 h-10 w-10">
-                                {product.images && product.images.length > 0 ? (
-                                  <img 
-                                    src={product.images[0]} 
-                                    alt={product.name} 
-                                    className="h-10 w-10 object-cover rounded-md"
-                                    onError={(e) => {
-                                      const target = e.target as HTMLImageElement;
-                                      target.src = '/placeholder-image.jpg';
-                                    }}
-                                  />
-                                ) : (
-                                  <div className="bg-gray-200 border-2 border-dashed rounded-xl w-10 h-10" />
-                                )}
-                              </div>
-                              <div className="ml-4">
-                                <div className="text-sm font-medium text-gray-900">
-                                  {product.name}
-                                </div>
-                                <div className="text-sm text-gray-500 truncate max-w-xs">
-                                  {product.description || 'No description'}
-                                </div>
-                              </div>
-                            </div>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {product.category || 'N/A'}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            ${product.price.toFixed(2)}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {product.stock}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                              ${product.isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
-                              {product.isActive ? 'Active' : 'Inactive'}
-                            </span>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                            <button 
-                              onClick={() => handleEditProduct(product)}
-                              className="text-indigo-600 hover:text-indigo-900 mr-3"
-                            >
-                              Edit
-                            </button>
-                            <button 
-                              onClick={() => handleDeleteProduct(product._id)}
-                              className="text-red-600 hover:text-red-900"
-                            >
-                              Delete
-                            </button>
-                          </td>
+                  <div className="overflow-x-auto">
+                    <table className="min-w-full divide-y divide-gray-200">
+                      <thead className="bg-gray-50">
+                        <tr>
+                          <th scope="col" className="px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Product
+                          </th>
+                          <th scope="col" className="px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden sm:table-cell">
+                            Category
+                          </th>
+                          <th scope="col" className="px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Price
+                          </th>
+                          <th scope="col" className="px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Stock
+                          </th>
+                          <th scope="col" className="px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden md:table-cell">
+                            Status
+                          </th>
+                          <th scope="col" className="px-4 md:px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Actions
+                          </th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody className="bg-white divide-y divide-gray-200">
+                        {displayedProducts.map((product) => (
+                          <tr key={product._id} className="hover:bg-gray-50">
+                            <td className="px-4 md:px-6 py-4 whitespace-nowrap">
+                              <div className="flex items-center">
+                                <div className="flex-shrink-0 h-10 w-10">
+                                  {product.images && product.images.length > 0 ? (
+                                    <img 
+                                      src={product.images[0]} 
+                                      alt={product.name} 
+                                      className="h-10 w-10 object-cover rounded-md"
+                                      onError={(e) => {
+                                        const target = e.target as HTMLImageElement;
+                                        target.src = '/placeholder-image.jpg';
+                                      }}
+                                    />
+                                  ) : (
+                                    <div className="bg-gray-200 border-2 border-dashed rounded-xl w-10 h-10" />
+                                  )}
+                                </div>
+                                <div className="ml-4">
+                                  <div className="text-sm font-medium text-gray-900">
+                                    {product.name}
+                                  </div>
+                                  <div className="text-xs text-gray-500 truncate max-w-[120px] md:max-w-xs">
+                                    {product.description || 'No description'}
+                                  </div>
+                                </div>
+                              </div>
+                            </td>
+                            <td className="px-4 md:px-6 py-4 whitespace-nowrap text-sm text-gray-500 hidden sm:table-cell">
+                              {product.category || 'N/A'}
+                            </td>
+                            <td className="px-4 md:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                              ${product.price.toFixed(2)}
+                            </td>
+                            <td className="px-4 md:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                              {product.stock}
+                            </td>
+                            <td className="px-4 md:px-6 py-4 whitespace-nowrap hidden md:table-cell">
+                              <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                                ${product.isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                                {product.isActive ? 'Active' : 'Inactive'}
+                              </span>
+                            </td>
+                            <td className="px-4 md:px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                              <div className="flex justify-end space-x-2">
+                                <button 
+                                  onClick={() => handleEditProduct(product)}
+                                  className="text-indigo-600 hover:text-indigo-900"
+                                >
+                                  Edit
+                                </button>
+                                <button 
+                                  onClick={() => handleDeleteProduct(product._id)}
+                                  className="text-red-600 hover:text-red-900"
+                                >
+                                  Delete
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                   
                   {displayedProducts.length === 0 && !loading && (
                     <div className="text-center py-12">
                       <p className="text-gray-500 text-lg">No products found</p>
                       <p className="text-gray-400">Try adjusting your search criteria</p>
+                    </div>
+                  )}
+                  
+                  {totalPages > 1 && (
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between px-4 md:px-6 py-3 border-t bg-gray-50">
+                      <div className="text-sm text-gray-700 mb-4 sm:mb-0">
+                        Showing {(currentPage - 1) * itemsPerPage + 1} to {Math.min(currentPage * itemsPerPage, totalProducts)} of {totalProducts} products
+                      </div>
+                      
+                      <div className="flex space-x-2">
+                        <button
+                          onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                          disabled={currentPage === 1}
+                          className={`px-3 py-1 rounded-md text-sm ${currentPage === 1 ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-gray-300 text-gray-700 hover:bg-gray-400'}`}
+                        >
+                          Previous
+                        </button>
+                        
+                        {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                          let pageNum;
+                          if (totalPages <= 5) {
+                            pageNum = i + 1;
+                          } else if (currentPage <= 3) {
+                            pageNum = i + 1;
+                          } else if (currentPage >= totalPages - 2) {
+                            pageNum = totalPages - 4 + i;
+                          } else {
+                            pageNum = currentPage - 2 + i;
+                          }
+                          
+                          return (
+                            <button
+                              key={pageNum}
+                              onClick={() => setCurrentPage(pageNum)}
+                              className={`px-3 py-1 rounded-md text-sm ${currentPage === pageNum ? 'bg-blue-600 text-white' : 'bg-gray-300 text-gray-700 hover:bg-gray-400'}`}
+                            >
+                              {pageNum}
+                            </button>
+                          );
+                        })}
+                        
+                        <button
+                          onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                          disabled={currentPage === totalPages}
+                          className={`px-3 py-1 rounded-md text-sm ${currentPage === totalPages ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-gray-300 text-gray-700 hover:bg-gray-400'}`}
+                        >
+                          Next
+                        </button>
+                      </div>
                     </div>
                   )}
                 </div>
@@ -575,8 +590,8 @@ export default function ProductManagementPage() {
         </div>
         
         {showModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white rounded-lg p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-lg p-4 md:p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto modal-responsive">
               <h2 className="text-xl font-bold mb-4">{isEditing ? 'Edit Product' : 'Add New Product'}</h2>
               
               <div className="space-y-4">
@@ -602,7 +617,7 @@ export default function ProductManagementPage() {
                   />
                 </div>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Price</label>
                     <input
@@ -633,7 +648,7 @@ export default function ProductManagementPage() {
                   </div>
                 </div>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
                     <input
@@ -680,17 +695,17 @@ export default function ProductManagementPage() {
                 </div>
               </div>
               
-              <div className="mt-6 flex justify-end space-x-3">
+              <div className="mt-6 flex flex-col-reverse sm:flex-row sm:justify-end space-y-3 sm:space-y-0 sm:space-x-3">
                 <button
                   onClick={() => setShowModal(false)}
-                  className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
+                  className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 w-full sm:w-auto"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleSaveProduct}
                   disabled={!currentProduct?.name?.trim() || currentProduct.price === undefined || currentProduct.price < 0 || currentProduct.stock === undefined || currentProduct.stock < 0}
-                  className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
+                  className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed w-full sm:w-auto"
                 >
                   {isEditing ? 'Update Product' : 'Create Product'}
                 </button>

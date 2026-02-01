@@ -7,6 +7,7 @@ import ProtectedRoute from "../../shared/ProtectedRoute";
 import { Product, getProducts } from "../../services/product.api";
 import ProductCard from "../components/ProductCard";
 
+
 export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -16,6 +17,7 @@ export default function ProductsPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [sortBy, setSortBy] = useState("-createdAt");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const itemsPerPage = 8;
 
@@ -53,28 +55,166 @@ export default function ProductsPage() {
       <div className="min-h-screen bg-gray-50">
         <Navbar />
         <div className="flex">
-          <Sidebar />
+          <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
+          
+          <main className={`flex-1 p-4 md:p-6 transition-all duration-300 ${sidebarOpen ? 'md:ml-0' : ''}`}>
+            <div className="max-w-7xl mx-auto">
+              <h1 className="text-2xl md:text-3xl font-bold mb-6">Products</h1>
 
-          <main className="flex-1 p-6">
-            <h1 className="text-3xl font-bold mb-6">Products</h1>
-
-            {loading ? (
-              <div className="text-center py-20">Loading...</div>
-            ) : (
-              <>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                  {products.map((p) => (
-                    <ProductCard key={p._id} product={p} />
-                  ))}
+              <div className="bg-white rounded-lg shadow-md p-4 mb-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Search
+                    </label>
+                    <input
+                      type="text"
+                      value={searchTerm}
+                      onChange={(e) => {
+                        setSearchTerm(e.target.value);
+                        setCurrentPage(1);
+                      }}
+                      placeholder="Search products..."
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Category
+                    </label>
+                    <input
+                      type="text"
+                      value={categoryFilter}
+                      onChange={(e) => {
+                        setCategoryFilter(e.target.value);
+                        setCurrentPage(1);
+                      }}
+                      placeholder="Filter by category..."
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+                  
+                  <div className="grid grid-cols-2 gap-2">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Min Price
+                      </label>
+                      <input
+                        type="number"
+                        value={priceRange.min}
+                        onChange={(e) => {
+                          setPriceRange({...priceRange, min: e.target.value});
+                          setCurrentPage(1);
+                        }}
+                        placeholder="Min"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Max Price
+                      </label>
+                      <input
+                        type="number"
+                        value={priceRange.max}
+                        onChange={(e) => {
+                          setPriceRange({...priceRange, max: e.target.value});
+                          setCurrentPage(1);
+                        }}
+                        placeholder="Max"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-end">
+                    <button
+                      onClick={() => {
+                        setSearchTerm("");
+                        setCategoryFilter("");
+                        setPriceRange({min: "", max: ""});
+                        setCurrentPage(1);
+                      }}
+                      className="w-full px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition-colors"
+                    >
+                      Clear Filters
+                    </button>
+                  </div>
                 </div>
+              </div>
 
-                {products.length === 0 && (
-                  <p className="text-center text-gray-500 mt-10">
-                    No products found
-                  </p>
-                )}
-              </>
-            )}
+              {loading ? (
+                <div className="text-center py-20">
+                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto"></div>
+                  <p className="mt-4 text-gray-600">Loading products...</p>
+                </div>
+              ) : (
+                <>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
+                    {products.map((p) => (
+                      <ProductCard key={p._id} product={p} />
+                    ))}
+                  </div>
+
+                  {products.length === 0 && (
+                    <div className="text-center py-12">
+                      <p className="text-gray-500 text-lg">No products found</p>
+                      <p className="text-gray-400">Try adjusting your search criteria</p>
+                    </div>
+                  )}
+
+                  {totalPages > 1 && (
+                    <div className="flex justify-center mt-8">
+                      <div className="flex space-x-2">
+                        <button
+                          onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                          disabled={currentPage === 1}
+                          className="px-3 py-2 rounded-md bg-gray-200 text-gray-700 disabled:opacity-50"
+                        >
+                          Previous
+                        </button>
+                        
+                        {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                          let pageNum;
+                          if (totalPages <= 5) {
+                            pageNum = i + 1;
+                          } else if (currentPage <= 3) {
+                            pageNum = i + 1;
+                          } else if (currentPage >= totalPages - 2) {
+                            pageNum = totalPages - 4 + i;
+                          } else {
+                            pageNum = currentPage - 2 + i;
+                          }
+                          
+                          return (
+                            <button
+                              key={pageNum}
+                              onClick={() => setCurrentPage(pageNum)}
+                              className={`px-3 py-2 rounded-md ${
+                                currentPage === pageNum 
+                                  ? 'bg-blue-600 text-white' 
+                                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                              }`}
+                            >
+                              {pageNum}
+                            </button>
+                          );
+                        })}
+                        
+                        <button
+                          onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                          disabled={currentPage === totalPages}
+                          className="px-3 py-2 rounded-md bg-gray-200 text-gray-700 disabled:opacity-50"
+                        >
+                          Next
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
           </main>
         </div>
       </div>

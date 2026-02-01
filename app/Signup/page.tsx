@@ -80,19 +80,19 @@ export default function SignupPage() {
   }
 
   return (
-    <section className="min-h-screen flex items-center justify-center bg-linear-to-br from-indigo-700 via-purple-600 to-pink-600 px-4">
-      <div className="relative bg-white/90 backdrop-blur-xl w-full max-w-lg rounded-3xl p-8 shadow-[0_25px_60px_-10px_rgba(0,0,0,0.35)] border border-white/30">
-        <div className="absolute -inset-1 rounded-3xl bg-linear-to-r from-indigo-500 via-purple-500 to-pink-500 opacity-30 blur-xl -z-10" />
+    <section className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-700 via-purple-600 to-pink-600 px-4 py-8">
+      <div className="relative bg-white/90 backdrop-blur-xl w-full max-w-lg rounded-2xl md:rounded-3xl p-6 md:p-8 shadow-[0_25px_60px_-10px_rgba(0,0,0,0.35)] border border-white/30">
+        <div className="absolute -inset-1 rounded-2xl md:rounded-3xl bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 opacity-30 blur-xl -z-10" />
 
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-extrabold text-gray-800">
+        <div className="text-center mb-6 md:mb-8">
+          <h1 className="text-3xl md:text-4xl font-extrabold text-gray-800">
             Create Account
           </h1>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-5">
-          <div className="flex gap-4">
-            <div className="w-1/2">
+        <form onSubmit={handleSubmit} className="space-y-4 md:space-y-5">
+          <div className="flex flex-col sm:flex-row gap-4">
+            <div className="w-full sm:w-1/2">
               <label className="text-sm text-gray-700 font-medium">
                 First Name
               </label>
@@ -102,11 +102,11 @@ export default function SignupPage() {
                 required
                 value={form.firstName}
                 onChange={handleChange}
-                className="w-full mt-1 px-4 py-2 rounded-xl bg-gray-100 border border-gray-300 focus:ring-2 focus:ring-indigo-400 focus:bg-white outline-none transition"
+                className="w-full mt-1 px-3 py-2 md:px-4 md:py-2 rounded-xl bg-gray-100 border border-gray-300 focus:ring-2 focus:ring-indigo-400 focus:bg-white outline-none transition"
               />
             </div>
 
-            <div className="w-1/2">
+            <div className="w-full sm:w-1/2">
               <label className="text-sm text-gray-700 font-medium">
                 Last Name
               </label>
@@ -116,7 +116,7 @@ export default function SignupPage() {
                 required
                 value={form.lastName}
                 onChange={handleChange}
-                className="w-full mt-1 px-4 py-2 rounded-xl bg-gray-100 border border-gray-300 focus:ring-2 focus:ring-indigo-400 focus:bg-white outline-none transition"
+                className="w-full mt-1 px-3 py-2 md:px-4 md:py-2 rounded-xl bg-gray-100 border border-gray-300 focus:ring-2 focus:ring-indigo-400 focus:bg-white outline-none transition"
               />
             </div>
           </div>
@@ -129,7 +129,7 @@ export default function SignupPage() {
               required
               value={form.email}
               onChange={handleChange}
-              className="w-full mt-1 px-4 py-2 rounded-xl bg-gray-100 border border-gray-300 focus:ring-2 focus:ring-indigo-400 focus:bg-white outline-none transition"
+              className="w-full mt-1 px-3 py-2 md:px-4 md:py-2 rounded-xl bg-gray-100 border border-gray-300 focus:ring-2 focus:ring-indigo-400 focus:bg-white outline-none transition"
             />
           </div>
 
@@ -141,7 +141,7 @@ export default function SignupPage() {
               required
               value={form.password}
               onChange={handleChange}
-              className="w-full mt-1 px-4 py-2 rounded-xl bg-gray-100 border border-gray-300 focus:ring-2 focus:ring-indigo-400 focus:bg-white outline-none transition"
+              className="w-full mt-1 px-3 py-2 md:px-4 md:py-2 rounded-xl bg-gray-100 border border-gray-300 focus:ring-2 focus:ring-indigo-400 focus:bg-white outline-none transition"
             />
           </div>
 
@@ -151,7 +151,7 @@ export default function SignupPage() {
               name="role"
               value={form.role}
               onChange={handleChange}
-              className="w-full mt-1 px-4 py-2 rounded-xl bg-gray-100 border border-gray-300 focus:ring-2 focus:ring-indigo-400 outline-none transition"
+              className="w-full mt-1 px-3 py-2 md:px-4 md:py-2 rounded-xl bg-gray-100 border border-gray-300 focus:ring-2 focus:ring-indigo-400 outline-none transition"
             >
               <option value="customer">Customer</option>
               <option value="vendor">Vendor</option>
@@ -162,7 +162,7 @@ export default function SignupPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full mt-2 bg-linear-to-r from-indigo-600 to-purple-600 text-white py-3 rounded-xl font-semibold shadow-lg hover:shadow-indigo-500/50 transition disabled:opacity-50"
+            className="w-full mt-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-3 rounded-xl font-semibold shadow-lg hover:shadow-indigo-500/50 transition disabled:opacity-50"
           >
             {loading ? "Creating..." : "Create Account"}
           </button>
@@ -180,4 +180,4 @@ export default function SignupPage() {
       </div>
     </section>
   );
-}   
+}

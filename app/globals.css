@@ -24,3 +24,65 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.sidebar-hidden {
+  @apply hidden;
+}
+
+.sidebar-visible {
+  @apply block;
+}
+
+@media (max-width: 768px) {
+  .sidebar-toggle {
+    @apply block md:hidden;
+  }
+  
+  .main-content-full {
+    @apply p-4;
+  }
+  
+  .main-content-shifted {
+    @apply ml-0;
+  }
+  
+  .modal-responsive {
+    @apply mx-4 my-8 max-w-full;
+  }
+}
+
+@media (max-width: 640px) {
+  .text-responsive-h1 {
+    @apply text-2xl;
+  }
+  
+  .text-responsive-h2 {
+    @apply text-xl;
+  }
+  
+  .p-responsive {
+    @apply px-2;
+  }
+  
+  .grid-responsive {
+    @apply grid-cols-1 gap-4;
+  }
+  
+  .card-responsive {
+    @apply w-full;
+  }
+}
+
+@media (max-width: 480px) {
+  .btn-responsive {
+    @apply w-full py-3 text-sm;
+  }
+  
+  .input-responsive {
+    @apply w-full text-sm px-3 py-2;
+  }
+  
+  .table-responsive {
+    @apply block overflow-x-auto;
+  }
+}

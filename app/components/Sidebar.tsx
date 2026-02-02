@@ -35,7 +35,7 @@ export default function Sidebar({ isOpen, setIsOpen }: { isOpen?: boolean; setIs
       case 'vendor':
         return [
           { href: '/Vendor/dashboard', icon: Home, label: 'Home' },
-          { href: '/products', icon: ShoppingCart, label: 'Products' },
+          { href: '/Vendor/products', icon: ShoppingCart, label: 'My Products' },
           { href: '/Vendor/orders', icon: FileText, label: 'Orders' },
         ];
       case 'customer':

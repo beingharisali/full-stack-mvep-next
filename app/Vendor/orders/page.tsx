@@ -5,7 +5,7 @@ import Navbar from '@/app/components/Navbar';
 import Sidebar from '@/app/components/Sidebar';
 import ProtectedRoute from '../../../shared/ProtectedRoute';
 import { useAuth } from '../../../context/AuthContext';
-import { getAllOrdersEnhanced, updateOrderStatusEnhanced, OrderEnhanced } from '../../../services/order.api';
+import { getVendorOrders, updateOrderStatusEnhanced, OrderEnhanced } from '../../../services/order.api';
 
 interface OrderDisplay {
   _id: string;
@@ -45,7 +45,7 @@ export default function VendorOrdersPage() {
     try {
       setLoading(true);
       
-      const response = await getAllOrdersEnhanced();
+      const response = await getVendorOrders();
       
       const transformedOrders: OrderDisplay[] = response.orders.map(order => ({
         _id: order._id,
@@ -133,7 +133,7 @@ export default function VendorOrdersPage() {
           <Sidebar />
           <main className="flex-1 p-6">
             <div className="max-w-7xl mx-auto">
-              <h1 className="text-3xl font-bold text-gray-800 mb-6">My Orders</h1>
+              <h1 className="text-3xl font-bold text-gray-800 mb-6">Orders Containing My Products</h1>
               
               <div className="bg-white rounded-lg shadow-md p-6 mb-6">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -142,7 +142,7 @@ export default function VendorOrdersPage() {
                       type="text"
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      placeholder="Search orders by customer or ID..."
+                      placeholder="Search orders by customer or order ID..."
                       className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
@@ -267,7 +267,7 @@ export default function VendorOrdersPage() {
                   {filteredOrders.length === 0 && !loading && (
                     <div className="text-center py-12">
                       <p className="text-gray-500 text-lg">No orders found</p>
-                      <p className="text-gray-400">Try adjusting your search or filter criteria</p>
+                      <p className="text-gray-400">No customers have purchased your products yet</p>
                     </div>
                   )}
                 </div>

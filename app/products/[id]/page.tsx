@@ -6,18 +6,22 @@ import { useParams, useRouter } from "next/navigation";
 import Navbar from "@/app/components/Navbar";
 import Sidebar from "@/app/components/Sidebar";
 import ProtectedRoute from "../../../shared/ProtectedRoute";
-import { Product, getProductById } from "../../../../full-stack-mvep-next/services/product.api"; 
+import { Product, getProductById } from "../../../services/product.api";
 import { useCart } from "../../../context/CartContext";
+import { useAuth } from "../../../context/AuthContext";
 import toast from "react-hot-toast";
 
 export default function ProductDetailPage() {
   const { id } = useParams();
   const router = useRouter();
+  const { user } = useAuth();
 
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  
+  const canAddToCart = user?.role === 'customer';
 
   useEffect(() => {
     if (id) fetchProduct();
@@ -121,32 +125,40 @@ export default function ProductDetailPage() {
                   {product.description || "No description"}
                 </p>
 
-                <div className="mt-6 flex items-center gap-4">
-                  <button
-                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="px-3 py-1 border"
-                  >
-                    -
-                  </button>
-                  <span>{quantity}</span>
-                  <button
-                    onClick={() =>
-                      setQuantity(Math.min(product.stock, quantity + 1))
-                    }
-                    className="px-3 py-1 border"
-                  >
-                    +
-                  </button>
-                </div>
+                {canAddToCart && (
+                  <div className="mt-6 flex items-center gap-4">
+                    <button
+                      onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                      className="px-3 py-1 border"
+                    >
+                      -
+                    </button>
+                    <span>{quantity}</span>
+                    <button
+                      onClick={() =>
+                        setQuantity(Math.min(product.stock, quantity + 1))
+                      }
+                      className="px-3 py-1 border"
+                    >
+                      +
+                    </button>
+                  </div>
+                )}
 
                 <div className="mt-6 flex gap-4">
-                  <button
-                    onClick={handleAddToCart}
-                    disabled={product.stock <= 0}
-                    className="px-6 py-3 bg-blue-600 text-white rounded disabled:bg-gray-400"
-                  >
-                    Add to Cart
-                  </button>
+                  {canAddToCart ? (
+                    <button
+                      onClick={handleAddToCart}
+                      disabled={product.stock <= 0}
+                      className="px-6 py-3 bg-blue-600 text-white rounded disabled:bg-gray-400"
+                    >
+                      Add to Cart
+                    </button>
+                  ) : (
+                    <div className="px-6 py-3 bg-gray-100 text-gray-600 rounded">
+                      Only customers can purchase products
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

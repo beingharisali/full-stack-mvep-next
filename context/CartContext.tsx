@@ -8,6 +8,7 @@ import {
   updateCartItem as updateCartItemAPI, 
   clearCart as clearCartAPI 
 } from '../services/cart.api';
+import { useAuth } from './AuthContext';
 import toast from 'react-hot-toast';
 
 interface CartItem {
@@ -152,6 +153,7 @@ interface CartProviderProps {
 
 export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   const [cart, dispatch] = useReducer(cartReducer, initialState);
+  const { user } = useAuth();
 
   const loadCart = async () => {
     try {
@@ -175,6 +177,11 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   }, []);
 
   const addToCart = async (productId: string, quantity: number) => {
+    if (user?.role !== 'customer') {
+      toast.error('Only customers can add items to cart');
+      return;
+    }
+    
     try {
       dispatch({ type: 'SET_LOADING', payload: { loading: true } });
       const result = await addToCartAPI(productId, quantity);

@@ -177,3 +177,8 @@ export async function cancelOrder(orderId: string): Promise<{ msg: string; order
   const res = await http.put(`/order/update-status/${orderId}`, { status: 'cancelled' });
   return res.data;
 }
+
+export async function getVendorOrders(): Promise<OrderSummary> {
+  const res = await http.get("/order/vendor-orders");
+  return res.data;
+}

@@ -2,6 +2,7 @@
 
 import { Product } from '../../services/product.api';
 import { useCart } from '../../context/CartContext';
+import { useAuth } from '../../context/AuthContext';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
@@ -19,8 +20,11 @@ const ProductCard: React.FC<ProductCardProps> = ({
 }) => {
   const router = useRouter();
   const { addToCart } = useCart();
+  const { user } = useAuth();
   const [quantity, setQuantity] = useState(1);
   const [isAdding, setIsAdding] = useState(false);
+  
+  const canAddToCart = user?.role === 'customer' && showAddToCart;
 
   const handleViewDetails = () => {
     router.push(`/products/${product._id}`);
@@ -89,7 +93,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           </div>
         )}
         
-        {showAddToCart && product.isActive && product.stock > 0 && (
+        {canAddToCart && product.isActive && product.stock > 0 && (
           <div className="mt-4 flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
             <div className="flex items-center border rounded-md">
               <button 
@@ -126,6 +130,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
             >
               {isAdding ? 'Adding...' : 'Add to Cart'}
             </button>
+          </div>
+        )}
+        
+        {!canAddToCart && product.isActive && product.stock > 0 && (
+          <div className="mt-4 p-2 bg-gray-100 rounded text-center text-sm text-gray-600">
+            Only customers can purchase products
           </div>
         )}
       </div>

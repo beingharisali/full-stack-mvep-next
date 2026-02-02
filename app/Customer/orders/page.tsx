@@ -209,9 +209,9 @@ const OrdersPage: React.FC = () => {
                         <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                           Total Amount
                         </th>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        {/* <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                           Actions
-                        </th>
+                        </th> */}
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
@@ -250,7 +250,7 @@ const OrdersPage: React.FC = () => {
                             ${order.totalAmount.toFixed(2)}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                            <div className="flex flex-col space-y-2">
+                            {/* <div className="flex flex-col space-y-2">
                               <button 
                                 onClick={() => handleViewDetails(order._id)}
                                 className="text-indigo-600 hover:text-indigo-900 text-left"
@@ -264,17 +264,17 @@ const OrdersPage: React.FC = () => {
                                 className={`text-xs rounded px-2 py-1 ${
                                   getStatusOptions(order).find(opt => opt.value === order.status)?.color || 'bg-gray-100 text-gray-800'
                                 }`}
-                              >
-                                {getStatusOptions(order).map(option => (
+                              > 
+                                 {getStatusOptions(order).map(option => (
                                   <option key={option.value} value={option.value}>
                                     {option.label}
                                   </option>
                                 ))}
-                              </select>
+                              </select> 
                               {updatingOrderId === order._id && (
                                 <span className="text-xs text-gray-500">Updating...</span>
                               )}
-                            </div>
+                            </div> */}
                           </td>
                         </tr>
                       ))}

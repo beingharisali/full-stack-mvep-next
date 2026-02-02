@@ -160,7 +160,7 @@ const OrdersPage: React.FC = () => {
                         </th>
                         <th scope="col" className="px-3 sm:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                           Actions
-                        </th>
+                        </th> */}
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
@@ -213,17 +213,17 @@ const OrdersPage: React.FC = () => {
                                 className={`text-[10px] sm:text-xs rounded px-1.5 py-0.5 sm:px-2 sm:py-1 ${
                                   getStatusOptions(order).find(opt => opt.value === order.status)?.color || 'bg-gray-100 text-gray-800'
                                 }`}
-                              >
-                                {getStatusOptions(order).map(option => (
+                              > 
+                                 {getStatusOptions(order).map(option => (
                                   <option key={option.value} value={option.value}>
                                     {option.label}
                                   </option>
                                 ))}
-                              </select>
+                              </select> 
                               {updatingOrderId === order._id && (
                                 <span className="text-[9px] sm:text-xs text-gray-500">Updating...</span>
                               )}
-                            </div>
+                            </div> */}
                           </td>
                         </tr>
                       ))}

@@ -116,12 +116,12 @@ const CustomerDashboard: React.FC = () => {
         <Navbar />
         <div className="flex">
           <Sidebar />
-          <main className="flex-1 p-6">
+          <main className="flex-1 p-4 sm:p-6">
             <div className="max-w-7xl mx-auto">
-              <h1 className="text-3xl font-bold text-gray-800 mb-2">Welcome Back!</h1>
-              <p className="text-gray-600 mb-8">Discover our latest products and deals</p>
+              <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-2">Welcome Back!</h1>
+              <p className="text-gray-600 mb-6 sm:mb-8 text-sm sm:text-base">Discover our latest products and deals</p>
               
-              <div className="mb-8">
+              <div className="mb-6 sm:mb-8">
                 <div className="relative">
                   <input
                     type="text"
@@ -135,61 +135,50 @@ const CustomerDashboard: React.FC = () => {
                       }
                     }}
                     placeholder="Search products..."
-                    className="w-full px-4 py-3 pl-12 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 pl-10 sm:pl-12 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-base sm:text-lg"
                   />
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <svg className="h-6 w-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <svg className="h-5 w-5 sm:h-6 sm:w-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                     </svg>
                   </div>
                 </div>
               </div>
               
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">
-                <div className="bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg shadow p-6 text-white w-100">
-                  <h2 className="text-xl font-semibold mb-2">My Orders</h2>
-                  <p className="text-blue-100">Track your recent orders</p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-10">
+                <div className="bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg shadow p-4 sm:p-6 text-white">
+                  <h2 className="text-lg sm:text-xl font-semibold mb-2">My Orders</h2>
+                  <p className="text-blue-100 text-sm sm:text-base">Track your recent orders</p>
                   <button 
                     onClick={() => router.push('/Customer/orders')}
-                    className="mt-4 px-4 py-2 bg-white text-blue-600 rounded-md hover:bg-blue-50 transition-colors"
+                    className="mt-4 px-3 sm:px-4 py-2 bg-white text-blue-600 rounded-md hover:bg-blue-50 transition-colors text-sm sm:text-base"
                   >
                     View Orders
                   </button>
                 </div>
                 
-                {/* <div className="bg-gradient-to-r from-green-500 to-green-600 rounded-lg shadow p-6 text-white">
-                  <h2 className="text-xl font-semibold mb-2">My Profile</h2>
-                  <p className="text-green-100">Manage your account details</p>
-                  <button 
-                    className="mt-4 px-4 py-2 bg-white text-green-600 rounded-md hover:bg-green-50 transition-colors"
-                    onClick={() => toast.info('Profile page coming soon!')
-                  >
-                    Edit Profile
-                  </button>
-                </div> */}
-                
-                <div className="bg-gradient-to-r from-purple-500 to-purple-600 rounded-lg shadow p-6 text-white w-100">
-                  <h2 className="text-xl font-semibold mb-2">Shopping Cart</h2>
-                  <p className="text-purple-100">Review items in your cart</p>
+                <div className="bg-gradient-to-r from-purple-500 to-purple-600 rounded-lg shadow p-4 sm:p-6 text-white">
+                  <h2 className="text-lg sm:text-xl font-semibold mb-2">Shopping Cart</h2>
+                  <p className="text-purple-100 text-sm sm:text-base">Review items in your cart</p>
                   <button 
                     onClick={() => router.push('/cart')}
-                    className="mt-4 px-4 py-2 bg-white text-purple-600 rounded-md hover:bg-purple-50 transition-colors"
+                    className="mt-4 px-3 sm:px-4 py-2 bg-white text-purple-600 rounded-md hover:bg-purple-50 transition-colors text-sm sm:text-base"
                   >
                     View Cart
                   </button>
                 </div>
               </div>
               
-              <div className="mb-8">
-                <div className="flex justify-between items-center mb-6">
-                  <h2 className="text-2xl font-bold text-gray-800">Discover Products</h2>
-                  <div className="flex space-x-2">
+              <div className="mb-6 sm:mb-8">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-0 mb-4 sm:mb-6">
+                  <h2 className="text-xl sm:text-2xl font-bold text-gray-800">Discover Products</h2>
+                  <div className="flex flex-wrap gap-2">
                     <button 
                       onClick={() => {
                         setActiveTab('all');
                         setCurrentPage(1); 
                       }}
-                      className={`px-4 py-2 rounded-md ${
+                      className={`px-3 py-2 sm:px-4 sm:py-2 rounded-md text-sm sm:text-base ${
                         activeTab === 'all' 
                           ? 'bg-blue-600 text-white' 
                           : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
@@ -202,7 +191,7 @@ const CustomerDashboard: React.FC = () => {
                         setActiveTab('featured');
                         setCurrentPage(1); 
                       }}
-                      className={`px-4 py-2 rounded-md ${
+                      className={`px-3 py-2 sm:px-4 sm:py-2 rounded-md text-sm sm:text-base ${
                         activeTab === 'featured' 
                           ? 'bg-blue-600 text-white' 
                           : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
@@ -212,7 +201,7 @@ const CustomerDashboard: React.FC = () => {
                     </button>
                     <button 
                       onClick={() => router.push('/Customer/products')}
-                      className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
+                      className="px-3 py-2 sm:px-4 sm:py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 text-sm sm:text-base"
                     >
                       Browse All
                     </button>

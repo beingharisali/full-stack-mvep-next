@@ -82,44 +82,44 @@ export default function LoginPage() {
 
   return (
     <section className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-600 to-purple-600 px-4 py-8">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 md:p-8">
-        <div className="text-center mb-8">
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-800">Login</h1>
-          <p className="text-gray-500 mt-2">Welcome back! Please login</p>
+      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-4 sm:p-6 md:p-8">
+        <div className="text-center mb-6 sm:mb-8">
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800">Login</h1>
+          <p className="text-gray-500 mt-2 text-sm sm:text-base">Welcome back! Please login</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-5">
+        <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
           <div>
-            <label className="text-sm text-gray-600">Email</label>
+            <label className="text-xs sm:text-sm text-gray-600">Email</label>
             <input
               type="email"
               name="email"
               required
               value={form.email}
               onChange={handleChange}
-              className="w-full mt-1 px-4 py-2 md:py-3 rounded-lg bg-gray-100 border border-gray-300 outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full mt-1 px-3 py-2 sm:px-4 sm:py-2 md:py-3 rounded-lg bg-gray-100 border border-gray-300 outline-none focus:ring-2 focus:ring-indigo-500 text-sm sm:text-base"
             />
           </div>
 
           <div>
-            <label className="text-sm text-gray-600">Password</label>
+            <label className="text-xs sm:text-sm text-gray-600">Password</label>
             <input
               type="password"
               name="password"
               required
               value={form.password}
               onChange={handleChange}
-              className="w-full mt-1 px-4 py-2 md:py-3 rounded-lg bg-gray-100 border border-gray-300 outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full mt-1 px-3 py-2 sm:px-4 sm:py-2 md:py-3 rounded-lg bg-gray-100 border border-gray-300 outline-none focus:ring-2 focus:ring-indigo-500 text-sm sm:text-base"
             />
           </div>
 
           <div>
-            <label className="text-sm text-gray-600">Role</label>
+            <label className="text-xs sm:text-sm text-gray-600">Role</label>
             <select
               name="role"
               value={form.role}
               onChange={handleChange}
-              className="w-full mt-1 px-4 py-2 md:py-3 rounded-lg bg-gray-100 border border-gray-300 outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full mt-1 px-3 py-2 sm:px-4 sm:py-2 md:py-3 rounded-lg bg-gray-100 border border-gray-300 outline-none focus:ring-2 focus:ring-indigo-500 text-sm sm:text-base"
             >
               <option value="customer">Customer</option>
               <option value="vendor">Vendor</option>
@@ -130,7 +130,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loginLoading}
-            className="w-full bg-indigo-600 text-white py-2 md:py-3 rounded-lg font-semibold disabled:opacity-50 hover:bg-indigo-700 transition-colors"
+            className="w-full bg-indigo-600 text-white py-2 sm:py-2 md:py-3 rounded-lg font-semibold disabled:opacity-50 hover:bg-indigo-700 transition-colors text-sm sm:text-base"
           >
             {loginLoading ? "Logging in..." : "Login"}
           </button>

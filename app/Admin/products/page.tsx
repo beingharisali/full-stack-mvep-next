@@ -70,7 +70,7 @@ export default function ProductManagementPage() {
         params.sort = sortOrder === 'asc' ? sortBy : `-${sortBy}`;
       }
       
-      const response = await http.get('/products/admin', { params });
+      const response = await http.get('/products/all', { params });
       
       setProducts(response.data.products);
       setTotalPages(response.data.totalPages);
@@ -85,7 +85,7 @@ export default function ProductManagementPage() {
   const handleDeleteProduct = async (productId: string) => {
     if (window.confirm('Are you sure you want to delete this product?')) {
       try {
-        await http.delete(`/products/admin/${productId}`);
+        await http.delete(`/products/${productId}`);
         if (products.length === 1 && currentPage > 1) {
           setCurrentPage(prev => prev - 1);
         } else {
@@ -172,10 +172,10 @@ export default function ProductManagementPage() {
     
     try {
       if (isEditing && currentProduct._id) {
-        await http.patch(`/products/admin/${currentProduct._id}`, productData as any);
+        await http.patch(`/products/${currentProduct._id}`, productData as any);
         toast.success('Product updated successfully!');
       } else {
-        await http.post('/products/admin', productData as any);
+        await http.post('/products', productData as any);
         toast.success('Product created successfully!');
       }
       
@@ -199,7 +199,7 @@ export default function ProductManagementPage() {
           <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
           <main className={`flex-1 p-4 md:p-6 transition-all duration-300 ${sidebarOpen ? 'md:ml-0' : ''}`}>
             <div className="max-w-7xl mx-auto">
-              <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6">Product Management</h1>
+              <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 mb-4 sm:mb-6">Product Management</h1>
               
               <div className="bg-white rounded-lg shadow-md p-4 mb-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
@@ -432,8 +432,8 @@ export default function ProductManagementPage() {
               </div>
               
               {loading ? (
-                <div className="flex justify-center items-center h-64">
-                  <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+                <div className="flex justify-center items-center h-48 sm:h-64">
+                  <div className="animate-spin rounded-full h-8 w-8 sm:h-12 sm:w-12 border-t-2 border-b-2 border-blue-500"></div>
                 </div>
               ) : (
                 <div className="bg-white rounded-lg shadow-md overflow-hidden">
@@ -529,9 +529,9 @@ export default function ProductManagementPage() {
                   </div>
                   
                   {displayedProducts.length === 0 && !loading && (
-                    <div className="text-center py-12">
-                      <p className="text-gray-500 text-lg">No products found</p>
-                      <p className="text-gray-400">Try adjusting your search criteria</p>
+                    <div className="text-center py-8 sm:py-12">
+                      <p className="text-gray-500 text-base sm:text-lg">No products found</p>
+                      <p className="text-gray-400 text-sm sm:text-base px-4">Try adjusting your search criteria</p>
                     </div>
                   )}
                   
@@ -590,36 +590,36 @@ export default function ProductManagementPage() {
         </div>
         
         {showModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-lg p-4 md:p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto modal-responsive">
-              <h2 className="text-xl font-bold mb-4">{isEditing ? 'Edit Product' : 'Add New Product'}</h2>
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+            <div className="bg-white rounded-lg p-3 sm:p-4 md:p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto modal-responsive">
+              <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">{isEditing ? 'Edit Product' : 'Add New Product'}</h2>
               
-              <div className="space-y-4">
+              <div className="space-y-3 sm:space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Name</label>
                   <input
                     type="text"
                     value={currentProduct?.name || ''}
                     onChange={(e) => setCurrentProduct({...currentProduct!, name: e.target.value})}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-2 py-1.5 sm:px-3 sm:py-2 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="Product name"
                   />
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Description</label>
                   <textarea
                     value={currentProduct?.description || ''}
                     onChange={(e) => setCurrentProduct({...currentProduct!, description: e.target.value})}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-2 py-1.5 sm:px-3 sm:py-2 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="Product description"
                     rows={3}
                   />
                 </div>
                 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Price</label>
+                    <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Price</label>
                     <input
                       type="number"
                       value={currentProduct?.price || ''}
@@ -630,58 +630,58 @@ export default function ProductManagementPage() {
                         }
                       }}
                       min="0"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-2 py-1.5 sm:px-3 sm:py-2 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                       placeholder="0.00"
                       step="0.01"
                     />
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Stock</label>
+                    <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Stock</label>
                     <input
                       type="number"
                       value={currentProduct?.stock || ''}
                       onChange={(e) => setCurrentProduct({...currentProduct!, stock: parseInt(e.target.value) || 0})}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-2 py-1.5 sm:px-3 sm:py-2 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                       placeholder="0"
                     />
                   </div>
                 </div>
                 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                    <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Category</label>
                     <input
                       type="text"
                       value={currentProduct?.category || ''}
                       onChange={(e) => setCurrentProduct({...currentProduct!, category: e.target.value})}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-2 py-1.5 sm:px-3 sm:py-2 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                       placeholder="Category"
                     />
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Brand</label>
+                    <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Brand</label>
                     <input
                       type="text"
                       value={currentProduct?.brand || ''}
                       onChange={(e) => setCurrentProduct({...currentProduct!, brand: e.target.value})}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-2 py-1.5 sm:px-3 sm:py-2 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                       placeholder="Brand"
                     />
                   </div>
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Image URL (Optional)</label>
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Image URL (Optional)</label>
                   <input
                     type="text"
                     value={currentProduct?.images?.[0] || ''}
                     onChange={(e) => setCurrentProduct({...currentProduct!, images: [e.target.value]})}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-2 py-1.5 sm:px-3 sm:py-2 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="https://example.com/image.jpg"
                   />
-                  <p className="text-xs text-gray-500 mt-1">Enter any valid image URL (optional)</p>
+                  <p className="text-[10px] sm:text-xs text-gray-500 mt-1">Enter any valid image URL (optional)</p>
                 </div>
                 
                 <div className="flex items-center">
@@ -689,23 +689,23 @@ export default function ProductManagementPage() {
                     type="checkbox"
                     checked={currentProduct?.isActive ?? true}
                     onChange={(e) => setCurrentProduct({...currentProduct!, isActive: e.target.checked})}
-                    className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                    className="h-3 w-3 sm:h-4 sm:w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                   />
-                  <label className="ml-2 block text-sm text-gray-700">Active</label>
+                  <label className="ml-2 block text-xs sm:text-sm text-gray-700">Active</label>
                 </div>
               </div>
               
-              <div className="mt-6 flex flex-col-reverse sm:flex-row sm:justify-end space-y-3 sm:space-y-0 sm:space-x-3">
+              <div className="mt-4 sm:mt-6 flex flex-col-reverse sm:flex-row sm:justify-end space-y-2 sm:space-y-0 sm:space-x-3">
                 <button
                   onClick={() => setShowModal(false)}
-                  className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 w-full sm:w-auto"
+                  className="px-3 py-2 sm:px-4 sm:py-2 text-sm sm:text-base bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 w-full sm:w-auto"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleSaveProduct}
                   disabled={!currentProduct?.name?.trim() || currentProduct.price === undefined || currentProduct.price < 0 || currentProduct.stock === undefined || currentProduct.stock < 0}
-                  className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed w-full sm:w-auto"
+                  className="px-3 py-2 sm:px-4 sm:py-2 text-sm sm:text-base bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed w-full sm:w-auto"
                 >
                   {isEditing ? 'Update Product' : 'Create Product'}
                 </button>

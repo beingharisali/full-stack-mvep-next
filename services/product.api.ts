@@ -41,7 +41,7 @@ export async function getProducts(
     limit?: number;
   }
 ): Promise<ProductListResponse> {
-  const response = await http.get("/products", { params });
+  const response = await http.get("/products/all", { params });
   return response.data;
 }
 

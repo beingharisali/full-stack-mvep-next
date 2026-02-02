@@ -124,11 +124,11 @@ const CustomerProductsPage: React.FC = () => {
         <Navbar />
         <div className="flex">
           <Sidebar />
-          <main className="flex-1 p-6">
+          <main className="flex-1 p-4 sm:p-6">
             <div className="max-w-7xl mx-auto">
-              <h1 className="text-3xl font-bold text-gray-800 mb-6">Shop Products</h1>
+              <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-4 sm:mb-6">Shop Products</h1>
               
-              <div className="mb-6">
+              <div className="mb-4 sm:mb-6">
                 <div className="relative">
                   <input
                     type="text"
@@ -138,20 +138,20 @@ const CustomerProductsPage: React.FC = () => {
                       setCurrentPage(1); 
                     }}
                     placeholder="Search products..."
-                    className="w-full px-4 py-3 pl-12 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 pl-10 sm:pl-12 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-base sm:text-lg"
                   />
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <svg className="h-6 w-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <svg className="h-5 w-5 sm:h-6 sm:w-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                     </svg>
                   </div>
                 </div>
               </div>
               
-              <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-                <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
+              <div className="bg-white rounded-lg shadow-md p-4 sm:p-6 mb-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 gap-3 sm:gap-4">
                   <div>
-                    <label htmlFor="search" className="block text-sm font-medium text-gray-700 mb-1">
+                    <label htmlFor="search" className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
                       Search
                     </label>
                     <input
@@ -163,7 +163,7 @@ const CustomerProductsPage: React.FC = () => {
                         setCurrentPage(1); 
                       }}
                       placeholder="Search products..."
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-2 py-1.5 sm:px-3 sm:py-2 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
                   
@@ -332,28 +332,28 @@ const CustomerProductsPage: React.FC = () => {
                   </div>
                 </div>
                 
-                <div className="mt-4 flex justify-between">
+                <div className="mt-3 sm:mt-4 flex flex-col sm:flex-row justify-between gap-2">
                   <button
                     onClick={handleClearFilters}
-                    className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
+                    className="px-3 py-2 sm:px-4 sm:py-2 text-sm bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
                   >
                     Clear Filters
                   </button>
-                  <div className="text-sm text-gray-600">
+                  <div className="text-xs sm:text-sm text-gray-600">
                     Showing {((currentPage - 1) * itemsPerPage) + 1}-{Math.min(currentPage * itemsPerPage, totalProducts)} of {totalProducts} products
                   </div>
                 </div>
               </div>
               
               {loading && (
-                <div className="flex justify-center items-center h-64">
-                  <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+                <div className="flex justify-center items-center h-48 sm:h-64">
+                  <div className="animate-spin rounded-full h-8 w-8 sm:h-12 sm:w-12 border-t-2 border-b-2 border-blue-500"></div>
                 </div>
               )}
               
               {!loading && (
                 <>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
                     {products.map((product) => (
                       <ProductCard 
                         key={product._id} 
@@ -364,19 +364,19 @@ const CustomerProductsPage: React.FC = () => {
                   </div>
                   
                   {products.length === 0 && (
-                    <div className="text-center py-12">
-                      <p className="text-gray-500 text-lg">No products found</p>
-                      <p className="text-gray-400">Try adjusting your search or filter criteria</p>
+                    <div className="text-center py-8 sm:py-12">
+                      <p className="text-gray-500 text-base sm:text-lg">No products found</p>
+                      <p className="text-gray-400 text-sm sm:text-base px-4">Try adjusting your search or filter criteria</p>
                     </div>
                   )}
                   
                   {totalPages > 1 && (
-                    <div className="mt-10 flex justify-center">
+                    <div className="mt-8 sm:mt-10 flex justify-center">
                       <nav className="inline-flex rounded-md shadow">
                         <button
                           onClick={() => handlePageChange(currentPage - 1)}
                           disabled={currentPage === 1}
-                          className={`px-4 py-2 rounded-l-md border border-gray-300 text-sm font-medium ${
+                          className={`px-3 py-2 sm:px-4 sm:py-2 rounded-l-md border border-gray-300 text-xs sm:text-sm font-medium ${
                             currentPage === 1 
                               ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
                               : 'bg-white text-gray-700 hover:bg-gray-50'
@@ -398,9 +398,9 @@ const CustomerProductsPage: React.FC = () => {
                             else pageNum = totalPages - 3 + i;
                           } else {
                             if (i === 0) pageNum = 1;
-                            else if (i === 1) return <span key="ellipsis1" className="px-4 py-2 border-t border-b border-gray-300 text-sm font-medium bg-white text-gray-700">...</span>;
+                            else if (i === 1) return <span key="ellipsis1" className="px-3 py-2 sm:px-4 sm:py-2 border-t border-b border-gray-300 text-xs sm:text-sm font-medium bg-white text-gray-700">...</span>;
                             else if (i === 2) pageNum = currentPage;
-                            else if (i === 3) return <span key="ellipsis2" className="px-4 py-2 border-t border-b border-gray-300 text-sm font-medium bg-white text-gray-700">...</span>;
+                            else if (i === 3) return <span key="ellipsis2" className="px-3 py-2 sm:px-4 sm:py-2 border-t border-b border-gray-300 text-xs sm:text-sm font-medium bg-white text-gray-700">...</span>;
                             else pageNum = totalPages;
                           }
                           
@@ -410,7 +410,7 @@ const CustomerProductsPage: React.FC = () => {
                             <button
                               key={pageNum}
                               onClick={() => handlePageChange(pageNum)}
-                              className={`px-4 py-2 border-t border-b border-gray-300 text-sm font-medium ${
+                              className={`px-3 py-2 sm:px-4 sm:py-2 border-t border-b border-gray-300 text-xs sm:text-sm font-medium ${
                                 currentPage === pageNum
                                   ? 'bg-blue-600 text-white'
                                   : 'bg-white text-gray-700 hover:bg-gray-50'
@@ -424,7 +424,7 @@ const CustomerProductsPage: React.FC = () => {
                         <button
                           onClick={() => handlePageChange(currentPage + 1)}
                           disabled={currentPage === totalPages}
-                          className={`px-4 py-2 rounded-r-md border border-gray-300 text-sm font-medium ${
+                          className={`px-3 py-2 sm:px-4 sm:py-2 rounded-r-md border border-gray-300 text-xs sm:text-sm font-medium ${
                             currentPage === totalPages 
                               ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
                               : 'bg-white text-gray-700 hover:bg-gray-50'

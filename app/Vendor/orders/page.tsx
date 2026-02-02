@@ -5,7 +5,7 @@ import Navbar from '@/app/components/Navbar';
 import Sidebar from '@/app/components/Sidebar';
 import ProtectedRoute from '../../../shared/ProtectedRoute';
 import { useAuth } from '../../../context/AuthContext';
-import { getVendorOrders, updateOrderStatusEnhanced, OrderEnhanced } from '../../../services/order.api';
+import { getVendorOrders, getAllOrdersForAdminOrVendor, updateOrderStatusEnhanced, OrderEnhanced } from '../../../services/order.api';
 
 interface OrderDisplay {
   _id: string;
@@ -45,7 +45,7 @@ export default function VendorOrdersPage() {
     try {
       setLoading(true);
       
-      const response = await getVendorOrders();
+      const response = await getAllOrdersForAdminOrVendor();
       
       const transformedOrders: OrderDisplay[] = response.orders.map(order => ({
         _id: order._id,
@@ -131,19 +131,19 @@ export default function VendorOrdersPage() {
         <Navbar />
         <div className="flex">
           <Sidebar />
-          <main className="flex-1 p-6">
+          <main className="flex-1 p-4 sm:p-6">
             <div className="max-w-7xl mx-auto">
-              <h1 className="text-3xl font-bold text-gray-800 mb-6">Orders Containing My Products</h1>
+              <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-4 sm:mb-6">Orders Containing My Products</h1>
               
-              <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="bg-white rounded-lg shadow-md p-4 sm:p-6 mb-6">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
                   <div>
                     <input
                       type="text"
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      placeholder="Search orders by customer or order ID..."
-                      className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      placeholder="Search orders..."
+                      className="w-full px-3 py-2 sm:px-4 sm:py-2 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
                   
@@ -151,7 +151,7 @@ export default function VendorOrdersPage() {
                     <select
                       value={statusFilter}
                       onChange={(e) => setStatusFilter(e.target.value)}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 sm:px-4 sm:py-2 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
                       <option value="all">All Statuses</option>
                       <option value="pending">Pending</option>
@@ -165,11 +165,11 @@ export default function VendorOrdersPage() {
                   <div className="flex space-x-2">
                     <button 
                       onClick={fetchOrders}
-                      className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                      className="flex-1 px-3 py-2 sm:px-4 sm:py-2 text-sm sm:text-base bg-blue-600 text-white rounded-md hover:bg-blue-700"
                     >
                       Refresh
                     </button>
-                    <button className="flex-1 px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
+                    <button className="flex-1 px-3 py-2 sm:px-4 sm:py-2 text-sm sm:text-base bg-green-600 text-white rounded-md hover:bg-green-700">
                       Export
                     </button>
                   </div>
@@ -177,33 +177,33 @@ export default function VendorOrdersPage() {
               </div>
               
               {loading ? (
-                <div className="flex justify-center items-center h-64">
-                  <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+                <div className="flex justify-center items-center h-48 sm:h-64">
+                  <div className="animate-spin rounded-full h-8 w-8 sm:h-12 sm:w-12 border-t-2 border-b-2 border-blue-500"></div>
                 </div>
               ) : (
-                <div className="bg-white rounded-lg shadow-md overflow-hidden">
+                <div className="bg-white rounded-lg shadow-md overflow-x-auto">
                   <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-gray-50">
                       <tr>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col" className="px-3 sm:px-6 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-medium text-gray-500 uppercase tracking-wider">
                           Order ID
                         </th>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col" className="px-3 sm:px-6 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-medium text-gray-500 uppercase tracking-wider">
                           Customer
                         </th>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col" className="px-3 sm:px-6 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-medium text-gray-500 uppercase tracking-wider">
                           Products
                         </th>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col" className="px-3 sm:px-6 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-medium text-gray-500 uppercase tracking-wider">
                           Total
                         </th>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col" className="px-3 sm:px-6 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-medium text-gray-500 uppercase tracking-wider">
                           Status
                         </th>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          Last Updated
+                        <th scope="col" className="px-3 sm:px-6 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Updated
                         </th>
-                        <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col" className="px-3 sm:px-6 py-2 sm:py-3 text-right text-[10px] sm:text-xs font-medium text-gray-500 uppercase tracking-wider">
                           Actions
                         </th>
                       </tr>
@@ -211,35 +211,35 @@ export default function VendorOrdersPage() {
                     <tbody className="bg-white divide-y divide-gray-200">
                       {filteredOrders.map((order) => (
                         <tr key={order._id} className="hover:bg-gray-50">
-                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                          <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm font-medium text-gray-900">
                             #{order._id.substring(0, 8)}
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="text-sm font-medium text-gray-900">
+                          <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
+                            <div className="text-xs sm:text-sm font-medium text-gray-900">
                               {order.customer.firstName} {order.customer.lastName}
                             </div>
-                            <div className="text-sm text-gray-500">
+                            <div className="text-[10px] sm:text-xs text-gray-500">
                               {order.customer.email}
                             </div>
                           </td>
-                          <td className="px-6 py-4">
-                            <div className="text-sm text-gray-900">
+                          <td className="px-3 sm:px-6 py-3 sm:py-4">
+                            <div className="text-xs sm:text-sm text-gray-900 max-w-[120px] sm:max-w-none truncate">
                               {order.products.map(p => p.name).join(', ')}
                             </div>
-                            <div className="text-sm text-gray-500">
+                            <div className="text-[10px] sm:text-xs text-gray-500">
                               {order.products.length} item(s)
                             </div>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                          <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm text-gray-900">
                             ${order.totalAmount.toFixed(2)}
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
+                          <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
                             <div className="flex flex-col space-y-1">
                               <select
                                 value={order.status}
                                 onChange={(e) => updateOrderStatus(order._id, e.target.value)}
                                 disabled={updatingOrderId === order._id}
-                                className={`px-2 py-1 text-xs rounded-full capitalize ${getStatusColor(order.status)}`}
+                                className={`px-1.5 py-0.5 sm:px-2 sm:py-1 text-[10px] sm:text-xs rounded-full capitalize ${getStatusColor(order.status)}`}
                               >
                                 <option value="pending">Pending</option>
                                 <option value="processing">Processing</option>
@@ -248,15 +248,15 @@ export default function VendorOrdersPage() {
                                 <option value="cancelled">Cancelled</option>
                               </select>
                               {order.statusInfo?.isRecent && (
-                                <span className="text-xs text-green-600">Recently updated</span>
+                                <span className="text-[9px] sm:text-xs text-green-600">Updated</span>
                               )}
                             </div>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                          <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-[10px] sm:text-xs text-gray-500">
                             {new Date(order.updatedAt).toLocaleDateString()}
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                            <button className="text-indigo-600 hover:text-indigo-900 mr-3">View</button>
+                          <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-right text-xs sm:text-sm font-medium">
+                            <button className="text-indigo-600 hover:text-indigo-900 mr-2 sm:mr-3">View</button>
                             <button className="text-gray-600 hover:text-gray-900">Edit</button>
                           </td>
                         </tr>
@@ -265,9 +265,9 @@ export default function VendorOrdersPage() {
                   </table>
                   
                   {filteredOrders.length === 0 && !loading && (
-                    <div className="text-center py-12">
-                      <p className="text-gray-500 text-lg">No orders found</p>
-                      <p className="text-gray-400">No customers have purchased your products yet</p>
+                    <div className="text-center py-8 sm:py-12">
+                      <p className="text-gray-500 text-base sm:text-lg">No orders found</p>
+                      <p className="text-gray-400 text-sm sm:text-base px-4">No customers have purchased your products yet</p>
                     </div>
                   )}
                 </div>

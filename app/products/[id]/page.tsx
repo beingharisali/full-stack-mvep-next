@@ -74,31 +74,31 @@ export default function ProductDetailPage() {
         <div className="flex">
           <Sidebar />
 
-          <main className="flex-1 p-6">
+          <main className="flex-1 p-4 sm:p-6">
             <button
               onClick={() => router.back()}
-              className="mb-4 text-blue-600"
+              className="mb-4 text-blue-600 text-sm sm:text-base"
             >
               ← Back
             </button>
 
-            <div className="bg-white p-6 rounded-lg shadow grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="bg-white p-4 sm:p-6 rounded-lg shadow grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
               
               <div>
                 <img
                   src={product.images?.[selectedImageIndex] || "/placeholder.png"}
                   alt={product.name}
-                  className="h-96 w-full object-contain bg-gray-100 rounded"
+                  className="h-64 sm:h-80 md:h-96 w-full object-contain bg-gray-100 rounded"
                 />
 
                 {product.images && product.images.length > 1 && (
-                  <div className="flex gap-2 mt-4">
+                  <div className="flex gap-2 mt-4 overflow-x-auto pb-2">
                     {product.images.map((img, i) => (
                       <Image
                         key={i}
                         src={img}
                         alt={`Product image ${i + 1}`}
-                        className={`h-16 w-16 object-cover border cursor-pointer ${
+                        className={`h-12 w-12 sm:h-16 sm:w-16 object-cover border cursor-pointer flex-shrink-0 ${
                           selectedImageIndex === i
                             ? "border-blue-500"
                             : "border-gray-300"
@@ -111,51 +111,51 @@ export default function ProductDetailPage() {
               </div>
 
               <div>
-                <h1 className="text-3xl font-bold">{product.name}</h1>
+                <h1 className="text-2xl sm:text-3xl font-bold">{product.name}</h1>
 
-                <p className="text-2xl text-blue-600 mt-2">
+                <p className="text-xl sm:text-2xl text-blue-600 mt-2">
                   Rs {product.price}
                 </p>
 
-                <p className="mt-2 text-sm text-gray-500">
+                <p className="mt-2 text-xs sm:text-sm text-gray-500">
                   Stock: {product.stock}
                 </p>
 
-                <p className="mt-4">
+                <p className="mt-4 text-sm sm:text-base">
                   {product.description || "No description"}
                 </p>
 
                 {canAddToCart && (
-                  <div className="mt-6 flex items-center gap-4">
+                  <div className="mt-6 flex items-center gap-3 sm:gap-4">
                     <button
                       onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                      className="px-3 py-1 border"
+                      className="px-3 py-1 border text-sm sm:text-base"
                     >
                       -
                     </button>
-                    <span>{quantity}</span>
+                    <span className="text-sm sm:text-base">{quantity}</span>
                     <button
                       onClick={() =>
                         setQuantity(Math.min(product.stock, quantity + 1))
                       }
-                      className="px-3 py-1 border"
+                      className="px-3 py-1 border text-sm sm:text-base"
                     >
                       +
                     </button>
                   </div>
                 )}
 
-                <div className="mt-6 flex gap-4">
+                <div className="mt-6">
                   {canAddToCart ? (
                     <button
                       onClick={handleAddToCart}
                       disabled={product.stock <= 0}
-                      className="px-6 py-3 bg-blue-600 text-white rounded disabled:bg-gray-400"
+                      className="w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-3 bg-blue-600 text-white rounded disabled:bg-gray-400 text-sm sm:text-base"
                     >
                       Add to Cart
                     </button>
                   ) : (
-                    <div className="px-6 py-3 bg-gray-100 text-gray-600 rounded">
+                    <div className="w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-3 bg-gray-100 text-gray-600 rounded text-center text-sm sm:text-base">
                       Only customers can purchase products
                     </div>
                   )}

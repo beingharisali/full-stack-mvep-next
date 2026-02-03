@@ -70,8 +70,12 @@ const CustomerProductsPage: React.FC = () => {
       if (brandFilter) params.brand = brandFilter;
       if (priceRange.min) params.minPrice = parseFloat(priceRange.min);
       if (priceRange.max) params.maxPrice = parseFloat(priceRange.max);
-      if (stockRange.min) params.minStock = parseInt(stockRange.min);
-      if (stockRange.max) params.maxStock = parseInt(stockRange.max);
+      const numericFilters = [];
+      if (stockRange.min) numericFilters.push(`stock>=${parseInt(stockRange.min)}`);
+      if (stockRange.max) numericFilters.push(`stock<=${parseInt(stockRange.max)}`);
+      if (numericFilters.length > 0) {
+        params.numericFilters = numericFilters.join(',');
+      }
       if (statusFilter) params.isActive = statusFilter === 'active';
 
       const response: ProductListResponse = await getProducts(params);

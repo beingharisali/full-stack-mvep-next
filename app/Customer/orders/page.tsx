@@ -35,11 +35,10 @@ const OrdersPage: React.FC = () => {
   };
 
   const handleStatusUpdate = async (orderId: string, newStatus: string) => {
-   
     setError('Only admins and vendors can change order status');
+    setTimeout(() => setError(null), 3000); 
     return;
   };
-
 
   const filteredOrders = orders.filter(order => {
     return statusFilter === 'all' || order.status === statusFilter;
@@ -156,11 +155,14 @@ const OrdersPage: React.FC = () => {
                           Status
                         </th>
                         <th scope="col" className="px-3 sm:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Payment
+                        </th>
+                        <th scope="col" className="px-3 sm:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                           Total
                         </th>
                         <th scope="col" className="px-3 sm:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                           Actions
-                        </th> */}
+                        </th>
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
@@ -195,6 +197,24 @@ const OrdersPage: React.FC = () => {
                               )}
                             </div>
                           </td>
+                          <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
+                            <div className="flex flex-col space-y-1">
+                              <span className={`px-1.5 py-0.5 sm:px-2 sm:py-1 text-[10px] sm:text-xs rounded-full capitalize ${
+                                order.paymentMethod === 'stripe' ? 'bg-blue-100 text-blue-800' :
+                                order.paymentMethod === 'braintree' ? 'bg-purple-100 text-purple-800' :
+                                order.paymentMethod === 'paypal' ? 'bg-indigo-100 text-indigo-800' :
+                                order.paymentMethod === 'cash-on-delivery' ? 'bg-yellow-100 text-yellow-800' :
+                                'bg-gray-100 text-gray-800'
+                              }`}>
+                                {order.paymentMethod?.replace('-', ' ') || 'N/A'}
+                              </span>
+                              {order.transactionId && (
+                                <span className="text-[9px] sm:text-xs text-gray-500 truncate max-w-[80px]">
+                                  TXN: {order.transactionId.substring(0, 8)}...
+                                </span>
+                              )}
+                            </div>
+                          </td>
                           <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm text-gray-500">
                             ${order.totalAmount.toFixed(2)}
                           </td>
@@ -206,24 +226,12 @@ const OrdersPage: React.FC = () => {
                               >
                                 View Details
                               </button>
-                              <select
-                                value={order.status}
-                                onChange={(e) => handleStatusUpdate(order._id, e.target.value)}
-                                disabled={updatingOrderId === order._id}
-                                className={`text-[10px] sm:text-xs rounded px-1.5 py-0.5 sm:px-2 sm:py-1 ${
-                                  getStatusOptions(order).find(opt => opt.value === order.status)?.color || 'bg-gray-100 text-gray-800'
-                                }`}
-                              > 
-                                 {getStatusOptions(order).map(option => (
-                                  <option key={option.value} value={option.value}>
-                                    {option.label}
-                                  </option>
-                                ))}
-                              </select> 
-                              {updatingOrderId === order._id && (
-                                <span className="text-[9px] sm:text-xs text-gray-500">Updating...</span>
-                              )}
-                            </div> */}
+                              <span className={`text-[10px] sm:text-xs rounded px-1.5 py-0.5 sm:px-2 sm:py-1 ${
+                                getStatusOptions(order).find(opt => opt.value === order.status)?.color || 'bg-gray-100 text-gray-800'
+                              }`}>
+                                {order.statusInfo.statusDisplay}
+                              </span>
+                            </div>
                           </td>
                         </tr>
                       ))}

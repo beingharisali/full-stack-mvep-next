@@ -7,6 +7,7 @@ import ProtectedRoute from '../../../shared/ProtectedRoute';
 import { useAuth } from '../../../context/AuthContext';
 import http from '../../../services/http';
 import toast from 'react-hot-toast';
+import ProductCard from '@/app/components/ProductCard';
 
 interface Product {
   _id: string;

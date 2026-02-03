@@ -54,6 +54,8 @@ export interface Order {
   items: OrderItem[];
   totalAmount: number;
   status: OrderStatus;
+  paymentMethod?: string;
+  transactionId?: string;
   createdAt?: string;
   updatedAt?: string;
 }

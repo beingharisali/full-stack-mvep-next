@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Navbar from '../components/Navbar';
@@ -8,12 +8,46 @@ import Sidebar from '../components/Sidebar';
 import ProtectedRoute from '../../shared/ProtectedRoute';
 import { useCart } from '../../context/CartContext';
 import { createOrder } from '../../services/order.api';
+import { 
+  getPaymentMethods, 
+  processStripePayment, 
+  processBraintreePayment, 
+  processPayPalPayment, 
+  PaymentMethodsResponse,
+  validateCardNumber,
+  validateExpiryDate,
+  validateCVV
+} from '../../services/payment.api';
 import toast from 'react-hot-toast';
 
 const CheckoutPage: React.FC = () => {
   const { cart, getCartTotal, clearCart } = useCart();
   const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  
+  useEffect(() => {
+    const loadPaymentMethods = async () => {
+      try {
+        const methods = await getPaymentMethods();
+        setPaymentMethods(methods);
+        
+        if (methods.stripe?.enabled) {
+          setSelectedPaymentMethod('stripe');
+        } else if (methods.braintree?.enabled) {
+          setSelectedPaymentMethod('braintree');
+        } else if (methods.paypal?.enabled) {
+          setSelectedPaymentMethod('paypal');
+        } else {
+          setSelectedPaymentMethod('stripe'); 
+        }
+      } catch (error) {
+        console.error('Failed to load payment methods:', error);
+        toast.error('Failed to load payment methods');
+      }
+    };
+    
+    loadPaymentMethods();
+  }, []);
   
   const [formData, setFormData] = useState({
     firstName: '',
@@ -30,6 +64,11 @@ const CheckoutPage: React.FC = () => {
     expiryDate: '',
     cvv: ''
   });
+  
+  const [paymentMethods, setPaymentMethods] = useState<PaymentMethodsResponse>({});
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string>('card');
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [paymentError, setPaymentError] = useState<string | null>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -39,8 +78,43 @@ const CheckoutPage: React.FC = () => {
     }));
   };
 
+  const validatePaymentData = () => {
+    setPaymentError(null);
+    
+    if (selectedPaymentMethod === 'card' || selectedPaymentMethod === 'stripe' || selectedPaymentMethod === 'braintree') {
+      if (!formData.cardNumber || !formData.cardName || !formData.expiryDate || !formData.cvv) {
+        setPaymentError('Please fill in all card details');
+        return false;
+      }
+      
+      if (!validateCardNumber(formData.cardNumber)) {
+        setPaymentError('Invalid card number');
+        return false;
+      }
+      
+      if (!validateExpiryDate(formData.expiryDate)) {
+        setPaymentError('Invalid expiry date');
+        return false;
+      }
+      
+      if (!validateCVV(formData.cvv, formData.cardNumber)) {
+        setPaymentError('Invalid CVV');
+        return false;
+      }
+    }
+    
+    return true;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!validatePaymentData()) {
+      return;
+    }
+    
+    setIsProcessing(true);
+    setPaymentError(null);
     
     try {
       const orderItems = cart.items.map(item => ({
@@ -70,22 +144,60 @@ const CheckoutPage: React.FC = () => {
           zipCode: formData.zipCode,
           country: formData.country,
         },
-        paymentMethod: 'card',
+        paymentMethod: selectedPaymentMethod,
         transactionId: `TXN_${Date.now()}`, 
       };
       
       const order = await createOrder(orderData);
       
-      console.log('Order created:', order);
-      toast.success('Order placed successfully!');
-      clearCart();
+      let paymentResult;
       
-      setTimeout(() => {
-        router.push('/Customer/orders');
-      }, 1500);
-    } catch (error) {
-      console.error('Error creating order:', error);
-      toast.error('Failed to place order. Please try again.');
+      switch (selectedPaymentMethod) {
+        case 'stripe':
+          paymentResult = await processStripePayment({
+            amount: total,
+            source: 'tok_visa', 
+            orderId: order._id
+          });
+          break;
+          
+        case 'braintree':
+          paymentResult = await processBraintreePayment({
+            nonce: 'fake-valid-nonce', 
+            amount: total,
+            orderId: order._id
+          });
+          break;
+          
+        case 'paypal':
+          paymentResult = await processPayPalPayment({
+            nonce: 'fake-paypal-nonce', 
+            amount: total,
+            orderId: order._id
+          });
+          break;
+          
+        default:
+          throw new Error('Please select a valid payment method');
+      }
+      
+      if (paymentResult.success) {
+        console.log('Order and payment processed:', { order, payment: paymentResult });
+        toast.success('Order placed successfully!');
+        clearCart();
+        
+        router.push(`/payment/success?orderId=${order._id}&status=success`);
+      } else {
+        setPaymentError('Payment failed. Please try again.');
+        toast.error('Payment failed. Please try again.');
+      }
+      
+    } catch (error: any) {
+      console.error('Error processing order/payment:', error);
+      setPaymentError(error.response?.data?.error || 'Failed to process order. Please try again.');
+      toast.error('Failed to process order. Please try again.');
+    } finally {
+      setIsProcessing(false);
     }
   };
 
@@ -267,12 +379,65 @@ const CheckoutPage: React.FC = () => {
                       />
                     </div>
                     
-                    <h2 className="text-xl font-semibold text-gray-800 mb-4">Payment Information</h2>
+                    <h2 className="text-xl font-semibold text-gray-800 mb-4">Payment Method</h2>
                     
-                    <div className="mb-4">
-                      <label htmlFor="cardNumber" className="block text-sm font-medium text-gray-700 mb-1">
-                        Card Number
-                      </label>
+                    <div className="mb-6 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      {paymentMethods.stripe?.enabled && (
+                        <div 
+                          className={`border rounded-lg p-4 cursor-pointer transition-colors ${selectedPaymentMethod === 'stripe' ? 'border-indigo-500 bg-indigo-50' : 'border-gray-300 hover:border-gray-400'}`}
+                          onClick={() => setSelectedPaymentMethod('stripe')}
+                        >
+                          <div className="flex items-center">
+                            <div className={`w-4 h-4 rounded-full border mr-3 ${selectedPaymentMethod === 'stripe' ? 'bg-indigo-500 border-indigo-500' : 'border-gray-400'}`}></div>
+                            <div>
+                              <div className="font-medium text-gray-900">Credit/Debit Card</div>
+                              <div className="text-sm text-gray-500">Pay with Stripe</div>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                      
+                      {paymentMethods.braintree?.enabled && (
+                        <div 
+                          className={`border rounded-lg p-4 cursor-pointer transition-colors ${selectedPaymentMethod === 'braintree' ? 'border-indigo-500 bg-indigo-50' : 'border-gray-300 hover:border-gray-400'}`}
+                          onClick={() => setSelectedPaymentMethod('braintree')}
+                        >
+                          <div className="flex items-center">
+                            <div className={`w-4 h-4 rounded-full border mr-3 ${selectedPaymentMethod === 'braintree' ? 'bg-indigo-500 border-indigo-500' : 'border-gray-400'}`}></div>
+                            <div>
+                              <div className="font-medium text-gray-900">Credit/Debit Card</div>
+                              <div className="text-sm text-gray-500">Pay with Braintree</div>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                      
+                      {paymentMethods.paypal?.enabled && (
+                        <div 
+                          className={`border rounded-lg p-4 cursor-pointer transition-colors ${selectedPaymentMethod === 'paypal' ? 'border-indigo-500 bg-indigo-50' : 'border-gray-300 hover:border-gray-400'}`}
+                          onClick={() => setSelectedPaymentMethod('paypal')}
+                        >
+                          <div className="flex items-center">
+                            <div className={`w-4 h-4 rounded-full border mr-3 ${selectedPaymentMethod === 'paypal' ? 'bg-indigo-500 border-indigo-500' : 'border-gray-400'}`}></div>
+                            <div>
+                              <div className="font-medium text-gray-900">PayPal</div>
+                              <div className="text-sm text-gray-500">Pay with PayPal</div>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                      
+
+                    </div>
+                    
+                    {(selectedPaymentMethod === 'card' || selectedPaymentMethod === 'stripe' || selectedPaymentMethod === 'braintree') && (
+                      <>
+                        <h3 className="text-lg font-medium text-gray-800 mb-4">Card Information</h3>
+                        
+                        <div className="mb-4">
+                          <label htmlFor="cardNumber" className="block text-sm font-medium text-gray-700 mb-1">
+                            Card Number
+                          </label>
                       <input
                         type="text"
                         id="cardNumber"
@@ -336,11 +501,30 @@ const CheckoutPage: React.FC = () => {
                     
                     <button
                       type="submit"
-                      className="w-full bg-indigo-600 border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                      className="w-full bg-indigo-600 border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+                      disabled={isProcessing}
                     >
-                      Place Order - ${getCartTotal().toFixed(2)}
+                      {isProcessing ? 'Processing...' : `Place Order - $${getCartTotal().toFixed(2)}`}
                     </button>
-                  </form>
+                  </>
+                )}
+                
+                {paymentError && (
+                  <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-md">
+                    <p className="text-red-700 text-sm">{paymentError}</p>
+                  </div>
+                )}
+                
+                {(selectedPaymentMethod === 'paypal' || selectedPaymentMethod === 'cash-on-delivery') && (
+                  <button
+                    type="submit"
+                    className="w-full bg-indigo-600 border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+                    disabled={isProcessing}
+                  >
+                    {isProcessing ? 'Processing...' : `Place Order - $${getCartTotal().toFixed(2)}`}
+                  </button>
+                )}
+              </form>
                 </div>
                 
                 <div className="bg-white p-4 md:p-6 rounded-lg shadow-md">

@@ -47,11 +47,11 @@ export default function Navbar() {
               <Link href="/cart" className="hover:text-gray-900 transition-colors">
                 Cart
               </Link>
+              <Link href="/checkout" className="hover:text-gray-900 transition-colors">
+                Checkout
+              </Link>
             </>
           )}
-          <Link href="/checkout" className="hover:text-gray-900 transition-colors">
-            Checkout
-          </Link>
         </nav>
 
         <div className="hidden md:flex items-center space-x-4 mt-4 md:mt-0">
@@ -109,15 +109,15 @@ export default function Navbar() {
                   >
                     Cart
                   </Link>
+                  <Link 
+                    href="/checkout" 
+                    className="hover:text-gray-900 py-2"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Checkout
+                  </Link>
                 </>
               )}
-              <Link 
-                href="/checkout" 
-                className="hover:text-gray-900 py-2"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Checkout
-              </Link>
             </div>
             
             <div className="pt-3">

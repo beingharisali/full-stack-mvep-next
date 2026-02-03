@@ -1,25 +1,30 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import Navbar from '../../components/Navbar';
-import Sidebar from '../../components/Sidebar';
-import ProtectedRoute from '../../../shared/ProtectedRoute';
-import { getUserOrdersEnhanced } from '../../../services/order.api'; 
-import { useAuth } from '../../../context/AuthContext'; 
+import Navbar from '../../../components/Navbar';
+import Sidebar from '../../../components/Sidebar';
+import ProtectedRoute from '../../../../shared/ProtectedRoute';
+import { getAllOrdersForAdminOrVendor } from '../../../../services/order.api';
 import toast from 'react-hot-toast';
 
 interface OrderItem {
-  _id: string;
-  product: string;
-  name: string;
-  price: number;
+  product: {
+    id: string;
+    name: string;
+    price: number;
+  };
   quantity: number;
-  images: string[];
+  subtotal: number;
 }
 
 interface Order {
   _id: string;
-  user: string;
+  user: {
+    id: string;
+    name: string;
+    email: string;
+    role: string;
+  };
   items: OrderItem[];
   totalAmount: number;
   status: string;
@@ -28,39 +33,24 @@ interface Order {
     timestamp: string;
     updatedBy: string;
   }[];
-  shippingAddress: {
-    firstName: string;
-    lastName: string;
-    email: string;
-    phone: string;
-    address: string;
-    city: string;
-    state: string;
-    zipCode: string;
-    country: string;
-  };
-  paymentMethod: string;
-  transactionId: string;
   createdAt: string;
   updatedAt: string;
   statusInfo: {
     currentStatus: string;
     statusDisplay: string;
     lastUpdated: string;
-    formattedLastUpdated: string;
     totalStatusChanges: number;
     isRecent: boolean;
-    isFirstStatus: boolean;
     canBeCancelled: boolean;
   };
 }
 
-const OrderHistoryPage: React.FC = () => {
+const VendorOrderHistoryPage: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [orders, setOrders] = useState<any[]>([]);
+  const [orders, setOrders] = useState<any[]>([]); 
   const [loading, setLoading] = useState(true);
-  const [statusFilter, setStatusFilter] = useState('all');
-  const { user } = useAuth(); 
+  const [statusFilter, setStatusFilter] = useState('delivered,cancelled'); 
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     fetchOrders();
@@ -69,14 +59,14 @@ const OrderHistoryPage: React.FC = () => {
   const fetchOrders = async () => {
     try {
       setLoading(true);
-      const response = await getUserOrdersEnhanced();
-      const completedOrders = response.filter((order: any) => 
+      const response = await getAllOrdersForAdminOrVendor();
+      const completedOrders = response.orders.filter((order: any) => 
         ['delivered', 'cancelled'].includes(order.status)
       );
       setOrders(completedOrders);
     } catch (error) {
       console.error('Error fetching orders:', error);
-      toast.error('Failed to fetch orders');
+      toast.error('Failed to fetch order history');
     } finally {
       setLoading(false);
     }
@@ -93,13 +83,21 @@ const OrderHistoryPage: React.FC = () => {
     }
   };
 
-  const filteredOrders = orders.filter(order => 
-    statusFilter === 'all' || order.status === statusFilter
-  );
+  const filteredOrders = orders.filter(order => {
+    const matchesStatus = statusFilter === 'all' || 
+      (statusFilter.includes(',') ? 
+        statusFilter.split(',').some(s => s.trim() === order.status) : 
+        order.status === statusFilter);
+    const matchesSearch = searchTerm === '' || 
+      order.user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      order.user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      order._id.toLowerCase().includes(searchTerm.toLowerCase());
+    return matchesStatus && matchesSearch;
+  });
 
   if (loading) {
     return (
-      <ProtectedRoute allowedRoles={['customer']} redirectPath="/">
+      <ProtectedRoute allowedRoles={['vendor']} redirectPath="/">
         <div className="min-h-screen bg-gray-50">
           <Navbar />
           <div className="flex">
@@ -116,7 +114,7 @@ const OrderHistoryPage: React.FC = () => {
   }
 
   return (
-    <ProtectedRoute allowedRoles={['customer']} redirectPath="/">
+    <ProtectedRoute allowedRoles={['vendor']} redirectPath="/">
       <div className="min-h-screen bg-gray-50">
         <Navbar />
         <div className="flex">
@@ -128,17 +126,30 @@ const OrderHistoryPage: React.FC = () => {
               </div>
 
               <div className="bg-white p-4 rounded-lg shadow-md mb-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Status Filter</label>
-                  <select
-                    value={statusFilter}
-                    onChange={(e) => setStatusFilter(e.target.value)}
-                    className="w-full md:w-64 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                  >
-                    <option value="all">All Completed Orders</option>
-                    <option value="delivered">Delivered</option>
-                    <option value="cancelled">Cancelled</option>
-                  </select>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Search Orders</label>
+                    <input
+                      type="text"
+                      placeholder="Search by customer name, email, or order ID"
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Status Filter</label>
+                    <select
+                      value={statusFilter}
+                      onChange={(e) => setStatusFilter(e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    >
+                      <option value="delivered,cancelled">Completed Orders</option>
+                      <option value="delivered">Delivered</option>
+                      <option value="cancelled">Cancelled</option>
+                      <option value="all">All Statuses</option>
+                    </select>
+                  </div>
                 </div>
               </div>
 
@@ -150,7 +161,7 @@ const OrderHistoryPage: React.FC = () => {
                         <div>
                           <h2 className="text-lg font-semibold text-gray-900">Order #{order._id}</h2>
                           <p className="text-sm text-gray-500">
-                            Placed on {new Date(order.createdAt).toLocaleDateString()}
+                            Placed on {new Date(order.createdAt).toLocaleDateString()} by {order.user.name} ({order.user.email})
                           </p>
                         </div>
                         <div className="mt-2 md:mt-0">
@@ -163,29 +174,14 @@ const OrderHistoryPage: React.FC = () => {
                       <div className="border-t border-gray-200 pt-4">
                         <h3 className="text-md font-medium text-gray-900 mb-3">Items</h3>
                         <div className="space-y-3">
-                          {order.items.map((item: any) => (  
-                            <div key={item._id} className="flex items-center">
-                              <div className="flex-shrink-0 w-16 h-16 bg-gray-200 rounded-md overflow-hidden">
-                                {item.images && item.images.length > 0 ? (
-                                  <img 
-                                    src={item.images[0]} 
-                                    alt={item.name}
-                                    className="w-full h-full object-cover"
-                                  />
-                                ) : (
-                                  <div className="w-full h-full flex items-center justify-center text-gray-400">
-                                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                    </svg>
-                                  </div>
-                                )}
-                              </div>
-                              <div className="ml-4 flex-1">
-                                <h4 className="text-sm font-medium text-gray-900">{item.name}</h4>
+                          {order.items.map((item: any) => (
+                            <div key={item.product.id} className="flex items-center">
+                              <div className="flex-1">
+                                <h4 className="text-sm font-medium text-gray-900">{item.product.name}</h4>
                                 <p className="text-sm text-gray-500">Qty: {item.quantity}</p>
                               </div>
                               <div className="text-sm font-medium text-gray-900">
-                                ${(item.price * item.quantity).toFixed(2)}
+                                ${(item.product.price * item.quantity).toFixed(2)}
                               </div>
                             </div>
                           ))}
@@ -198,12 +194,16 @@ const OrderHistoryPage: React.FC = () => {
                           <span className="font-semibold text-gray-900">${order.totalAmount.toFixed(2)}</span>
                         </div>
                         <div className="flex justify-between mt-1">
+                          <span className="text-gray-600">Customer:</span>
+                          <span className="text-gray-900">{order.user.name}</span>
+                        </div>
+                        <div className="flex justify-between mt-1">
                           <span className="text-gray-600">Payment Method:</span>
-                          <span className="text-gray-900 capitalize">{order.paymentMethod.replace('-', ' ')}</span>
+                          <span className="text-gray-900 capitalize">{order.paymentMethod || 'N/A'}</span>
                         </div>
                         <div className="flex justify-between mt-1">
                           <span className="text-gray-600">Last Updated:</span>
-                          <span className="text-gray-900">{order.statusInfo.formattedLastUpdated}</span>
+                          <span className="text-gray-900">{new Date(order.updatedAt).toLocaleString()}</span>
                         </div>
                       </div>
                     </div>
@@ -213,8 +213,8 @@ const OrderHistoryPage: React.FC = () => {
 
               {filteredOrders.length === 0 && (
                 <div className="bg-white rounded-lg shadow-md p-12 text-center">
-                  <p className="text-gray-500">No completed orders found</p>
-                  <p className="text-gray-400 text-sm mt-2">Your delivered and cancelled orders will appear here</p>
+                  <p className="text-gray-500">No order history found</p>
+                  <p className="text-gray-400 text-sm mt-2">Completed orders (delivered/cancelled) containing your products will appear here</p>
                 </div>
               )}
             </div>
@@ -225,4 +225,4 @@ const OrderHistoryPage: React.FC = () => {
   );
 };
 
-export default OrderHistoryPage;
+export default VendorOrderHistoryPage;

@@ -86,10 +86,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   const logout = () => {
-    localStorage.removeItem('token');
+   
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('token');
+    }
     setToken(null);
     setUser(null);
-   
   };
 
   const isAuthenticated = () => {

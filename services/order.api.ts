@@ -103,6 +103,8 @@ export interface OrderEnhanced {
   status: string;
   statusHistory: StatusHistory[];
   statusInfo: StatusInfo;
+  paymentMethod?: string;
+  transactionId?: string;
   createdAt: string;
   updatedAt: string;
 }

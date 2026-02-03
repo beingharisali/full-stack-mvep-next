@@ -25,6 +25,8 @@ interface OrderDisplay {
   status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
   statusHistory: any[];
   statusInfo: any;
+  paymentMethod?: string;
+  transactionId?: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -65,6 +67,8 @@ export default function VendorOrdersPage() {
         status: order.status as any,
         statusHistory: order.statusHistory,
         statusInfo: order.statusInfo,
+        paymentMethod: order.paymentMethod,
+        transactionId: order.transactionId,
         createdAt: order.createdAt,
         updatedAt: order.updatedAt
       }));
@@ -201,6 +205,9 @@ export default function VendorOrdersPage() {
                           Status
                         </th>
                         <th scope="col" className="px-3 sm:px-6 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Payment
+                        </th>
+                        <th scope="col" className="px-3 sm:px-6 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-medium text-gray-500 uppercase tracking-wider">
                           Updated
                         </th>
                         <th scope="col" className="px-3 sm:px-6 py-2 sm:py-3 text-right text-[10px] sm:text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -249,6 +256,24 @@ export default function VendorOrdersPage() {
                               </select>
                               {order.statusInfo?.isRecent && (
                                 <span className="text-[9px] sm:text-xs text-green-600">Updated</span>
+                              )}
+                            </div>
+                          </td>
+                          <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
+                            <div className="flex flex-col space-y-1">
+                              <span className={`px-1.5 py-0.5 sm:px-2 sm:py-1 text-[10px] sm:text-xs rounded-full capitalize ${
+                                order.paymentMethod === 'stripe' ? 'bg-blue-100 text-blue-800' :
+                                order.paymentMethod === 'braintree' ? 'bg-purple-100 text-purple-800' :
+                                order.paymentMethod === 'paypal' ? 'bg-indigo-100 text-indigo-800' :
+                                order.paymentMethod === 'cash-on-delivery' ? 'bg-yellow-100 text-yellow-800' :
+                                'bg-gray-100 text-gray-800'
+                              }`}>
+                                {order.paymentMethod?.replace('-', ' ') || 'N/A'}
+                              </span>
+                              {order.transactionId && (
+                                <span className="text-[9px] sm:text-xs text-gray-500 truncate max-w-[80px]">
+                                  TXN: {order.transactionId.substring(0, 8)}...
+                                </span>
                               )}
                             </div>
                           </td>

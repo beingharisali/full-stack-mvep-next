@@ -63,7 +63,42 @@ export default function VendorProductManagementPage() {
       if (categoryFilter) params.category = categoryFilter;
       if (brandFilter) params.brand = brandFilter;
       
-      // Handle price filters
+      // Handle price filters using numericFilters for consistency with backend
+      const numericFilters = [];
+      
+      if (minPrice) {
+        const priceValue = parseFloat(minPrice);
+        if (!isNaN(priceValue) && priceValue >= 0) {
+          numericFilters.push(`price>=${priceValue}`);
+        }
+      }
+      if (maxPrice) {
+        const priceValue = parseFloat(maxPrice);
+        if (!isNaN(priceValue) && priceValue >= 0) {
+          numericFilters.push(`price<=${priceValue}`);
+        }
+      }
+      
+      // Handle stock filters using numericFilters for consistency with backend
+      if (minStock) {
+        const stockValue = parseInt(minStock);
+        if (!isNaN(stockValue) && stockValue >= 0) {
+          numericFilters.push(`stock>=${stockValue}`);
+        }
+      }
+      if (maxStock) {
+        const stockValue = parseInt(maxStock);
+        if (!isNaN(stockValue) && stockValue >= 0) {
+          numericFilters.push(`stock<=${stockValue}`);
+        }
+      }
+      
+      // Apply numeric filters if any exist
+      if (numericFilters.length > 0) {
+        params.numericFilters = numericFilters.join(',');
+      }
+      
+      // Also include direct parameters for backward compatibility
       if (minPrice) {
         const priceValue = parseFloat(minPrice);
         if (!isNaN(priceValue) && priceValue >= 0) {
@@ -77,27 +112,12 @@ export default function VendorProductManagementPage() {
         }
       }
       
-      // Handle stock filters
-      if (minStock) {
-        const stockValue = parseInt(minStock);
-        if (!isNaN(stockValue) && stockValue >= 0) {
-          params.minStock = stockValue;
-        }
-      }
-      if (maxStock) {
-        const stockValue = parseInt(maxStock);
-        if (!isNaN(stockValue) && stockValue >= 0) {
-          params.maxStock = stockValue;
-        }
-      }
-      
       // Handle status filter
       if (statusFilter === 'active') {
         params.isActive = true;
       } else if (statusFilter === 'inactive') {
         params.isActive = false;
       }
-      // If statusFilter is empty, we don't add the isActive parameter
       
       // Handle sorting
       if (sortBy) {
@@ -111,9 +131,11 @@ export default function VendorProductManagementPage() {
       // Get all products for vendors
       const response = await http.get('/products/all', { params });
       
+      console.log('API Response:', response.data); // Debug log
+      
       setProducts(response.data.products);
       setTotalPages(response.data.totalPages);
-      setTotalProducts(response.data.totalPages);
+      setTotalProducts(response.data.totalProducts);
     } catch (error) {
       console.error('Error fetching products:', error);
     } finally {

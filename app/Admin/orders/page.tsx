@@ -349,7 +349,6 @@ export default function OrdersManagementPage() {
               )}
             </div>
 
-            {/* Table */}
             {loading ? (
               <p>Loading orders...</p>
             ) : (

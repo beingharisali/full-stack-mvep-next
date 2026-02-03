@@ -22,6 +22,22 @@ export default function ProductsPage() {
   const itemsPerPage = 8;
 
   useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 1024) {
+        setSidebarOpen(false);
+      } else {
+        setSidebarOpen(true);
+      }
+    };
+
+    handleResize();
+
+    window.addEventListener('resize', handleResize);
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => {
     fetchProducts();
   }, [currentPage, searchTerm, categoryFilter, priceRange, sortBy]);
 
@@ -32,13 +48,19 @@ export default function ProductsPage() {
       const params: any = {
         page: currentPage,
         limit: itemsPerPage,
-        sort: sortBy,
+        isActive: true, 
       };
 
       if (searchTerm) params.name = searchTerm;
       if (categoryFilter) params.category = categoryFilter;
       if (priceRange.min) params.minPrice = priceRange.min;
       if (priceRange.max) params.maxPrice = priceRange.max;
+      
+      if (sortBy) {
+        params.sort = sortBy.startsWith('-') ? sortBy : `-${sortBy}`; 
+      } else {
+        params.sort = '-createdAt';
+      }
 
       const res = await getProducts(params);
       setProducts(res.products);
@@ -57,8 +79,10 @@ export default function ProductsPage() {
         <div className="flex">
           <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
           
-          <main className={`flex-1 p-4 lg:p-6 transition-all duration-300 ${sidebarOpen ? 'lg:ml-0' : ''}`}>
-            <div className="max-w-7xl mx-auto">
+          <main className={`flex-1 transition-all duration-300 ${
+            sidebarOpen ? 'lg:ml-0' : ''
+          } ${window.innerWidth < 1024 ? 'ml-0' : ''}`}>
+            <div className="max-w-7xl mx-auto p-4 lg:p-6">
               <h1 className="text-2xl md:text-3xl font-bold mb-6">Products</h1>
 
               <div className="bg-white rounded-lg shadow-md p-4 mb-6">
@@ -134,11 +158,47 @@ export default function ProductsPage() {
                         setSearchTerm("");
                         setCategoryFilter("");
                         setPriceRange({min: "", max: ""});
+                        setSortBy("-createdAt");
                         setCurrentPage(1);
                       }}
                       className="w-full px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition-colors"
                     >
                       Clear Filters
+                    </button>
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4 pt-4 border-t">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Sort By
+                    </label>
+                    <select
+                      value={sortBy}
+                      onChange={(e) => {
+                        setSortBy(e.target.value);
+                        setCurrentPage(1);
+                      }}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                      <option value="-createdAt">Newest First</option>
+                      <option value="createdAt">Oldest First</option>
+                      <option value="name">Name A-Z</option>
+                      <option value="-name">Name Z-A</option>
+                      <option value="price">Price Low-High</option>
+                      <option value="-price">Price High-Low</option>
+                    </select>
+                  </div>
+                  
+                  <div className="flex items-end">
+                    <button
+                      onClick={() => {
+                        setSortBy("-createdAt");
+                        setCurrentPage(1);
+                      }}
+                      className="w-full px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
+                    >
+                      Reset Sorting
                     </button>
                   </div>
                 </div>

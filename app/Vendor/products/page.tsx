@@ -62,23 +62,18 @@ export default function VendorProductManagementPage() {
       if (searchTerm) params.name = searchTerm;
       if (categoryFilter) params.category = categoryFilter;
       if (brandFilter) params.brand = brandFilter;
-      // Build numericFilters array to include both price and stock filters
       const numericFilters = [];
       
-      // Add price filters
       if (minPrice) numericFilters.push(`price>=${minPrice}`);
       if (maxPrice) numericFilters.push(`price<=${maxPrice}`);
       
-      // Add stock filters
       if (minStock) numericFilters.push(`stock>=${minStock}`);
       if (maxStock) numericFilters.push(`stock<=${maxStock}`);
       
-      // Combine all numeric filters
       if (numericFilters.length > 0) {
         params.numericFilters = numericFilters.join(',');
       }
       
-      // Keep minPrice and maxPrice for backward compatibility if needed
       if (minPrice) params.minPrice = minPrice;
       if (maxPrice) params.maxPrice = maxPrice;
       if (statusFilter) params.isActive = statusFilter === 'active';

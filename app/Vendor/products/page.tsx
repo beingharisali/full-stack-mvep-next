@@ -82,7 +82,6 @@ export default function VendorProductManagementPage() {
         params.sort = sortOrder === 'asc' ? sortBy : `-${sortBy}`;
       }
       
-      // Get all products, not just vendor-specific ones
       const response = await http.get('/products/all', { params });
       
       setProducts(response.data.products);

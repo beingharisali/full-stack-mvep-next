@@ -57,7 +57,7 @@ export default function ProductsPage() {
       if (priceRange.max) params.maxPrice = priceRange.max;
       
       if (sortBy) {
-        params.sort = sortBy.startsWith('-') ? sortBy : `-${sortBy}`; 
+        params.sort = sortBy.startsWith('-') ? sortBy : `-${sortBy}`;
       } else {
         params.sort = '-createdAt';
       }

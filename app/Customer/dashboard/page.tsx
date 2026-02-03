@@ -22,9 +22,26 @@ const CustomerDashboard: React.FC = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [totalProducts, setTotalProducts] = useState(0);
   const [categories, setCategories] = useState<string[]>([]);
+  const [sidebarOpen, setSidebarOpen] = useState(false); 
   const router = useRouter();
 
   const itemsPerPage = 8; 
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 1024) {
+        setSidebarOpen(false);
+      } else {
+        setSidebarOpen(true);
+      }
+    };
+
+    handleResize();
+
+    window.addEventListener('resize', handleResize);
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     fetchCategories();
@@ -42,7 +59,6 @@ const CustomerDashboard: React.FC = () => {
       const params: any = {
         limit: itemsPerPage,
         page: currentPage,
-        sort: sortBy, 
       };
 
       if (searchTerm) params.name = searchTerm;
@@ -59,6 +75,12 @@ const CustomerDashboard: React.FC = () => {
           params.maxPrice = maxPrice;
         }
       }
+      
+      if (sortBy) {
+        params.sort = sortBy;
+      } else {
+        params.sort = '-createdAt';
+      }
 
       const response: ProductListResponse = await getProducts(params);
       setProducts(response.products);
@@ -74,7 +96,10 @@ const CustomerDashboard: React.FC = () => {
   const fetchFeaturedProducts = async () => {
     try {
       setLoading(true);
-      const response = await getProducts({ limit: 4, sort: '-createdAt' });
+      const response = await getProducts({ 
+        limit: 4, 
+        sort: '-createdAt'
+      });
       setFeaturedProducts(response.products);
     } catch (error) {
       console.error('Error fetching featured products:', error);
@@ -82,6 +107,7 @@ const CustomerDashboard: React.FC = () => {
       setLoading(false);
     }
   };
+
 
   const fetchCategories = async () => {
     try {
@@ -115,9 +141,11 @@ const CustomerDashboard: React.FC = () => {
       <div className="min-h-screen bg-gray-50">
         <Navbar />
         <div className="flex">
-          <Sidebar />
-          <main className="flex-1 p-4 lg:p-6">
-            <div className="max-w-7xl mx-auto">
+          <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
+          <main className={`flex-1 transition-all duration-300 ${
+            sidebarOpen ? 'lg:ml-0' : ''
+          } ${window.innerWidth < 1024 ? 'ml-0' : ''}`}>
+            <div className="max-w-7xl mx-auto p-4 lg:p-6">
               <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-2">Welcome Back!</h1>
               <p className="text-gray-600 mb-6 sm:mb-8 text-sm sm:text-base">Discover our latest products and deals</p>
               

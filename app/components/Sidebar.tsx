@@ -9,7 +9,6 @@ export default function Sidebar({ isOpen, setIsOpen }: { isOpen?: boolean; setIs
   const { user } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
-  // Auto-hide sidebar on small screens
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 1024) {
@@ -25,13 +24,10 @@ export default function Sidebar({ isOpen, setIsOpen }: { isOpen?: boolean; setIs
       }
     };
 
-    // Check initial screen size
     handleResize();
 
-    // Add event listener
     window.addEventListener('resize', handleResize);
 
-    // Cleanup
     return () => window.removeEventListener('resize', handleResize);
   }, [setIsOpen]);
 
@@ -112,7 +108,7 @@ export default function Sidebar({ isOpen, setIsOpen }: { isOpen?: boolean; setIs
               href={item.href}
               className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-800 transition-colors"
               onClick={() => {
-                if (window.innerWidth < 1024) { // lg breakpoint
+                if (window.innerWidth < 1024) { 
                   toggleSidebar();
                 }
               }}

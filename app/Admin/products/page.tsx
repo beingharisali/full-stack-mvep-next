@@ -34,7 +34,7 @@ export default function ProductManagementPage() {
   const [maxPrice, setMaxPrice] = useState('');
   const [minStock, setMinStock] = useState('');
   const [maxStock, setMaxStock] = useState('');
-  const [statusFilter, setStatusFilter] = useState('');
+  const [statusFilter, setStatusFilter] = useState('all');
   const [sortBy, setSortBy] = useState('');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
   const [currentPage, setCurrentPage] = useState(1);
@@ -45,6 +45,22 @@ export default function ProductManagementPage() {
   const [currentProduct, setCurrentProduct] = useState<Partial<Product> | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 1024) {
+        setSidebarOpen(false);
+      } else {
+        setSidebarOpen(true);
+      }
+    };
+
+    handleResize();
+
+    window.addEventListener('resize', handleResize);
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     fetchProducts();
@@ -61,30 +77,35 @@ export default function ProductManagementPage() {
       if (searchTerm) params.name = searchTerm;
       if (categoryFilter) params.category = categoryFilter;
       if (brandFilter) params.brand = brandFilter;
-      // Build numericFilters array to include both price and stock filters
+      
+      if (statusFilter === 'active') {
+        params.isActive = true;
+      } else if (statusFilter === 'inactive') {
+        params.isActive = false;
+      }
+      
       const numericFilters = [];
       
-      // Add price filters
       if (minPrice) numericFilters.push(`price>=${minPrice}`);
       if (maxPrice) numericFilters.push(`price<=${maxPrice}`);
       
-      // Add stock filters
       if (minStock) numericFilters.push(`stock>=${minStock}`);
       if (maxStock) numericFilters.push(`stock<=${maxStock}`);
       
-      // Combine all numeric filters
       if (numericFilters.length > 0) {
         params.numericFilters = numericFilters.join(',');
       }
       
-      // Keep minPrice and maxPrice for backward compatibility if needed
       if (minPrice) params.minPrice = minPrice;
       if (maxPrice) params.maxPrice = maxPrice;
-      if (statusFilter) params.isActive = statusFilter === 'active';
       
       if (sortBy) {
         params.sort = sortOrder === 'asc' ? sortBy : `-${sortBy}`;
+      } else {
+        params.sort = '-createdAt';
       }
+      
+      console.log('API Parameters:', params); 
       
       const response = await http.get('/products/all', { params });
       
@@ -205,6 +226,18 @@ export default function ProductManagementPage() {
     }
   };
 
+  const handleToggleProductStatus = async (productId: string, currentStatus: boolean) => {
+    try {
+      await http.patch(`/products/${productId}`, { isActive: !currentStatus });
+      toast.success(`Product ${!currentStatus ? 'activated' : 'deactivated'} successfully!`);
+      fetchProducts(); 
+    } catch (error: any) {
+      console.error('Error toggling product status:', error);
+      const errorMessage = error.response?.data?.msg || error.message || 'Failed to update product status';
+      toast.error(errorMessage);
+    }
+  };
+
   const displayedProducts = products;
 
   return (
@@ -213,9 +246,30 @@ export default function ProductManagementPage() {
         <Navbar />
         <div className="flex">
           <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
-          <main className={`flex-1 p-4 lg:p-6 transition-all duration-300 ${sidebarOpen ? 'lg:ml-0' : ''}`}>
-            <div className="max-w-7xl mx-auto">
+          <main className={`flex-1 transition-all duration-300 ${
+            sidebarOpen ? 'lg:ml-0' : ''
+          } ${window.innerWidth < 1024 ? 'ml-0' : ''}`}>
+            <div className="max-w-7xl mx-auto p-4 lg:p-6">
               <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 mb-4 sm:mb-6">Product Management</h1>
+              
+              {statusFilter !== 'all' && (
+                <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                  <div className="flex items-center justify-between">
+                    <span className="text-blue-800 font-medium">
+                      Showing {statusFilter === 'active' ? 'Active' : 'Inactive'} Products Only
+                    </span>
+                    <button 
+                      onClick={() => {
+                        setStatusFilter('all');
+                        setCurrentPage(1);
+                      }}
+                      className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                    >
+                      Clear Status Filter
+                    </button>
+                  </div>
+                </div>
+              )}
               
               <div className="bg-white rounded-lg shadow-md p-4 mb-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
@@ -372,7 +426,7 @@ export default function ProductManagementPage() {
                       }}
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
-                      <option value="">All Statuses</option>
+                      <option value="all">All Statuses</option>
                       <option value="active">Active</option>
                       <option value="inactive">Inactive</option>
                     </select>
@@ -388,7 +442,7 @@ export default function ProductManagementPage() {
                         setMaxPrice('');
                         setMinStock('');
                         setMaxStock('');
-                        setStatusFilter('');
+                        setStatusFilter('all');
                         setSortBy('');
                         setSortOrder('desc');
                         setCurrentPage(1);
@@ -413,7 +467,7 @@ export default function ProductManagementPage() {
                       }}
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
-                      <option value="">Default</option>
+                      <option value="">Default (Newest First)</option>
                       <option value="name">Name</option>
                       <option value="price">Price</option>
                       <option value="stock">Stock</option>
@@ -535,6 +589,16 @@ export default function ProductManagementPage() {
                                   className="text-red-600 hover:text-red-900"
                                 >
                                   Delete
+                                </button>
+                                <button 
+                                  onClick={() => handleToggleProductStatus(product._id, product.isActive)}
+                                  className={`px-2 py-1 rounded text-xs ${
+                                    product.isActive 
+                                      ? 'bg-red-100 text-red-800 hover:bg-red-200' 
+                                      : 'bg-green-100 text-green-800 hover:bg-green-200'
+                                  }`}
+                                >
+                                  {product.isActive ? 'Deactivate' : 'Activate'}
                                 </button>
                               </div>
                             </td>
@@ -700,15 +764,25 @@ export default function ProductManagementPage() {
                   <p className="text-[10px] sm:text-xs text-gray-500 mt-1">Enter any valid image URL (optional)</p>
                 </div>
                 
-                <div className="flex items-center">
+                <div className="flex items-center bg-blue-50 p-3 rounded-lg">
                   <input
                     type="checkbox"
                     checked={currentProduct?.isActive ?? true}
                     onChange={(e) => setCurrentProduct({...currentProduct!, isActive: e.target.checked})}
-                    className="h-3 w-3 sm:h-4 sm:w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                    className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                   />
-                  <label className="ml-2 block text-xs sm:text-sm text-gray-700">Active</label>
+                  <label className="ml-3 block text-sm font-medium text-gray-700">
+                    <span className="font-semibold">Product Status:</span> 
+                    <span className={`ml-2 px-2 py-1 rounded-full text-xs ${currentProduct?.isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                      {currentProduct?.isActive ? 'Active' : 'Inactive'}
+                    </span>
+                  </label>
                 </div>
+                <p className="text-xs text-gray-500 ml-7">
+                  {currentProduct?.isActive 
+                    ? 'Active products are visible to customers' 
+                    : 'Inactive products are hidden from customers'}
+                </p>
               </div>
               
               <div className="mt-4 sm:mt-6 flex flex-col-reverse sm:flex-row sm:justify-end space-y-2 sm:space-y-0 sm:space-x-3">

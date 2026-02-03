@@ -78,14 +78,12 @@ export default function ProductManagementPage() {
       if (categoryFilter) params.category = categoryFilter;
       if (brandFilter) params.brand = brandFilter;
       
-      // Handle status filter
       if (statusFilter === 'active') {
         params.isActive = true;
       } else if (statusFilter === 'inactive') {
         params.isActive = false;
       }
       
-      // Handle price filters
       if (minPrice) {
         const priceValue = parseFloat(minPrice);
         if (!isNaN(priceValue) && priceValue >= 0) {
@@ -99,7 +97,6 @@ export default function ProductManagementPage() {
         }
       }
       
-      // Handle stock filters
       if (minStock) {
         const stockValue = parseInt(minStock);
         if (!isNaN(stockValue) && stockValue >= 0) {
@@ -113,12 +110,9 @@ export default function ProductManagementPage() {
         }
       }
       
-      // Handle sorting - this is the key fix for ascending/descending
       if (sortBy) {
-        // Apply sort order correctly
         params.sort = sortOrder === 'asc' ? sortBy : `-${sortBy}`;
       } else {
-        // Default sorting
         params.sort = '-createdAt';
       }
       
@@ -400,7 +394,6 @@ export default function ProductManagementPage() {
                         value={minStock}
                         onChange={(e) => {
                           const value = e.target.value;
-                          // Allow empty string or valid non-negative numbers
                           if (value === '' || (parseInt(value) >= 0 && !isNaN(parseInt(value)))) {
                             setMinStock(value);
                             setCurrentPage(1);
@@ -420,7 +413,6 @@ export default function ProductManagementPage() {
                         value={maxStock}
                         onChange={(e) => {
                           const value = e.target.value;
-                          // Allow empty string or valid non-negative numbers
                           if (value === '' || (parseInt(value) >= 0 && !isNaN(parseInt(value)))) {
                             setMaxStock(value);
                             setCurrentPage(1);
@@ -459,8 +451,8 @@ export default function ProductManagementPage() {
                         setBrandFilter('');
                         setMinPrice('');
                         setMaxPrice('');
-                        setMinStock('');  // Clear stock filters
-                        setMaxStock('');  // Clear stock filters
+                        setMinStock('');  
+                        setMaxStock(''); 
                         setStatusFilter('all');
                         setSortBy('');
                         setSortOrder('desc');
@@ -630,7 +622,6 @@ export default function ProductManagementPage() {
                   {products.length === 0 && !loading && (
                     <div className="text-center py-12">
                       <p className="text-gray-500 text-base sm:text-lg">
-                        {/* Display appropriate message based on filters */}
                         {minStock || maxStock || minPrice || maxPrice || statusFilter !== 'all' || categoryFilter || brandFilter || searchTerm
                           ? `No products found matching your criteria: ${minStock ? `Min Stock: ${minStock}` : ''} ${maxStock ? `Max Stock: ${maxStock}` : ''}`
                           : 'No products found'}

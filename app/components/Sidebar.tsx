@@ -3,11 +3,37 @@
 import Link from "next/link";
 import { Home, Users, Settings, BarChart, ShoppingCart, Package, FileText, X } from "lucide-react";
 import { useAuth } from '../../context/AuthContext';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function Sidebar({ isOpen, setIsOpen }: { isOpen?: boolean; setIsOpen?: (open: boolean) => void }) {
   const { user } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(true);
+
+  // Auto-hide sidebar on small screens
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 1024) {
+        setSidebarOpen(false);
+        if (setIsOpen) {
+          setIsOpen(false);
+        }
+      } else {
+        setSidebarOpen(true);
+        if (setIsOpen) {
+          setIsOpen(true);
+        }
+      }
+    };
+
+    // Check initial screen size
+    handleResize();
+
+    // Add event listener
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup
+    return () => window.removeEventListener('resize', handleResize);
+  }, [setIsOpen]);
 
   const toggleSidebar = () => {
     if (setIsOpen) {

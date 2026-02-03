@@ -208,7 +208,7 @@ const CheckoutPage: React.FC = () => {
           <Navbar />
           <div className="flex">
             <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
-            <main className={`flex-1 p-4 md:p-6 transition-all duration-300 ${sidebarOpen ? 'md:ml-0' : ''}`}>
+            <main className={`flex-1 p-4 lg:p-6 transition-all duration-300 ${sidebarOpen ? 'lg:ml-0' : ''}`}>
               <div className="max-w-4xl mx-auto text-center py-12">
                 <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4">Checkout</h1>
                 <p className="text-lg text-gray-600">Your cart is empty. Add some items to proceed to checkout.</p>
@@ -231,7 +231,7 @@ const CheckoutPage: React.FC = () => {
         <Navbar />
         <div className="flex">
           <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
-          <main className={`flex-1 p-4 md:p-6 transition-all duration-300 ${sidebarOpen ? 'md:ml-0' : ''}`}>
+          <main className={`flex-1 p-4 lg:p-6 transition-all duration-300 ${sidebarOpen ? 'lg:ml-0' : ''}`}>
             <div className="max-w-7xl mx-auto">
               <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6">Checkout</h1>
               

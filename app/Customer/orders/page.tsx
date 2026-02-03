@@ -62,7 +62,7 @@ const OrdersPage: React.FC = () => {
           <Navbar />
           <div className="flex">
             <Sidebar />
-            <main className="flex-1 p-4 sm:p-6">
+            <main className="flex-1 p-4 lg:p-6">
               <div className="max-w-7xl mx-auto">
                 <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-4 sm:mb-6">My Orders</h1>
                 <div className="flex justify-center items-center h-48 sm:h-64">
@@ -83,7 +83,7 @@ const OrdersPage: React.FC = () => {
           <Navbar />
           <div className="flex">
             <Sidebar />
-            <main className="flex-1 p-4 sm:p-6">
+            <main className="flex-1 p-4 lg:p-6">
               <div className="max-w-7xl mx-auto">
                 <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-4 sm:mb-6">My Orders</h1>
                 <div className="bg-red-100 border border-red-400 text-red-700 px-3 py-2 sm:px-4 sm:py-3 rounded relative text-sm sm:text-base" role="alert">

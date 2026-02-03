@@ -17,7 +17,7 @@ function AdminDashboardPage() {
         <Navbar/>
         <div className="flex">
           <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
-          <main className={`flex-1 p-4 md:p-6 transition-all duration-300 ${sidebarOpen ? 'md:ml-0' : ''}`}>
+          <main className={`flex-1 p-4 lg:p-6 transition-all duration-300 ${sidebarOpen ? 'lg:ml-0' : ''}`}>
             <div className="max-w-7xl mx-auto">
               <h1 className='text-xl sm:text-2xl md:text-3xl font-bold mb-4 sm:mb-6'>Welcome to Admin Dashboard, {user?.firstName}!</h1>
               

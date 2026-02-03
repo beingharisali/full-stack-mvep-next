@@ -48,7 +48,7 @@ const PaymentSuccessPage: React.FC = () => {
           <Navbar />
           <div className="flex">
             <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
-            <main className={`flex-1 p-4 md:p-6 transition-all duration-300 ${sidebarOpen ? 'md:ml-0' : ''}`}>
+            <main className={`flex-1 p-4 lg:p-6 transition-all duration-300 ${sidebarOpen ? 'lg:ml-0' : ''}`}>
               <div className="max-w-4xl mx-auto text-center py-12">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
                 <p className="mt-4 text-gray-600">Loading order details...</p>
@@ -67,7 +67,7 @@ const PaymentSuccessPage: React.FC = () => {
           <Navbar />
           <div className="flex">
             <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
-            <main className={`flex-1 p-4 md:p-6 transition-all duration-300 ${sidebarOpen ? 'md:ml-0' : ''}`}>
+            <main className={`flex-1 p-4 lg:p-6 transition-all duration-300 ${sidebarOpen ? 'lg:ml-0' : ''}`}>
               <div className="max-w-4xl mx-auto text-center py-12">
                 <div className="text-red-500 text-6xl mb-4">⚠️</div>
                 <h1 className="text-2xl font-bold text-gray-800 mb-4">Order Not Found</h1>
@@ -93,7 +93,7 @@ const PaymentSuccessPage: React.FC = () => {
         <Navbar />
         <div className="flex">
           <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
-          <main className={`flex-1 p-4 md:p-6 transition-all duration-300 ${sidebarOpen ? 'md:ml-0' : ''}`}>
+          <main className={`flex-1 p-4 lg:p-6 transition-all duration-300 ${sidebarOpen ? 'lg:ml-0' : ''}`}>
             <div className="max-w-4xl mx-auto">
               <div className={`rounded-lg shadow-md p-6 md:p-8 text-center ${isSuccess ? 'bg-green-50' : 'bg-red-50'}`}>
                 <div className={`text-6xl mb-4 ${isSuccess ? 'text-green-500' : 'text-red-500'}`}>

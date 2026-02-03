@@ -78,34 +78,51 @@ export default function ProductManagementPage() {
       if (categoryFilter) params.category = categoryFilter;
       if (brandFilter) params.brand = brandFilter;
       
+      // Handle status filter
       if (statusFilter === 'active') {
         params.isActive = true;
       } else if (statusFilter === 'inactive') {
         params.isActive = false;
       }
       
-      const numericFilters = [];
-      
-      if (minPrice) numericFilters.push(`price>=${minPrice}`);
-      if (maxPrice) numericFilters.push(`price<=${maxPrice}`);
-      
-      if (minStock) numericFilters.push(`stock>=${minStock}`);
-      if (maxStock) numericFilters.push(`stock<=${maxStock}`);
-      
-      if (numericFilters.length > 0) {
-        params.numericFilters = numericFilters.join(',');
+      // Handle price filters
+      if (minPrice) {
+        const priceValue = parseFloat(minPrice);
+        if (!isNaN(priceValue) && priceValue >= 0) {
+          params.minPrice = priceValue;
+        }
+      }
+      if (maxPrice) {
+        const priceValue = parseFloat(maxPrice);
+        if (!isNaN(priceValue) && priceValue >= 0) {
+          params.maxPrice = priceValue;
+        }
       }
       
-      if (minPrice) params.minPrice = minPrice;
-      if (maxPrice) params.maxPrice = maxPrice;
+      // Handle stock filters
+      if (minStock) {
+        const stockValue = parseInt(minStock);
+        if (!isNaN(stockValue) && stockValue >= 0) {
+          params.minStock = stockValue;
+        }
+      }
+      if (maxStock) {
+        const stockValue = parseInt(maxStock);
+        if (!isNaN(stockValue) && stockValue >= 0) {
+          params.maxStock = stockValue;
+        }
+      }
       
+      // Handle sorting - this is the key fix for ascending/descending
       if (sortBy) {
+        // Apply sort order correctly
         params.sort = sortOrder === 'asc' ? sortBy : `-${sortBy}`;
       } else {
+        // Default sorting
         params.sort = '-createdAt';
       }
       
-      console.log('API Parameters:', params); 
+      console.log('API Parameters:', params);
       
       const response = await http.get('/products/all', { params });
       
@@ -383,7 +400,8 @@ export default function ProductManagementPage() {
                         value={minStock}
                         onChange={(e) => {
                           const value = e.target.value;
-                          if (value === '' || (parseInt(value) >= 0)) {
+                          // Allow empty string or valid non-negative numbers
+                          if (value === '' || (parseInt(value) >= 0 && !isNaN(parseInt(value)))) {
                             setMinStock(value);
                             setCurrentPage(1);
                           }
@@ -402,7 +420,8 @@ export default function ProductManagementPage() {
                         value={maxStock}
                         onChange={(e) => {
                           const value = e.target.value;
-                          if (value === '' || (parseInt(value) >= 0)) {
+                          // Allow empty string or valid non-negative numbers
+                          if (value === '' || (parseInt(value) >= 0 && !isNaN(parseInt(value)))) {
                             setMaxStock(value);
                             setCurrentPage(1);
                           }
@@ -440,8 +459,8 @@ export default function ProductManagementPage() {
                         setBrandFilter('');
                         setMinPrice('');
                         setMaxPrice('');
-                        setMinStock('');
-                        setMaxStock('');
+                        setMinStock('');  // Clear stock filters
+                        setMaxStock('');  // Clear stock filters
                         setStatusFilter('all');
                         setSortBy('');
                         setSortOrder('desc');
@@ -608,10 +627,19 @@ export default function ProductManagementPage() {
                     </table>
                   </div>
                   
-                  {displayedProducts.length === 0 && !loading && (
-                    <div className="text-center py-8 sm:py-12">
-                      <p className="text-gray-500 text-base sm:text-lg">No products found</p>
-                      <p className="text-gray-400 text-sm sm:text-base px-4">Try adjusting your search criteria</p>
+                  {products.length === 0 && !loading && (
+                    <div className="text-center py-12">
+                      <p className="text-gray-500 text-base sm:text-lg">
+                        {/* Display appropriate message based on filters */}
+                        {minStock || maxStock || minPrice || maxPrice || statusFilter !== 'all' || categoryFilter || brandFilter || searchTerm
+                          ? `No products found matching your criteria: ${minStock ? `Min Stock: ${minStock}` : ''} ${maxStock ? `Max Stock: ${maxStock}` : ''}`
+                          : 'No products found'}
+                      </p>
+                      {(minStock || maxStock || minPrice || maxPrice || statusFilter !== 'all' || categoryFilter || brandFilter || searchTerm) && (
+                        <p className="text-gray-400 text-sm sm:text-base px-4">
+                          Try adjusting your filters
+                        </p>
+                      )}
                     </div>
                   )}
                   

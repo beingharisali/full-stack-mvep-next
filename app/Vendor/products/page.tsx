@@ -62,27 +62,50 @@ export default function VendorProductManagementPage() {
       if (searchTerm) params.name = searchTerm;
       if (categoryFilter) params.category = categoryFilter;
       if (brandFilter) params.brand = brandFilter;
-      const numericFilters = [];
       
-      if (minPrice) numericFilters.push(`price>=${minPrice}`);
-      if (maxPrice) numericFilters.push(`price<=${maxPrice}`);
-      
-      if (minStock) numericFilters.push(`stock>=${minStock}`);
-      if (maxStock) numericFilters.push(`stock<=${maxStock}`);
-      
-      if (numericFilters.length > 0) {
-        params.numericFilters = numericFilters.join(',');
+      if (minPrice) {
+        const priceValue = parseFloat(minPrice);
+        if (!isNaN(priceValue) && priceValue >= 0) {
+          params.minPrice = priceValue;
+        }
+      }
+      if (maxPrice) {
+        const priceValue = parseFloat(maxPrice);
+        if (!isNaN(priceValue) && priceValue >= 0) {
+          params.maxPrice = priceValue;
+        }
       }
       
-      if (minPrice) params.minPrice = minPrice;
-      if (maxPrice) params.maxPrice = maxPrice;
-      if (statusFilter) params.isActive = statusFilter === 'active';
+      if (minStock) {
+        const stockValue = parseInt(minStock);
+        if (!isNaN(stockValue) && stockValue >= 0) {
+          params.minStock = stockValue; 
+        }
+      }
+      if (maxStock) {
+        const stockValue = parseInt(maxStock);
+        if (!isNaN(stockValue) && stockValue >= 0) {
+          params.maxStock = stockValue; 
+        }
+      }
+      
+      if (statusFilter === 'active') {
+        params.isActive = true;
+      } else if (statusFilter === 'inactive') {
+        params.isActive = false;
+      }
       
       if (sortBy) {
         params.sort = sortOrder === 'asc' ? sortBy : `-${sortBy}`;
+      } else {
+        params.sort = '-createdAt';
       }
       
+      console.log('API Parameters:', params); 
+      
       const response = await http.get('/products/all', { params });
+      
+      console.log('API Response:', response.data);
       
       setProducts(response.data.products);
       setTotalPages(response.data.totalPages);

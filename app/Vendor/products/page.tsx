@@ -200,7 +200,7 @@ export default function VendorProductManagementPage() {
           <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
           <main className={`flex-1 p-4 md:p-6 transition-all duration-300 ${sidebarOpen ? 'md:ml-0' : ''}`}>
             <div className="max-w-7xl mx-auto">
-              <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6">My Products</h1>
+              <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 mb-4 sm:mb-6">My Products</h1>
               
               <div className="bg-white rounded-lg shadow-md p-4 mb-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
@@ -433,8 +433,8 @@ export default function VendorProductManagementPage() {
               </div>
               
               {loading ? (
-                <div className="flex justify-center items-center h-64">
-                  <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+                <div className="flex justify-center items-center h-48 sm:h-64">
+                  <div className="animate-spin rounded-full h-8 w-8 sm:h-12 sm:w-12 border-t-2 border-b-2 border-blue-500"></div>
                 </div>
               ) : (
                 <div className="bg-white rounded-lg shadow-md overflow-hidden">
@@ -530,15 +530,15 @@ export default function VendorProductManagementPage() {
                   </div>
                   
                   {displayedProducts.length === 0 && !loading && (
-                    <div className="text-center py-12">
-                      <p className="text-gray-500 text-lg">No products found</p>
-                      <p className="text-gray-400">Try adjusting your search criteria</p>
+                    <div className="text-center py-8 sm:py-12">
+                      <p className="text-gray-500 text-base sm:text-lg">No products found</p>
+                      <p className="text-gray-400 text-sm sm:text-base px-4">Try adjusting your search criteria</p>
                     </div>
                   )}
                   
                   {totalPages > 1 && (
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between px-4 md:px-6 py-3 border-t bg-gray-50">
-                      <div className="text-sm text-gray-700 mb-4 sm:mb-0">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between px-3 sm:px-4 md:px-6 py-3 border-t bg-gray-50">
+                      <div className="text-xs sm:text-sm text-gray-700 mb-3 sm:mb-0">
                         Showing {(currentPage - 1) * itemsPerPage + 1} to {Math.min(currentPage * itemsPerPage, totalProducts)} of {totalProducts} products
                       </div>
                       
@@ -546,7 +546,7 @@ export default function VendorProductManagementPage() {
                         <button
                           onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                           disabled={currentPage === 1}
-                          className={`px-3 py-1 rounded-md text-sm ${currentPage === 1 ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-gray-300 text-gray-700 hover:bg-gray-400'}`}
+                          className={`px-2 py-1 rounded-md text-xs sm:text-sm ${currentPage === 1 ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-gray-300 text-gray-700 hover:bg-gray-400'}`}
                         >
                           Previous
                         </button>
@@ -567,7 +567,7 @@ export default function VendorProductManagementPage() {
                             <button
                               key={pageNum}
                               onClick={() => setCurrentPage(pageNum)}
-                              className={`px-3 py-1 rounded-md text-sm ${currentPage === pageNum ? 'bg-blue-600 text-white' : 'bg-gray-300 text-gray-700 hover:bg-gray-400'}`}
+                              className={`px-2 py-1 rounded-md text-xs sm:text-sm ${currentPage === pageNum ? 'bg-blue-600 text-white' : 'bg-gray-300 text-gray-700 hover:bg-gray-400'}`}
                             >
                               {pageNum}
                             </button>
@@ -577,7 +577,7 @@ export default function VendorProductManagementPage() {
                         <button
                           onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
                           disabled={currentPage === totalPages}
-                          className={`px-3 py-1 rounded-md text-sm ${currentPage === totalPages ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-gray-300 text-gray-700 hover:bg-gray-400'}`}
+                          className={`px-2 py-1 rounded-md text-xs sm:text-sm ${currentPage === totalPages ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-gray-300 text-gray-700 hover:bg-gray-400'}`}
                         >
                           Next
                         </button>
@@ -591,9 +591,9 @@ export default function VendorProductManagementPage() {
         </div>
         
         {showModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-lg p-4 md:p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto modal-responsive">
-              <h2 className="text-xl font-bold mb-4">{isEditing ? 'Edit Product' : 'Add New Product'}</h2>
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+            <div className="bg-white rounded-lg p-3 sm:p-4 md:p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto modal-responsive">
+              <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">{isEditing ? 'Edit Product' : 'Add New Product'}</h2>
               
               <div className="space-y-4">
                 <div>
@@ -696,17 +696,17 @@ export default function VendorProductManagementPage() {
                 </div>
               </div>
               
-              <div className="mt-6 flex flex-col-reverse sm:flex-row sm:justify-end space-y-3 sm:space-y-0 sm:space-x-3">
+              <div className="mt-4 sm:mt-6 flex flex-col-reverse sm:flex-row sm:justify-end space-y-2 sm:space-y-0 sm:space-x-3">
                 <button
                   onClick={() => setShowModal(false)}
-                  className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 w-full sm:w-auto"
+                  className="px-3 py-2 sm:px-4 sm:py-2 text-sm sm:text-base bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 w-full sm:w-auto"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleSaveProduct}
                   disabled={!currentProduct?.name?.trim() || currentProduct.price === undefined || currentProduct.price < 0 || currentProduct.stock === undefined || currentProduct.stock < 0}
-                  className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed w-full sm:w-auto"
+                  className="px-3 py-2 sm:px-4 sm:py-2 text-sm sm:text-base bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed w-full sm:w-auto"
                 >
                   {isEditing ? 'Update Product' : 'Create Product'}
                 </button>

@@ -182,3 +182,8 @@ export async function getVendorOrders(): Promise<OrderSummary> {
   const res = await http.get("/order/vendor-orders");
   return res.data;
 }
+
+export async function getAllOrdersForAdminOrVendor(): Promise<OrderSummary> {
+  const res = await http.get("/order/vendor-orders-all");
+  return res.data;
+}

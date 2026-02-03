@@ -86,3 +86,17 @@ body {
     @apply block overflow-x-auto;
   }
 }
+
+@media (max-width: 320px) {
+  .text-xs-extra {
+    @apply text-[10px];
+  }
+  
+  .p-extra-small {
+    @apply p-1;
+  }
+  
+  .max-width-container {
+    @apply max-w-full;
+  }
+}

@@ -39,12 +39,16 @@ export default function Navbar() {
         </div>
 
         <nav className="hidden md:flex md:ml-auto md:items-center text-base justify-center space-x-5">
-          <Link href="/products" className="hover:text-gray-900 transition-colors">
-            Products
-          </Link>
-          <Link href="/cart" className="hover:text-gray-900 transition-colors">
-            Cart
-          </Link>
+          {user?.role === 'customer' && (
+            <>
+              <Link href="/products" className="hover:text-gray-900 transition-colors">
+                Products
+              </Link>
+              <Link href="/cart" className="hover:text-gray-900 transition-colors">
+                Cart
+              </Link>
+            </>
+          )}
           <Link href="/checkout" className="hover:text-gray-900 transition-colors">
             Checkout
           </Link>
@@ -89,20 +93,24 @@ export default function Navbar() {
         <div className="md:hidden bg-white border-t">
           <div className="px-4 py-3 space-y-3">
             <div className="flex flex-col space-y-2 pb-3 border-b">
-              <Link 
-                href="/products" 
-                className="hover:text-gray-900 py-2"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Products
-              </Link>
-              <Link 
-                href="/cart" 
-                className="hover:text-gray-900 py-2"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Cart
-              </Link>
+              {user?.role === 'customer' && (
+                <>
+                  <Link 
+                    href="/products" 
+                    className="hover:text-gray-900 py-2"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Products
+                  </Link>
+                  <Link 
+                    href="/cart" 
+                    className="hover:text-gray-900 py-2"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Cart
+                  </Link>
+                </>
+              )}
               <Link 
                 href="/checkout" 
                 className="hover:text-gray-900 py-2"

@@ -62,31 +62,58 @@ export default function VendorProductManagementPage() {
       if (searchTerm) params.name = searchTerm;
       if (categoryFilter) params.category = categoryFilter;
       if (brandFilter) params.brand = brandFilter;
-      const numericFilters = [];
       
-      if (minPrice) numericFilters.push(`price>=${minPrice}`);
-      if (maxPrice) numericFilters.push(`price<=${maxPrice}`);
-      
-      if (minStock) numericFilters.push(`stock>=${minStock}`);
-      if (maxStock) numericFilters.push(`stock<=${maxStock}`);
-      
-      if (numericFilters.length > 0) {
-        params.numericFilters = numericFilters.join(',');
+      // Handle price filters
+      if (minPrice) {
+        const priceValue = parseFloat(minPrice);
+        if (!isNaN(priceValue) && priceValue >= 0) {
+          params.minPrice = priceValue;
+        }
+      }
+      if (maxPrice) {
+        const priceValue = parseFloat(maxPrice);
+        if (!isNaN(priceValue) && priceValue >= 0) {
+          params.maxPrice = priceValue;
+        }
       }
       
-      if (minPrice) params.minPrice = minPrice;
-      if (maxPrice) params.maxPrice = maxPrice;
-      if (statusFilter) params.isActive = statusFilter === 'active';
+      // Handle stock filters
+      if (minStock) {
+        const stockValue = parseInt(minStock);
+        if (!isNaN(stockValue) && stockValue >= 0) {
+          params.minStock = stockValue;
+        }
+      }
+      if (maxStock) {
+        const stockValue = parseInt(maxStock);
+        if (!isNaN(stockValue) && stockValue >= 0) {
+          params.maxStock = stockValue;
+        }
+      }
       
+      // Handle status filter
+      if (statusFilter === 'active') {
+        params.isActive = true;
+      } else if (statusFilter === 'inactive') {
+        params.isActive = false;
+      }
+      // If statusFilter is empty, we don't add the isActive parameter
+      
+      // Handle sorting
       if (sortBy) {
         params.sort = sortOrder === 'asc' ? sortBy : `-${sortBy}`;
+      } else {
+        params.sort = '-createdAt';
       }
       
+      console.log('API Parameters:', params); // Debug log
+      
+      // Get all products for vendors
       const response = await http.get('/products/all', { params });
       
       setProducts(response.data.products);
       setTotalPages(response.data.totalPages);
-      setTotalProducts(response.data.totalProducts);
+      setTotalProducts(response.data.totalPages);
     } catch (error) {
       console.error('Error fetching products:', error);
     } finally {

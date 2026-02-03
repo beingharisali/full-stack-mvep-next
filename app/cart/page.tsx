@@ -131,15 +131,8 @@ const CartPage: React.FC = () => {
                           Checkout
                         </button>
                       </Link>
-                      <Link href="/products" className="w-full">
-                        <button
-                          type="button"
-                          className="w-full bg-white border border-gray-300 rounded-md shadow-sm py-3 px-4 text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                        >
-                          Continue Shopping
-                        </button>
-                      </Link>
                     </div>
+
                   </div>
                 </div>
               )}

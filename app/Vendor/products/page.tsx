@@ -35,7 +35,7 @@ export default function VendorProductManagementPage() {
   const [maxPrice, setMaxPrice] = useState('');
   const [minStock, setMinStock] = useState('');
   const [maxStock, setMaxStock] = useState('');
-  const [statusFilter, setStatusFilter] = useState('');
+  const [statusFilter, setStatusFilter] = useState('all'); 
   const [sortBy, setSortBy] = useState('');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
   const [currentPage, setCurrentPage] = useState(1);
@@ -101,11 +101,11 @@ export default function VendorProductManagementPage() {
         params.sort = '-createdAt';
       }
       
-      console.log('API Parameters:', params); 
+      console.log('API Parameters:', params);
       
       const response = await http.get('/products/all', { params });
       
-      console.log('API Response:', response.data);
+      console.log('API Response:', response.data); 
       
       setProducts(response.data.products);
       setTotalPages(response.data.totalPages);
@@ -220,6 +220,18 @@ export default function VendorProductManagementPage() {
     } catch (error: any) {
       console.error('Error saving product:', error);
       const errorMessage = error.response?.data?.msg || error.message || 'Failed to save product';
+      toast.error(errorMessage);
+    }
+  };
+
+  const handleToggleProductStatus = async (productId: string, currentStatus: boolean) => {
+    try {
+      await http.patch(`/products/${productId}`, { isActive: !currentStatus });
+      toast.success(`Product ${!currentStatus ? 'activated' : 'deactivated'} successfully!`);
+      fetchProducts(); 
+    } catch (error: any) {
+      console.error('Error toggling product status:', error);
+      const errorMessage = error.response?.data?.msg || error.message || 'Failed to update product status';
       toast.error(errorMessage);
     }
   };
@@ -391,7 +403,7 @@ export default function VendorProductManagementPage() {
                       }}
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
-                      <option value="">All Statuses</option>
+                      <option value="all">All Statuses</option>
                       <option value="active">Active</option>
                       <option value="inactive">Inactive</option>
                     </select>
@@ -407,7 +419,7 @@ export default function VendorProductManagementPage() {
                         setMaxPrice('');
                         setMinStock('');
                         setMaxStock('');
-                        setStatusFilter('');
+                        setStatusFilter('all');
                         setSortBy('');
                         setSortOrder('desc');
                         setCurrentPage(1);
@@ -555,6 +567,16 @@ export default function VendorProductManagementPage() {
                                 >
                                   Delete
                                 </button>
+                                <button 
+                                  onClick={() => handleToggleProductStatus(product._id, product.isActive)}
+                                  className={`px-2 py-1 rounded text-xs ${
+                                    product.isActive 
+                                      ? 'bg-red-100 text-red-800 hover:bg-red-200' 
+                                      : 'bg-green-100 text-green-800 hover:bg-green-200'
+                                  }`}
+                                >
+                                  {product.isActive ? 'Deactivate' : 'Activate'}
+                                </button>
                               </div>
                             </td>
                           </tr>
@@ -565,8 +587,16 @@ export default function VendorProductManagementPage() {
                   
                   {displayedProducts.length === 0 && !loading && (
                     <div className="text-center py-8 sm:py-12">
-                      <p className="text-gray-500 text-base sm:text-lg">No products found</p>
-                      <p className="text-gray-400 text-sm sm:text-base px-4">Try adjusting your search criteria</p>
+                      <p className="text-gray-500 text-base sm:text-lg">
+                        {minStock || maxStock || minPrice || maxPrice || statusFilter !== 'all' || categoryFilter || brandFilter || searchTerm
+                          ? `No products found matching your criteria: ${minStock ? `Min Stock: ${minStock}` : ''} ${maxStock ? `Max Stock: ${maxStock}` : ''}`
+                          : 'No products found'}
+                      </p>
+                      {(minStock || maxStock || minPrice || maxPrice || statusFilter !== 'all' || categoryFilter || brandFilter || searchTerm) && (
+                        <p className="text-gray-400 text-sm sm:text-base px-4">
+                          Try adjusting your filters
+                        </p>
+                      )}
                     </div>
                   )}
                   

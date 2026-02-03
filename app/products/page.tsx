@@ -48,7 +48,6 @@ export default function ProductsPage() {
       const params: any = {
         page: currentPage,
         limit: itemsPerPage,
-        isActive: true, 
       };
 
       if (searchTerm) params.name = searchTerm;

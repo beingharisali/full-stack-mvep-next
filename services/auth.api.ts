@@ -31,6 +31,3 @@ export async function getProfile(): Promise<{ user: User }> {
   return res.data;
 }
 
-export async function logoutApi(): Promise<void> {
-	localStorage.removeItem("token");
-}

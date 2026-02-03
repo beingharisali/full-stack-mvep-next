@@ -10,8 +10,8 @@ export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleLogout = () => {
-    logout();
-    window.location.href = "/";
+    logout(); 
+    window.location.href = "/"; 
   };
 
   const toggleMenu = () => {
@@ -127,8 +127,8 @@ export default function Navbar() {
                     Hello, {user.firstName} ({user.role})
                   </div>
                   <button
-                    onClick={() => {
-                      handleLogout();
+                    onClick={async () => {
+                      await handleLogout();
                       setIsMenuOpen(false);
                     }}
                     className="w-full inline-flex items-center justify-center bg-red-600 text-white border-0 py-2 px-4 rounded hover:bg-red-700 transition-colors"

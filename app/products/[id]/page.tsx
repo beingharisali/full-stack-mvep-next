@@ -74,7 +74,7 @@ export default function ProductDetailPage() {
         <div className="flex">
           <Sidebar />
 
-          <main className="flex-1 p-4 sm:p-6">
+          <main className="flex-1 p-4 lg:p-6">
             <button
               onClick={() => router.back()}
               className="mb-4 text-blue-600 text-sm sm:text-base"

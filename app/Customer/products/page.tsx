@@ -128,7 +128,7 @@ const CustomerProductsPage: React.FC = () => {
         <Navbar />
         <div className="flex">
           <Sidebar />
-          <main className="flex-1 p-4 sm:p-6">
+          <main className="flex-1 p-4 lg:p-6">
             <div className="max-w-7xl mx-auto">
               <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-4 sm:mb-6">Shop Products</h1>
               

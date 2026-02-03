@@ -98,7 +98,7 @@ export default function OrdersManagementPage() {
           order._id === orderId
             ? {
                 ...order,
-                status: res.order.status,
+                status: res.order.status as 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled',
                 statusInfo: {
                   ...order.statusInfo,
                   currentStatus: res.order.status,
@@ -156,7 +156,7 @@ export default function OrdersManagementPage() {
         <Navbar />
         <div className="flex">
           <Sidebar />
-          <main className="flex-1 p-4 sm:p-6">
+          <main className="flex-1 p-4 lg:p-6">
             <div className="max-w-7xl mx-auto">
               <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-4 sm:mb-6">Orders Management</h1>
               

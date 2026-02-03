@@ -16,7 +16,7 @@ function VendorDashboardPage() {
         <Navbar/>
         <div className='flex'>
         <Sidebar/>
-        <div className="flex-1 p-4 sm:p-6">
+        <div className="flex-1 p-4 lg:p-6">
           <div className="max-w-7xl mx-auto">
             <h1 className='font-bold text-xl sm:text-2xl mb-4 sm:mb-6'>Welcome to Vendor Dashboard, {user?.firstName}!</h1>
             

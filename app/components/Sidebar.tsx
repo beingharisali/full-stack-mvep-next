@@ -55,23 +55,24 @@ export default function Sidebar({ isOpen, setIsOpen }: { isOpen?: boolean; setIs
     <>
       {isSidebarOpen && (
         <div 
-          className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
           onClick={toggleSidebar}
         />
       )}
       
       <aside className={`
-        fixed md:relative inset-y-0 left-0 z-50
+        fixed lg:relative inset-y-0 left-0 z-50
         transform transition-transform duration-300 ease-in-out
-        ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
-        md:translate-x-0
+        ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+        lg:translate-x-0
         h-screen w-64 bg-gray-900 text-white flex flex-col
+        ${isSidebarOpen ? 'block' : 'hidden'} lg:block
       `}>
         <div className="h-16 flex items-center justify-between px-4 text-lg font-bold border-b border-gray-700">
           <span>{user ? `${user.role.charAt(0).toUpperCase() + user.role.slice(1)} Dashboard` : 'Dashboard'}</span>
           <button 
             onClick={toggleSidebar}
-            className="md:hidden text-white hover:text-gray-300"
+            className="lg:hidden text-white hover:text-gray-300"
             aria-label="Close sidebar"
           >
             <X size={20} />
@@ -85,7 +86,7 @@ export default function Sidebar({ isOpen, setIsOpen }: { isOpen?: boolean; setIs
               href={item.href}
               className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-800 transition-colors"
               onClick={() => {
-                if (window.innerWidth < 768) {
+                if (window.innerWidth < 1024) { // lg breakpoint
                   toggleSidebar();
                 }
               }}
@@ -99,7 +100,7 @@ export default function Sidebar({ isOpen, setIsOpen }: { isOpen?: boolean; setIs
 
       <button
         onClick={toggleSidebar}
-        className="fixed top-20 left-4 z-30 md:hidden bg-gray-900 text-white p-2 rounded-full shadow-lg"
+        className="fixed top-20 left-4 z-30 lg:hidden bg-gray-900 text-white p-2 rounded-full shadow-lg"
         aria-label="Toggle sidebar"
       >
         <svg

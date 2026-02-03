@@ -39,9 +39,10 @@ export async function getProducts(
     numericFilters?: string;
     page?: number;
     limit?: number;
+    isActive?: boolean; 
   }
 ): Promise<ProductListResponse> {
-  const response = await http.get("/products/all", { params });
+  const response = await http.get("/products", { params });
   return response.data;
 }
 

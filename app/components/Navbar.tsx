@@ -102,6 +102,16 @@ const Navbar: React.FC = () => {
                 >
                   Orders
                 </Link>
+                <Link 
+                  href="/Admin/orders/history" 
+                  className={`px-3 py-2 rounded-md text-sm font-medium ${
+                    pathname === '/Admin/orders/history' 
+                      ? 'text-indigo-600 bg-indigo-50' 
+                      : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50'
+                  }`}
+                >
+                  Order History
+                </Link>
               </>
             )}
             
@@ -136,6 +146,16 @@ const Navbar: React.FC = () => {
                   }`}
                 >
                   Orders
+                </Link>
+                <Link 
+                  href="/Vendor/orders/history" 
+                  className={`px-3 py-2 rounded-md text-sm font-medium ${
+                    pathname === '/Vendor/orders/history' 
+                      ? 'text-indigo-600 bg-indigo-50' 
+                      : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50'
+                  }`}
+                >
+                  Order History
                 </Link>
               </>
             )}

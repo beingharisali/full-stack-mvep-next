@@ -82,7 +82,7 @@ export default function VendorProductManagementPage() {
         params.sort = sortOrder === 'asc' ? sortBy : `-${sortBy}`;
       }
       
-      const response = await http.get('/products/vendor', { params });
+      const response = await http.get('/products/all', { params });
       
       setProducts(response.data.products);
       setTotalPages(response.data.totalPages);
@@ -211,7 +211,7 @@ export default function VendorProductManagementPage() {
           <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
           <main className={`flex-1 p-4 lg:p-6 transition-all duration-300 ${sidebarOpen ? 'lg:ml-0' : ''}`}>
             <div className="max-w-7xl mx-auto">
-              <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 mb-4 sm:mb-6">My Products</h1>
+              <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 mb-4 sm:mb-6">All Products (Admin & Vendor)</h1>
               
               <div className="bg-white rounded-lg shadow-md p-4 mb-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">

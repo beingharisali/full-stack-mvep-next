@@ -11,9 +11,8 @@ import toast from 'react-hot-toast';
 
 const CustomerDashboard: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
-  const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<'all' | 'featured'>('all');
+  const [activeTab, setActiveTab] = useState<'all'>('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('');
   const [priceRange, setPriceRange] = useState({ min: '', max: '' });
@@ -45,12 +44,8 @@ const CustomerDashboard: React.FC = () => {
 
   useEffect(() => {
     fetchCategories();
-    if (activeTab === 'all') {
-      fetchProducts();
-    } else {
-      fetchFeaturedProducts();
-    }
-  }, [activeTab, currentPage, searchTerm, categoryFilter, priceRange]);
+    fetchProducts();
+  }, [currentPage, searchTerm, categoryFilter, priceRange]);
 
   const fetchProducts = async () => {
     try {
@@ -92,22 +87,6 @@ const CustomerDashboard: React.FC = () => {
       setLoading(false);
     }
   };
-
-  const fetchFeaturedProducts = async () => {
-    try {
-      setLoading(true);
-      const response = await getProducts({ 
-        limit: 4, 
-        sort: '-createdAt'
-      });
-      setFeaturedProducts(response.products);
-    } catch (error) {
-      console.error('Error fetching featured products:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
 
   const fetchCategories = async () => {
     try {
@@ -214,19 +193,7 @@ const CustomerDashboard: React.FC = () => {
                     >
                       All Products
                     </button>
-                    <button 
-                      onClick={() => {
-                        setActiveTab('featured');
-                        setCurrentPage(1); 
-                      }}
-                      className={`px-3 py-2 sm:px-4 sm:py-2 rounded-md text-sm sm:text-base ${
-                        activeTab === 'featured' 
-                          ? 'bg-blue-600 text-white' 
-                          : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                      }`}
-                    >
-                      Featured
-                    </button>
+
                     <button 
                       onClick={() => router.push('/Customer/products')}
                       className="px-3 py-2 sm:px-4 sm:py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 text-sm sm:text-base"
@@ -353,30 +320,7 @@ const CustomerDashboard: React.FC = () => {
                   </div>
                 )}
                 
-                {activeTab === 'featured' && (
-                  <div>
-                    <div className="mb-6">
-                      <h3 className="text-xl font-semibold text-gray-700 mb-4">Recently Added</h3>
-                      {loading ? (
-                        <div className="flex justify-center items-center h-64">
-                          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
-                        </div>
-                      ) : (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                          {featuredProducts.map((product) => (
-                            <ProductCard 
-                              key={product._id} 
-                              product={product}
-                              onAddToCartClick={handleAddToCart}
-                            />
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                )}
-                
-                {activeTab === 'all' && (
+                {(
                   <div>
                     {loading ? (
                       <div className="flex justify-center items-center h-64">
@@ -471,12 +415,7 @@ const CustomerDashboard: React.FC = () => {
                   </div>
                 )}
                 
-                {!loading && activeTab === 'featured' && featuredProducts.length === 0 && (
-                  <div className="text-center py-12">
-                    <p className="text-gray-500 text-lg">No featured products available</p>
-                    <p className="text-gray-400">Check back later for new products</p>
-                  </div>
-                )}
+
               </div>
             </div>
           </main>

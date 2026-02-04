@@ -12,19 +12,21 @@ function VendorDashboardPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 1024) {
-        setSidebarOpen(false);
-      } else {
-        setSidebarOpen(true);
-      }
-    };
+    if (typeof window !== 'undefined') {
+      const handleResize = () => {
+        if (window.innerWidth < 1024) {
+          setSidebarOpen(false);
+        } else {
+          setSidebarOpen(true);
+        }
+      };
 
-    handleResize();
+      handleResize();
 
-    window.addEventListener('resize', handleResize);
+      window.addEventListener('resize', handleResize);
 
-    return () => window.removeEventListener('resize', handleResize);
+      return () => window.removeEventListener('resize', handleResize);
+    }
   }, []);
 
   return (
@@ -35,7 +37,7 @@ function VendorDashboardPage() {
           <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
           <div className={`flex-1 transition-all duration-300 ${
             sidebarOpen ? 'lg:ml-0' : ''
-          } ${window.innerWidth < 1024 ? 'ml-0' : ''}`}>
+          } ${typeof window !== 'undefined' && window.innerWidth < 1024 ? 'ml-0' : ''}`}>
             <div className="max-w-7xl mx-auto p-4 lg:p-6">
               <h1 className='font-bold text-xl sm:text-2xl mb-4 sm:mb-6'>Welcome to Vendor Dashboard, {user?.firstName}!</h1>
               

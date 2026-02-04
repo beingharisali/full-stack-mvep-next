@@ -4,9 +4,11 @@ import React, { useState, useEffect } from 'react';
 import Navbar from '../../components/Navbar';
 import Sidebar from '../../components/Sidebar';
 import ProtectedRoute from '../../../shared/ProtectedRoute';
-import { getUserOrdersEnhanced } from '../../../services/order.api'; 
+// import { getUserOrdersEnhanced } from '../../../services/order.api'; 
 import { useAuth } from '../../../context/AuthContext'; 
 import toast from 'react-hot-toast';
+import { getUserOrdersEnhanced, OrderEnhanced } from '../../../services/order.api';
+
 
 interface OrderItem {
   _id: string;
@@ -57,7 +59,7 @@ interface Order {
 
 const OrderHistoryPage: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [orders, setOrders] = useState<any[]>([]);
+const [orders, setOrders] = useState<OrderEnhanced[]>([]);
   const [loading, setLoading] = useState(true);
   const [statusFilter, setStatusFilter] = useState('all');
   const { user } = useAuth(); 
@@ -199,7 +201,10 @@ const OrderHistoryPage: React.FC = () => {
                         </div>
                         <div className="flex justify-between mt-1">
                           <span className="text-gray-600">Payment Method:</span>
-                          <span className="text-gray-900 capitalize">{order.paymentMethod.replace('-', ' ')}</span>
+                          <span className="text-gray-900 capitalize">
+  {(order.paymentMethod ?? 'card').replace('-', ' ')}
+</span>
+
                         </div>
                         <div className="flex justify-between mt-1">
                           <span className="text-gray-600">Last Updated:</span>

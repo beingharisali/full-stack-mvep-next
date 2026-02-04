@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import Navbar from '../../components/Navbar';
 import Sidebar from '../../components/Sidebar';
 import ProtectedRoute from '../../../shared/ProtectedRoute';
-// import { getUserOrdersEnhanced } from '../../../services/order.api'; 
 import { useAuth } from '../../../context/AuthContext'; 
 import toast from 'react-hot-toast';
 import { getUserOrdersEnhanced, OrderEnhanced } from '../../../services/order.api';

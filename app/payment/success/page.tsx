@@ -9,7 +9,7 @@ import ProtectedRoute from '../../../shared/ProtectedRoute';
 import { getOrderById } from '../../../services/order.api';
 import { Order } from '../../../types/order';
 
-const PaymentSuccessPage: React.FC = () => {
+const PaymentSuccessContent: React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -189,4 +189,19 @@ const PaymentSuccessPage: React.FC = () => {
   );
 };
 
-export default PaymentSuccessPage;
+const SuspendedPaymentSuccessPage: React.FC = () => {
+  if (typeof window === 'undefined') {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+  
+  return <PaymentSuccessContent />;
+};
+
+export default SuspendedPaymentSuccessPage;

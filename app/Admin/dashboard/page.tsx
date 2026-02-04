@@ -51,7 +51,7 @@ function AdminDashboardPage() {
                   </Link>
                 </div>
                 
-                <div className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow">
+                {/* <div className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow">
                   <h2 className="text-base sm:text-lg md:text-xl font-semibold mb-2 sm:mb-3">Manage Users</h2>
                   <p className="text-gray-600 mb-3 sm:mb-4 text-xs sm:text-sm">View and manage all users in the system</p>
                   <Link 
@@ -60,7 +60,7 @@ function AdminDashboardPage() {
                   >
                     Manage Users
                   </Link>
-                </div>
+                </div> */}
                 
                 <div className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow">
                   <h2 className="text-base sm:text-lg md:text-xl font-semibold mb-2 sm:mb-3">System Analytics</h2>

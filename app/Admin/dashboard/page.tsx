@@ -107,6 +107,22 @@ function AdminDashboardPage() {
                     System Settings
                   </Link>
                 </div>
+                <div className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow">
+  <h2 className="text-base sm:text-lg md:text-xl font-semibold mb-2">
+    Accounts Management
+  </h2>
+  <p className="text-gray-600 mb-4 text-sm">
+    Manage vendor and customer accounts
+  </p>
+
+  <Link
+    href="/Admin/accounts"
+    className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 inline-block"
+  >
+    View Accounts
+  </Link>
+</div>
+
               </div>
             </div>
           </main>

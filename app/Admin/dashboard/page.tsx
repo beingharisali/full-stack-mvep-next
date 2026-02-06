@@ -53,16 +53,6 @@ function AdminDashboardPage() {
                   </Link>
                 </div>
                 
-                {/* <div className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow">
-                  <h2 className="text-base sm:text-lg md:text-xl font-semibold mb-2 sm:mb-3">Manage Users</h2>
-                  <p className="text-gray-600 mb-3 sm:mb-4 text-xs sm:text-sm">View and manage all users in the system</p>
-                  <Link 
-                    href="/Admin/users" 
-                    className="px-3 py-2 sm:px-4 sm:py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 inline-block transition-colors text-sm sm:text-base"
-                  >
-                    Manage Users
-                  </Link>
-                </div> */}
                 
                 <div className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow">
                   <h2 className="text-base sm:text-lg md:text-xl font-semibold mb-2 sm:mb-3">System Analytics</h2>

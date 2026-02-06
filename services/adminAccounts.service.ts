@@ -1,4 +1,4 @@
-import http from "./http"; // tumhara axios instance
+import http from "./http"; 
 
 export interface User {
   id: string;
@@ -8,19 +8,16 @@ export interface User {
   role: "admin" | "vendor" | "customer";
 }
 
-// GET Vendors
 export async function getVendors(): Promise<User[]> {
   const res = await http.get("/admin/users?role=vendor");
   return res.data;
 }
 
-// GET Customers
 export async function getCustomers(): Promise<User[]> {
   const res = await http.get("/admin/users?role=customer");
   return res.data;
 }
 
-// DELETE user by admin
 export async function deleteUserByAdmin(id: string): Promise<{ msg: string }> {
   const res = await http.delete(`/admin/users/${id}`);
   return res.data;

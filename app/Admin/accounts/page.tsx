@@ -81,13 +81,13 @@ export default function AdminAccountsPage() {
             </div>
             
             <div className="flex flex-wrap gap-4">
-              <div className="bg-blue-50 rounded-lg px-4 py-3 border-l-4 border-blue-500">
-                <p className="text-sm text-gray-600">Vendors</p>
-                <p className="text-2xl font-bold text-blue-700">{totalVendors}</p>
+              <div className="bg-blue-100 rounded-lg px-4 py-3 border-l-4 border-blue-500">
+                <p className="text-sm text-gray-700 font-medium">Vendors</p>
+                <p className="text-2xl font-bold text-blue-800">{totalVendors}</p>
               </div>
-              <div className="bg-green-50 rounded-lg px-4 py-3 border-l-4 border-green-500">
-                <p className="text-sm text-gray-600">Customers</p>
-                <p className="text-2xl font-bold text-green-700">{totalCustomers}</p>
+              <div className="bg-green-100 rounded-lg px-4 py-3 border-l-4 border-green-500">
+                <p className="text-sm text-gray-700 font-medium">Customers</p>
+                <p className="text-2xl font-bold text-green-800">{totalCustomers}</p>
               </div>
             </div>
           </div>
@@ -101,7 +101,7 @@ export default function AdminAccountsPage() {
                   <FaUser className="text-xl" />
                   <h2 className="text-xl font-bold">Vendor Accounts</h2>
                 </div>
-                <span className="bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm">
+                <span className="bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm text-gray-800">
                   {vendors.length} vendors
                 </span>
               </div>
@@ -157,7 +157,7 @@ export default function AdminAccountsPage() {
                   <FaUser className="text-xl" />
                   <h2 className="text-xl font-bold">Customer Accounts</h2>
                 </div>
-                <span className="bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm">
+                <span className="bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm text-gray-800">
                   {customers.length} customers
                 </span>
               </div>

@@ -25,12 +25,39 @@ export default function AdminAccountsPage() {
   }, []);
 
   const handleDelete = async (id: string) => {
+    if (!window.confirm("Are you sure you want to delete this account? This action cannot be undone.")) {
+      return;
+    }
+    
     try {
       await deleteUserByAdmin(id);
-      setVendors(vendors.filter(v => v.id !== id));
-      setCustomers(customers.filter(c => c.id !== id));
+      
+      const [updatedVendors, updatedCustomers] = await Promise.all([
+        getVendors(),
+        getCustomers()
+      ]);
+      
+      setVendors(updatedVendors);
+      setCustomers(updatedCustomers);
+      
+      alert("Account deleted successfully!");
     } catch (err) {
-      console.error(err);
+      console.error("Error deleting account:", err);
+      if (err instanceof Error) {
+        alert(`Failed to delete account: ${err.message}`);
+      } else {
+        alert("Failed to delete account. Please try again.");
+      }
+      try {
+        const [refreshedVendors, refreshedCustomers] = await Promise.all([
+          getVendors(),
+          getCustomers()
+        ]);
+        setVendors(refreshedVendors);
+        setCustomers(refreshedCustomers);
+      } catch (refreshErr) {
+        console.error("Error refreshing data after failed deletion:", refreshErr);
+      }
     }
   };
 

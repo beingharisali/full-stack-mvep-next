@@ -89,9 +89,9 @@ const AdminOrderHistoryPage: React.FC = () => {
         statusFilter.split(',').some(s => s.trim() === order.status) : 
         order.status === statusFilter);
     const matchesSearch = searchTerm === '' || 
-      order.user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      order.user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      order._id.toLowerCase().includes(searchTerm.toLowerCase());
+      (order.user?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+       order.user?.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+       order._id.toLowerCase().includes(searchTerm.toLowerCase()));
     return matchesStatus && matchesSearch;
   });
 
@@ -161,12 +161,12 @@ const AdminOrderHistoryPage: React.FC = () => {
                         <div>
                           <h2 className="text-lg font-semibold text-gray-900">Order #{order._id}</h2>
                           <p className="text-sm text-gray-500">
-                            Placed on {new Date(order.createdAt).toLocaleDateString()} by {order.user.name} ({order.user.email})
+                            Placed on {new Date(order.createdAt).toLocaleDateString()} by {order.user?.name || 'Unknown User'} ({order.user?.email || 'No email'})
                           </p>
                         </div>
                         <div className="mt-2 md:mt-0">
                           <span className={`px-3 py-1 inline-flex text-sm font-semibold rounded-full ${getStatusColor(order.status)}`}>
-                            {order.statusInfo.statusDisplay}
+                            {order.statusInfo?.statusDisplay || order.status}
                           </span>
                         </div>
                       </div>
@@ -195,7 +195,7 @@ const AdminOrderHistoryPage: React.FC = () => {
                         </div>
                         <div className="flex justify-between mt-1">
                           <span className="text-gray-600">Customer:</span>
-                          <span className="text-gray-900">{order.user.name}</span>
+                          <span className="text-gray-900">{order.user?.name || 'Unknown User'}</span>
                         </div>
                         <div className="flex justify-between mt-1">
                           <span className="text-gray-600">Payment Method:</span>

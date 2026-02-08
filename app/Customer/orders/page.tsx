@@ -47,7 +47,7 @@ const OrdersPage: React.FC = () => {
   const getStatusOptions = (order: OrderEnhanced) => {
     return [{
       value: order.status,
-      label: order.statusInfo.statusDisplay,
+      label: order.statusInfo?.statusDisplay || order.status,
       color: order.status === 'delivered' ? 'bg-green-100 text-green-800' : 
              order.status === 'shipped' ? 'bg-blue-100 text-blue-800' : 
              order.status === 'processing' ? 'bg-yellow-100 text-yellow-800' : 
@@ -190,9 +190,9 @@ const OrdersPage: React.FC = () => {
                                         ? 'bg-gray-100 text-gray-800'
                                         : 'bg-red-100 text-red-800'
                               }`}>
-                                {order.statusInfo.statusDisplay}
+                                {order.statusInfo?.statusDisplay || order.status}
                               </span>
-                              {order.statusInfo.isRecent && (
+                              {order.statusInfo?.isRecent && (
                                 <span className="text-[9px] sm:text-xs text-green-600">Updated</span>
                               )}
                             </div>
@@ -229,7 +229,7 @@ const OrdersPage: React.FC = () => {
                               <span className={`text-[10px] sm:text-xs rounded px-1.5 py-0.5 sm:px-2 sm:py-1 ${
                                 getStatusOptions(order).find(opt => opt.value === order.status)?.color || 'bg-gray-100 text-gray-800'
                               }`}>
-                                {order.statusInfo.statusDisplay}
+                                {order.statusInfo?.statusDisplay || order.status}
                               </span>
                             </div>
                           </td>

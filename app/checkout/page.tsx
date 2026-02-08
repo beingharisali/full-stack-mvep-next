@@ -69,6 +69,7 @@ const CheckoutPage: React.FC = () => {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string>('card');
   const [isProcessing, setIsProcessing] = useState(false);
   const [paymentError, setPaymentError] = useState<string | null>(null);
+  const [paymentConfigured, setPaymentConfigured] = useState<boolean>(true);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -150,7 +151,6 @@ const CheckoutPage: React.FC = () => {
       
       const order = await createOrder(orderData);
       
-      // Check if payment processing is configured
       let paymentResult = { success: true };
       
       if (selectedPaymentMethod !== 'cash-on-delivery') {
@@ -181,18 +181,15 @@ const CheckoutPage: React.FC = () => {
               break;
           }
         } catch (paymentError: any) {
-          // If payment processing is not configured, we can still complete the order
-          // This allows testing order placement in development
           console.warn('Payment processing not configured, proceeding with order creation only');
           paymentResult = { success: true };
         }
       } else {
-        // For cash on delivery, no payment processing needed
         paymentResult = { success: true };
       }
       
       if (paymentResult.success) {
-        console.log('Order and payment processed:', { order, payment: paymentResult });
+        console.log('Order processed:', { order, payment: paymentResult });
         toast.success('Order placed successfully!');
         clearCart();
         

@@ -124,9 +124,9 @@ const OrderDetailPage: React.FC = () => {
                                   ? 'bg-gray-100 text-gray-800'
                                   : 'bg-red-100 text-red-800'
                         }`}>
-                          {order.statusInfo.statusDisplay}
+                          {order.statusInfo?.statusDisplay || order.status}
                         </span>
-                        {order.statusInfo.isRecent && (
+                        {order.statusInfo?.isRecent && (
                           <span className="text-xs text-green-600 mt-1">Recently updated</span>
                         )}
                       </div>
@@ -219,19 +219,19 @@ const OrderDetailPage: React.FC = () => {
                       <div>
                         <h3 className="text-sm font-medium text-gray-500">Last Updated</h3>
                         <p className="text-sm text-gray-900">
-                          {order.statusInfo.formattedLastUpdated || new Date(order.updatedAt).toLocaleString()}
+                          {order.statusInfo?.formattedLastUpdated || new Date(order.updatedAt).toLocaleString()}
                         </p>
                       </div>
                       
                       <div>
                         <h3 className="text-sm font-medium text-gray-500">Status Changes</h3>
-                        <p className="text-sm text-gray-900">{order.statusInfo.totalStatusChanges} changes</p>
+                        <p className="text-sm text-gray-900">{order.statusInfo?.totalStatusChanges || 0} changes</p>
                       </div>
                       
                       <div>
                         <h3 className="text-sm font-medium text-gray-500">Order Status</h3>
                         <p className="text-sm text-gray-900">
-                          {order.statusInfo.isFirstStatus ? 'First status' : 'Status updated'}
+                          {order.statusInfo?.isFirstStatus ? 'First status' : 'Status updated'}
                         </p>
                       </div>
                     </div>

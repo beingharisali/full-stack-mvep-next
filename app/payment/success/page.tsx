@@ -145,8 +145,8 @@ const PaymentSuccessContent: React.FC = () => {
 
                   <h3 className="text-lg font-medium text-gray-800 mb-3">Items Ordered</h3>
                   <div className="space-y-3">
-                    {order.items.map((item: any) => (
-                      <div key={item._id} className="flex justify-between items-center py-2 border-b border-gray-100">
+                    {order.items.map((item: any, index: number) => (
+                      <div key={`${item._id || item.product || index}`} className="flex justify-between items-center py-2 border-b border-gray-100">
                         <div className="flex items-center">
                           {item.images && item.images[0] && (
                             <img 

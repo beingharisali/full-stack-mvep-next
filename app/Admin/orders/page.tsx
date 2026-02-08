@@ -94,9 +94,9 @@ const AdminOrdersPage: React.FC = () => {
   const filteredOrders = orders.filter(order => {
     const matchesStatus = statusFilter === 'all' || order.status === statusFilter;
     const matchesSearch = searchTerm === '' || 
-      order.user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      order.user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      order._id.toLowerCase().includes(searchTerm.toLowerCase());
+      (order.user?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+       order.user?.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+       order._id.toLowerCase().includes(searchTerm.toLowerCase()));
     return matchesStatus && matchesSearch;
   });
 
@@ -196,8 +196,12 @@ const AdminOrdersPage: React.FC = () => {
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div>
-                              <div className="text-sm font-medium text-gray-900">{order.user.name}</div>
-                              <div className="text-sm text-gray-500">{order.user.email}</div>
+                              <div className="text-sm font-medium text-gray-900">
+                                {order.user ? order.user.name : 'Unknown User'}
+                              </div>
+                              <div className="text-sm text-gray-500">
+                                {order.user ? order.user.email : 'No email' }
+                              </div>
                             </div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">

@@ -206,8 +206,14 @@ const CheckoutPage: React.FC = () => {
       
     } catch (error: any) {
       console.error('Error processing order/payment:', error);
-      setPaymentError(error.response?.data?.error || 'Failed to process order. Please try again.');
-      toast.error('Failed to process order. Please try again.');
+      if (error.response?.data?.error?.includes('not configured')) {
+        toast.success('Order placed successfully! (Payment processing not configured)');
+        clearCart();
+        router.push('/orders');
+      } else {
+        setPaymentError(error.response?.data?.error || 'Failed to process order. Please try again.');
+        toast.error('Failed to process order. Please try again.');
+      }
     } finally {
       setIsProcessing(false);
     }

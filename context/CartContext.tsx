@@ -64,7 +64,8 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 const cartReducer = (state: CartState, action: CartAction): CartState => {
   switch (action.type) {
     case 'SET_CART':
-      const transformedItems = action.payload.items.map(item => ({
+      const itemsToTransform = action.payload.items || [];
+      const transformedItems = itemsToTransform.map(item => ({
         _id: item.product?._id || item._id,
         product: item.product,
         quantity: item.quantity,
@@ -159,7 +160,8 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     try {
       dispatch({ type: 'SET_LOADING', payload: { loading: true } });
       const cartData = await getCartAPI();
-      dispatch({ type: 'SET_CART', payload: { items: cartData.items || [] } });
+      const items = Array.isArray(cartData.items) ? cartData.items : [];
+      dispatch({ type: 'SET_CART', payload: { items } });
       dispatch({ type: 'SET_LOADING', payload: { loading: false } });
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Failed to load cart';
@@ -169,6 +171,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
         payload: { error: errorMessage } 
       });
       dispatch({ type: 'SET_LOADING', payload: { loading: false } });
+      dispatch({ type: 'SET_CART', payload: { items: [] } });
     }
   };
 

@@ -89,7 +89,7 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
             item._id === action.payload.product._id
               ? { 
                   ...item, 
-                  quantity: item.quantity + action.payload.product.quantity,
+                  quantity: item.quantity + (action.payload.product.quantity || 1),
                   price: item.product?.price || item.price || 0
                 }
               : item
@@ -100,7 +100,8 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
           ...state,
           items: [...state.items, { 
             ...action.payload.product, 
-            price: action.payload.product.product?.price || action.payload.product.price || 0 
+            price: action.payload.product.product?.price || action.payload.product.price || 0,
+            quantity: action.payload.product.quantity || 1
           }],
         };
       }
@@ -188,7 +189,8 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     try {
       dispatch({ type: 'SET_LOADING', payload: { loading: true } });
       const result = await addToCartAPI(productId, quantity);
-      dispatch({ type: 'SET_CART', payload: { items: result.items } });
+      const items = Array.isArray(result.items) ? result.items : [];
+      dispatch({ type: 'SET_CART', payload: { items } });
       dispatch({ type: 'SET_LOADING', payload: { loading: false } });
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Failed to add item to cart';
@@ -205,7 +207,8 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     try {
       dispatch({ type: 'SET_LOADING', payload: { loading: true } });
       const result = await removeFromCartAPI(productId);
-      dispatch({ type: 'SET_CART', payload: { items: result.items } });
+      const items = Array.isArray(result.items) ? result.items : [];
+      dispatch({ type: 'SET_CART', payload: { items } });
       dispatch({ type: 'SET_LOADING', payload: { loading: false } });
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Failed to remove item from cart';
@@ -222,7 +225,8 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     try {
       dispatch({ type: 'SET_LOADING', payload: { loading: true } });
       const result = await updateCartItemAPI(productId, quantity);
-      dispatch({ type: 'SET_CART', payload: { items: result.items } });
+      const items = Array.isArray(result.items) ? result.items : [];
+      dispatch({ type: 'SET_CART', payload: { items } });
       dispatch({ type: 'SET_LOADING', payload: { loading: false } });
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Failed to update item quantity';
@@ -239,7 +243,8 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     try {
       dispatch({ type: 'SET_LOADING', payload: { loading: true } });
       const result = await clearCartAPI();
-      dispatch({ type: 'SET_CART', payload: { items: result.items } });
+      const items = Array.isArray(result.items) ? result.items : [];
+      dispatch({ type: 'SET_CART', payload: { items } });
       dispatch({ type: 'SET_LOADING', payload: { loading: false } });
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Failed to clear cart';

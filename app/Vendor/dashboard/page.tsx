@@ -46,7 +46,7 @@ function VendorDashboardPage() {
                   <h2 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4">Manage Products</h2>
                   <p className="text-gray-600 mb-4 text-sm sm:text-base">View, add, edit, and manage your products</p>
                   <Link 
-                    href="/products" 
+                    href="/Vendor/products" 
                     className="px-3 py-2 sm:px-4 sm:py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 inline-block text-sm sm:text-base"
                   >
                     Manage Products

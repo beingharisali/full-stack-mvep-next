@@ -6,6 +6,7 @@ import Sidebar from '@/app/components/Sidebar';
 import ProtectedRoute from '../../../shared/ProtectedRoute';
 import { useAuth } from '../../../context/AuthContext';
 import http from '../../../services/http';
+import { deleteUserByAdmin } from '../../../services/adminAccounts.service';
 
 interface User {
   _id: string;
@@ -21,6 +22,7 @@ export default function UserManagementPage() {
   const { user } = useAuth();
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
@@ -31,9 +33,10 @@ export default function UserManagementPage() {
     try {
       setLoading(true);
       const response = await http.get('/admin/users');
-      setUsers(response.data.users);
+      setUsers(response.data);
     } catch (error) {
       console.error('Error fetching users:', error);
+      alert('Failed to fetch users');
     } finally {
       setLoading(false);
     }
@@ -44,6 +47,24 @@ export default function UserManagementPage() {
     user.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
     user.email.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const handleDeleteUser = async (userId: string, userName: string) => {
+    if (!confirm(`Are you sure you want to delete ${userName}? This action cannot be undone.`)) {
+      return;
+    }
+
+    try {
+      setDeletingId(userId);
+      await deleteUserByAdmin(userId);
+      setUsers(users.filter(user => user._id !== userId));
+      alert('User deleted successfully');
+    } catch (error: any) {
+      console.error('Error deleting user:', error);
+      alert(error.response?.data?.msg || 'Failed to delete user');
+    } finally {
+      setDeletingId(null);
+    }
+  };
 
   return (
     <ProtectedRoute allowedRoles={['admin']} redirectPath="/">
@@ -129,7 +150,13 @@ export default function UserManagementPage() {
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                             <button className="text-indigo-600 hover:text-indigo-900 mr-3">Edit</button>
-                            <button className="text-red-600 hover:text-red-900">Delete</button>
+                            <button 
+                              onClick={() => handleDeleteUser(user._id, `${user.firstName} ${user.lastName}`)}
+                              disabled={deletingId === user._id}
+                              className={`text-red-600 hover:text-red-900 ${deletingId === user._id ? 'opacity-50 cursor-not-allowed' : ''}`}
+                            >
+                              {deletingId === user._id ? 'Deleting...' : 'Delete'}
+                            </button>
                           </td>
                         </tr>
                       ))}

@@ -41,7 +41,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             setToken(null);
           }
         } catch (error) {
-          console.error('Failed to verify token:', error);
+          // Don't log the error as it's expected when token expires
+          // Just clean up the invalid token
           localStorage.removeItem('token');
           setToken(null);
         }
@@ -102,8 +103,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     try {
       const response = await http.get('/auth/profile');
       return response.data.user;
-    } catch (error) {
-      console.error('Failed to fetch user profile:', error);
+    } catch (error: any) {
+      // Only log the error if it's not a 401 Unauthorized
+      if (error.response?.status !== 401) {
+        console.error('Failed to fetch user profile:', error);
+      }
       return null;
     }
   };

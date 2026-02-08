@@ -29,8 +29,15 @@ export interface CartResponse {
 }
 
 export async function getCart(): Promise<Cart> {
-  const res = await http.get("/cart/get");
-  return res.data;
+  try {
+    const res = await http.get("/cart/get");
+    return res.data;
+  } catch (error: any) {
+    if (error.response?.status === 401) {
+      return { items: [], user: "" };
+    }
+    throw error;
+  }
 }
 
 export async function addToCart(productId: string, quantity: number): Promise<Cart> {

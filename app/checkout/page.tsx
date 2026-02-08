@@ -31,6 +31,9 @@ const CheckoutPage: React.FC = () => {
         const methods = await getPaymentMethods();
         setPaymentMethods(methods);
         
+        const hasConfiguredPayment = methods.stripe?.enabled || methods.braintree?.enabled || methods.paypal?.enabled;
+        setPaymentConfigured(!!hasConfiguredPayment);
+        
         if (methods.stripe?.enabled) {
           setSelectedPaymentMethod('stripe');
         } else if (methods.braintree?.enabled) {
@@ -38,11 +41,13 @@ const CheckoutPage: React.FC = () => {
         } else if (methods.paypal?.enabled) {
           setSelectedPaymentMethod('paypal');
         } else {
-          setSelectedPaymentMethod('stripe'); 
+          setSelectedPaymentMethod('cash-on-delivery'); 
         }
       } catch (error) {
         console.error('Failed to load payment methods:', error);
         toast.error('Failed to load payment methods');
+        setPaymentConfigured(false);
+        setSelectedPaymentMethod('cash-on-delivery');
       }
     };
     
@@ -245,6 +250,14 @@ const CheckoutPage: React.FC = () => {
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div className="bg-white p-4 md:p-6 rounded-lg shadow-md">
                   <h2 className="text-xl font-semibold text-gray-800 mb-4">Billing Information</h2>
+                  
+                  {!paymentConfigured && (
+                    <div className="mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded-md">
+                      <p className="text-yellow-700 text-sm">
+                        <strong>Notice:</strong> Payment processing is not configured. Orders will be created but payment verification will be skipped.
+                      </p>
+                    </div>
+                  )}
                   
                   <form onSubmit={handleSubmit}>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">

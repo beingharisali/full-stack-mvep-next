@@ -10,7 +10,6 @@ export default function AdminAccountsPage() {
   const [deletingUserId, setDeletingUserId] = useState<string | null>(null);
   const [showCreateForm, setShowCreateForm] = useState<boolean>(false);
 
-  // Debug effect to log state changes
   useEffect(() => {
     console.log("showCreateForm state changed to:", showCreateForm);
   }, [showCreateForm]);
@@ -368,7 +367,6 @@ export default function AdminAccountsPage() {
                 console.log("Create button clicked");
                 setShowCreateForm(true);
                 setFormMode('create');
-                // Reset form data but don't close the form
                 setFormData({
                   firstName: "",
                   lastName: "",

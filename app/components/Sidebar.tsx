@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Home, Settings, BarChart, ShoppingCart, Package, FileText, X } from "lucide-react";
+import { Home, Settings, BarChart, ShoppingCart, Package, FileText, MessageSquare, X } from "lucide-react";
 import { useAuth } from '../../context/AuthContext';
 import { useState, useEffect } from 'react';
 
@@ -58,12 +58,14 @@ export default function Sidebar({ isOpen, setIsOpen }: { isOpen?: boolean; setIs
           { href: '/Vendor/dashboard', icon: Home, label: 'Home' },
           { href: '/Vendor/products', icon: ShoppingCart, label: 'My Products' },
           { href: '/Vendor/orders', icon: FileText, label: 'Orders' },
+          { href: '/Vendor/chat', icon: MessageSquare, label: 'Chat' },
         ];
       case 'customer':
         return [
           { href: '/Customer/dashboard', icon: Home, label: 'Home' },
           { href: '/Customer/products', icon: ShoppingCart, label: 'Products' },
           { href: '/Customer/orders', icon: Package, label: 'My Orders' },
+          { href: '/Customer/chat', icon: MessageSquare, label: 'Chat' },
         ];
       default:
         return [];

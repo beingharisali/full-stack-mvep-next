@@ -5,7 +5,13 @@ import { Home, Settings, BarChart, ShoppingCart, Package, FileText, MessageSquar
 import { useAuth } from '../../context/AuthContext';
 import { useState, useEffect } from 'react';
 
-export default function Sidebar({ isOpen, setIsOpen }: { isOpen?: boolean; setIsOpen?: (open: boolean) => void }) {
+export interface SidebarProps {
+  isOpen?: boolean;
+  setIsOpen?: (open: boolean) => void;
+  onToggle?: () => void;
+}
+
+export default function Sidebar({ isOpen, setIsOpen, onToggle }: SidebarProps) {
   const { user } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
@@ -36,6 +42,10 @@ export default function Sidebar({ isOpen, setIsOpen }: { isOpen?: boolean; setIs
       setIsOpen(!isOpen);
     } else {
       setSidebarOpen(!sidebarOpen);
+    }
+    
+    if (onToggle) {
+      onToggle();
     }
   };
 
@@ -121,20 +131,6 @@ export default function Sidebar({ isOpen, setIsOpen }: { isOpen?: boolean; setIs
         </nav>
       </aside>
 
-      <button
-        onClick={toggleSidebar}
-        className="fixed top-20 left-4 z-30 lg:hidden bg-gray-900 text-white p-2 rounded-full shadow-lg"
-        aria-label="Toggle sidebar"
-      >
-        <svg
-          className={`w-5 h-5 transform transition-transform ${isSidebarOpen ? 'rotate-180' : ''}`}
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-        </svg>
-      </button>
     </>
   );
 }

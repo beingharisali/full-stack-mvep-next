@@ -10,6 +10,10 @@ import { useAuth } from '../../../context/AuthContext';
 function VendorDashboardPage() {
   const { user } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -32,9 +36,9 @@ function VendorDashboardPage() {
   return (
     <ProtectedRoute allowedRoles={['vendor']} redirectPath="/">
       <div className="min-h-screen bg-gray-50">
-        <Navbar/>
+        <Navbar onMenuToggle={toggleSidebar}/>
         <div className='flex'>
-          <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
+          <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} onToggle={toggleSidebar} />
           <div className={`flex-1 transition-all duration-300 ${
             sidebarOpen ? 'lg:ml-0' : ''
           } ${typeof window !== 'undefined' && window.innerWidth < 1024 ? 'ml-0' : ''}`}>

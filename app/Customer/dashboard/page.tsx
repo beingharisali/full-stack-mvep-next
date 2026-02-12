@@ -21,7 +21,11 @@ const CustomerDashboard: React.FC = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [totalProducts, setTotalProducts] = useState(0);
   const [categories, setCategories] = useState<string[]>([]);
-  const [sidebarOpen, setSidebarOpen] = useState(false); 
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  }; 
   const router = useRouter();
 
   const itemsPerPage = 8; 
@@ -120,9 +124,9 @@ const CustomerDashboard: React.FC = () => {
   return (
     <ProtectedRoute allowedRoles={['customer']} redirectPath="/">
       <div className="min-h-screen bg-gray-50">
-        <Navbar />
+        <Navbar onMenuToggle={toggleSidebar}/>
         <div className="flex">
-          <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
+          <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} onToggle={toggleSidebar} />
           <main className={`flex-1 transition-all duration-300 ${
             sidebarOpen ? 'lg:ml-0' : ''
           } ${typeof window !== 'undefined' && window.innerWidth < 1024 ? 'ml-0' : ''}`}>

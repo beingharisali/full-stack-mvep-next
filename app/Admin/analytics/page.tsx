@@ -65,7 +65,7 @@ export default function AnalyticsPage() {
 
                 <div className="glass-card rounded-lg p-6">
                   <h3 className="text-lg font-medium text-gray-400">
-                    Total Items
+                    Total Products
                   </h3>
                   <p className="text-3xl font-bold text-purple-400 mt-2">
                     {stats.totalProducts}

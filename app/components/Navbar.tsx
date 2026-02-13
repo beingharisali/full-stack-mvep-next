@@ -41,7 +41,7 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle }) => {
                       : "text-gray-300 hover:text-indigo-400 hover:bg-indigo-500/10"
                   }`}
                 >
-                  🎮 Items
+                  Products
                 </Link>
                 <Link
                   href="/cart"

@@ -62,13 +62,13 @@ function AdminDashboardPage() {
                     Products
                   </h2>
                   <p className="text-gray-400 mb-3 sm:mb-4 text-xs sm:text-sm">
-                    Add, edit, and manage all items
+                    Add, edit, and manage all products
                   </p>
                   <Link
                     href="/Admin/products"
                     className="px-3 py-2 sm:px-4 sm:py-2 gaming-btn text-white rounded-md inline-block transition-all text-sm sm:text-base"
                   >
-                    Manage Items
+                    Manage Products
                   </Link>
                 </div>
 
@@ -107,7 +107,7 @@ function AdminDashboardPage() {
                     Categories
                   </h2>
                   <p className="text-gray-400 mb-3 sm:mb-4 text-xs sm:text-sm">
-                    Manage item categories
+                    Manage products categories
                   </p>
                   <Link
                     href="/Admin/categories"

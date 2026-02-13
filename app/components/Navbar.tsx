@@ -62,6 +62,16 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle }) => {
                   Checkout
                 </Link>
                 <Link 
+                  href="/Customer/chat" 
+                  className={`px-3 py-2 rounded-md text-sm font-medium ${
+                    pathname === '/checkout' 
+                      ? 'text-indigo-600 bg-indigo-50' 
+                      : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50'
+                  }`}
+                >
+                  Chat
+                </Link>
+                <Link 
                   href="/orders/history" 
                   className={`px-3 py-2 rounded-md text-sm font-medium ${
                     pathname === '/orders/history' 
@@ -151,6 +161,18 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle }) => {
                 >
                   Orders
                 </Link>
+
+                <Link 
+                  href="/Vendor/chat" 
+                  className={`px-3 py-2 rounded-md text-sm font-medium ${
+                    pathname === '/Vendor/orders' 
+                      ? 'text-indigo-600 bg-indigo-50' 
+                      : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50'
+                  }`}
+                >
+                  Chat
+                </Link>
+
                 <Link 
                   href="/Vendor/orders/history" 
                   className={`px-3 py-2 rounded-md text-sm font-medium ${

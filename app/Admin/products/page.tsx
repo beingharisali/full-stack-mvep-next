@@ -224,7 +224,7 @@ export default function ProductManagementPage() {
     try {
       if (isEditing && currentProduct._id) {
         await http.patch(`/products/${currentProduct._id}`, productData as any);
-        toast.success("✨ Item upgraded successfully!");
+        toast.success("✨ Product upgraded successfully!");
       } else {
         await http.post("/products", productData as any);
         toast.success("🎉 New Product created successfully!");

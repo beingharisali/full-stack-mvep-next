@@ -53,7 +53,7 @@ const CustomerChatPage: React.FC = () => {
                 <h1 className="text-2xl font-bold neon-text">Chat</h1>
                 <button
                   onClick={() => router.back()}
-                  className="px-4 py-2 bg-indigo-900/50 text-indigo-400 rounded-md hover:bg-indigo-800/50 border border-indigo-500/30 transition-all"
+                  className="px-4 py-2 bg-indigo-900/50 text-indigo-400 rounded-md hover:bg-indigo-800/50 border border-indigo-500/30 transition-all touch-button"
                 >
                   Back
                 </button>

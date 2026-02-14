@@ -63,7 +63,7 @@ const OrdersPage: React.FC = () => {
           <div className="flex">
             <Sidebar />
             <main className="flex-1 p-4 lg:p-6">
-              <div className="max-w-7xl mx-auto">
+              <div className="container-mobile-lg mx-auto max-w-7xl">
                 <h1 className="text-2xl sm:text-3xl font-bold neon-text mb-4 sm:mb-6">My Orders</h1>
                 <div className="flex justify-center items-center h-48 sm:h-64">
                   <div className="animate-spin rounded-full h-8 w-8 sm:h-12 sm:w-12 border-t-2 border-b-2 border-indigo-500"></div>
@@ -84,7 +84,7 @@ const OrdersPage: React.FC = () => {
           <div className="flex">
             <Sidebar />
             <main className="flex-1 p-4 lg:p-6">
-              <div className="max-w-7xl mx-auto">
+              <div className="container-mobile-lg mx-auto max-w-7xl">
                 <h1 className="text-2xl sm:text-3xl font-bold neon-text mb-4 sm:mb-6">My Orders</h1>
                 <div className="bg-red-900/30 border border-red-500/30 text-red-400 px-3 py-2 sm:px-4 sm:py-3 rounded relative text-sm sm:text-base" role="alert">
                   <strong className="font-bold">Error: </strong>
@@ -105,7 +105,7 @@ const OrdersPage: React.FC = () => {
         <div className="flex">
           <Sidebar />
           <main className="flex-1 p-4 sm:p-6">
-            <div className="max-w-7xl mx-auto">
+            <div className="container-mobile-lg mx-auto max-w-7xl">
               <h1 className="text-2xl sm:text-3xl font-bold neon-text mb-4 sm:mb-6">My Orders</h1>
               
               <div className="glass-card p-4 mb-6">
@@ -115,7 +115,7 @@ const OrdersPage: React.FC = () => {
                     <select
                       value={statusFilter}
                       onChange={(e) => setStatusFilter(e.target.value)}
-                      className="px-2 py-1.5 sm:px-3 sm:py-2 text-sm sm:text-base gaming-input rounded-md"
+                      className="px-2 py-1.5 sm:px-3 sm:py-2 text-sm sm:text-base gaming-input rounded-md touch-button"
                     >
                       <option value="all">All Statuses</option>
                       <option value="pending">Pending</option>
@@ -222,7 +222,7 @@ const OrdersPage: React.FC = () => {
                             <div className="flex flex-col space-y-1 sm:space-y-2">
                               <button 
                                 onClick={() => handleViewDetails(order._id)}
-                                className="text-indigo-400 hover:text-indigo-300 text-left text-xs sm:text-sm transition-colors"
+                                className="text-indigo-400 hover:text-indigo-300 text-left text-xs sm:text-sm transition-colors touch-button"
                               >
                                 View Details
                               </button>

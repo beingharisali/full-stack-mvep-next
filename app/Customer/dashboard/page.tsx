@@ -123,7 +123,7 @@ const CustomerDashboard: React.FC = () => {
 
   return (
     <ProtectedRoute allowedRoles={['customer']} redirectPath="/">
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-[#050a14]">
         <Navbar onMenuToggle={toggleSidebar}/>
         <div className="flex">
           <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} onToggle={toggleSidebar} />
@@ -131,8 +131,8 @@ const CustomerDashboard: React.FC = () => {
             sidebarOpen ? 'lg:ml-0' : ''
           } ${typeof window !== 'undefined' && window.innerWidth < 1024 ? 'ml-0' : ''}`}>
             <div className="max-w-7xl mx-auto p-4 lg:p-6">
-              <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-2">Welcome Back!</h1>
-              <p className="text-gray-600 mb-6 sm:mb-8 text-sm sm:text-base">Discover our latest products and deals</p>
+              <h1 className="text-2xl sm:text-3xl font-bold neon-text mb-2">Welcome Back!</h1>
+              <p className="text-gray-400 mb-6 sm:mb-8 text-sm sm:text-base">Discover our latest products and deals</p>
               
               <div className="mb-6 sm:mb-8">
                 <div className="relative">
@@ -148,10 +148,10 @@ const CustomerDashboard: React.FC = () => {
                       }
                     }}
                     placeholder="Search products..."
-                    className="w-full px-3 sm:px-4 py-2 sm:py-3 pl-10 sm:pl-12 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-base sm:text-lg"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 pl-10 sm:pl-12 gaming-input rounded-lg text-base sm:text-lg"
                   />
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <svg className="h-5 w-5 sm:h-6 sm:w-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <svg className="h-5 w-5 sm:h-6 sm:w-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                     </svg>
                   </div>
@@ -159,23 +159,23 @@ const CustomerDashboard: React.FC = () => {
               </div>
               
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-10">
-                <div className="bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg shadow p-4 sm:p-6 text-white">
-                  <h2 className="text-lg sm:text-xl font-semibold mb-2">My Orders</h2>
-                  <p className="text-blue-100 text-sm sm:text-base">Track your recent orders</p>
+                <div className="glass-card rounded-lg p-4 sm:p-6 hover:scale-105 transition-all duration-300">
+                  <h2 className="text-lg sm:text-xl font-semibold text-indigo-400 mb-2">My Orders</h2>
+                  <p className="text-gray-400 text-sm sm:text-base">Track your recent orders</p>
                   <button 
                     onClick={() => router.push('/Customer/orders')}
-                    className="mt-4 px-3 sm:px-4 py-2 bg-white text-blue-600 rounded-md hover:bg-blue-50 transition-colors text-sm sm:text-base"
+                    className="mt-4 px-3 sm:px-4 py-2 gaming-btn text-white rounded-md text-sm sm:text-base"
                   >
                     View Orders
                   </button>
                 </div>
                 
-                <div className="bg-gradient-to-r from-purple-500 to-purple-600 rounded-lg shadow p-4 sm:p-6 text-white">
-                  <h2 className="text-lg sm:text-xl font-semibold mb-2">Shopping Cart</h2>
-                  <p className="text-purple-100 text-sm sm:text-base">Review items in your cart</p>
+                <div className="glass-card rounded-lg p-4 sm:p-6 hover:scale-105 transition-all duration-300">
+                  <h2 className="text-lg sm:text-xl font-semibold text-purple-400 mb-2">Shopping Cart</h2>
+                  <p className="text-gray-400 text-sm sm:text-base">Review items in your cart</p>
                   <button 
                     onClick={() => router.push('/cart')}
-                    className="mt-4 px-3 sm:px-4 py-2 bg-white text-purple-600 rounded-md hover:bg-purple-50 transition-colors text-sm sm:text-base"
+                    className="mt-4 px-3 sm:px-4 py-2 gaming-btn text-white rounded-md text-sm sm:text-base"
                   >
                     View Cart
                   </button>
@@ -184,17 +184,17 @@ const CustomerDashboard: React.FC = () => {
               
               <div className="mb-6 sm:mb-8">
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-0 mb-4 sm:mb-6">
-                  <h2 className="text-xl sm:text-2xl font-bold text-gray-800">Discover Products</h2>
+                  <h2 className="text-xl sm:text-2xl font-bold text-white">Discover Products</h2>
                   <div className="flex flex-wrap gap-2">
                     <button 
                       onClick={() => {
                         setActiveTab('all');
                         setCurrentPage(1); 
                       }}
-                      className={`px-3 py-2 sm:px-4 sm:py-2 rounded-md text-sm sm:text-base ${
+                      className={`px-3 py-2 sm:px-4 sm:py-2 rounded-md text-sm sm:text-base transition-all ${
                         activeTab === 'all' 
-                          ? 'bg-blue-600 text-white' 
-                          : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                          ? 'gaming-btn text-white' 
+                          : 'bg-indigo-900/30 text-indigo-400 border border-indigo-500/30 hover:bg-indigo-800/50'
                       }`}
                     >
                       All Products
@@ -202,7 +202,7 @@ const CustomerDashboard: React.FC = () => {
 
                     <button 
                       onClick={() => router.push('/Customer/products')}
-                      className="px-3 py-2 sm:px-4 sm:py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 text-sm sm:text-base"
+                      className="px-3 py-2 sm:px-4 sm:py-2 bg-indigo-900/30 text-indigo-400 rounded-md border border-indigo-500/30 hover:bg-indigo-800/50 transition-all"
                     >
                       Browse All
                     </button>
@@ -210,10 +210,10 @@ const CustomerDashboard: React.FC = () => {
                 </div>
                 
                 {activeTab === 'all' && (
-                  <div className="bg-white rounded-lg shadow-md p-4 mb-6">
+                  <div className="glass-card rounded-lg p-4 mb-6">
                     <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
                       <div>
-                        <label htmlFor="search" className="block text-sm font-medium text-gray-700 mb-1">
+                        <label htmlFor="search" className="block text-sm font-medium text-gray-400 mb-1">
                           Search
                         </label>
                         <input
@@ -225,12 +225,12 @@ const CustomerDashboard: React.FC = () => {
                             setCurrentPage(1); 
                           }}
                           placeholder="Search products..."
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          className="w-full px-3 py-2 gaming-input rounded-md"
                         />
                       </div>
                       
                       <div>
-                        <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-1">
+                        <label htmlFor="category" className="block text-sm font-medium text-gray-400 mb-1">
                           Category
                         </label>
                         <select
@@ -240,7 +240,7 @@ const CustomerDashboard: React.FC = () => {
                             setCategoryFilter(e.target.value);
                             setCurrentPage(1); 
                           }}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          className="w-full px-3 py-2 gaming-input rounded-md"
                         >
                           <option value="">All Categories</option>
                           {categories.map((category, index) => (
@@ -251,7 +251,7 @@ const CustomerDashboard: React.FC = () => {
                       
                       <div className="grid grid-cols-2 gap-2">
                         <div>
-                          <label htmlFor="minPrice" className="block text-sm font-medium text-gray-700 mb-1">
+                          <label htmlFor="minPrice" className="block text-sm font-medium text-gray-400 mb-1">
                             Min Price
                           </label>
                           <input
@@ -266,11 +266,11 @@ const CustomerDashboard: React.FC = () => {
                             }}
                             placeholder="Min"
                             min="0"
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-3 py-2 gaming-input rounded-md"
                           />
                         </div>
                         <div>
-                          <label htmlFor="maxPrice" className="block text-sm font-medium text-gray-700 mb-1">
+                          <label htmlFor="maxPrice" className="block text-sm font-medium text-gray-400 mb-1">
                             Max Price
                           </label>
                           <input
@@ -285,13 +285,13 @@ const CustomerDashboard: React.FC = () => {
                             }}
                             placeholder="Max"
                             min="0"
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-3 py-2 gaming-input rounded-md"
                           />
                         </div>
                       </div>
                       
                       <div>
-                        <label htmlFor="sort" className="block text-sm font-medium text-gray-700 mb-1">
+                        <label htmlFor="sort" className="block text-sm font-medium text-gray-400 mb-1">
                           Sort By
                         </label>
                         <select
@@ -301,7 +301,7 @@ const CustomerDashboard: React.FC = () => {
                             setSortBy(e.target.value);
                             setCurrentPage(1); 
                           }}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          className="w-full px-3 py-2 gaming-input rounded-md"
                         >
                           <option value="-createdAt">Newest</option>
                           <option value="createdAt">Oldest</option>
@@ -317,7 +317,7 @@ const CustomerDashboard: React.FC = () => {
                       <div className="flex items-end">
                         <button
                           onClick={handleClearFilters}
-                          className="w-full px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
+                          className="w-full px-4 py-2 bg-indigo-900/30 text-indigo-400 rounded-md border border-indigo-500/30 hover:bg-indigo-800/50 transition-all"
                         >
                           Clear Filters
                         </button>
@@ -330,7 +330,7 @@ const CustomerDashboard: React.FC = () => {
                   <div>
                     {loading ? (
                       <div className="flex justify-center items-center h-64">
-                        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+                        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
                       </div>
                     ) : (
                       <>
@@ -350,10 +350,10 @@ const CustomerDashboard: React.FC = () => {
                               <button
                                 onClick={() => handlePageChange(currentPage - 1)}
                                 disabled={currentPage === 1}
-                                className={`px-4 py-2 rounded-l-md border border-gray-300 text-sm font-medium ${
+                                className={`px-4 py-2 rounded-l-md border border-indigo-500/30 text-sm font-medium ${
                                   currentPage === 1 
-                                    ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
-                                    : 'bg-white text-gray-700 hover:bg-gray-50'
+                                    ? 'bg-[#1a1f2e] text-gray-600 cursor-not-allowed' 
+                                    : 'bg-[#1a1f2e] text-indigo-400 hover:bg-indigo-900/30'
                                 }`}
                               >
                                 Previous
@@ -372,9 +372,9 @@ const CustomerDashboard: React.FC = () => {
                                   else pageNum = totalPages - 3 + i;
                                 } else {
                                   if (i === 0) pageNum = 1;
-                                  else if (i === 1) return <span key="ellipsis1" className="px-4 py-2 border-t border-b border-gray-300 text-sm font-medium bg-white text-gray-700">...</span>;
+                                  else if (i === 1) return <span key="ellipsis1" className="px-4 py-2 border-t border-b border-indigo-500/30 text-sm font-medium bg-[#1a1f2e] text-gray-400">...</span>;
                                   else if (i === 2) pageNum = currentPage;
-                                  else if (i === 3) return <span key="ellipsis2" className="px-4 py-2 border-t border-b border-gray-300 text-sm font-medium bg-white text-gray-700">...</span>;
+                                  else if (i === 3) return <span key="ellipsis2" className="px-4 py-2 border-t border-b border-indigo-500/30 text-sm font-medium bg-[#1a1f2e] text-gray-400">...</span>;
                                   else pageNum = totalPages;
                                 }
                                 
@@ -384,10 +384,10 @@ const CustomerDashboard: React.FC = () => {
                                   <button
                                     key={pageNum}
                                     onClick={() => handlePageChange(pageNum)}
-                                    className={`px-4 py-2 border-t border-b border-gray-300 text-sm font-medium ${
+                                    className={`px-4 py-2 border-t border-b border-indigo-500/30 text-sm font-medium ${
                                       currentPage === pageNum
-                                        ? 'bg-blue-600 text-white'
-                                        : 'bg-white text-gray-700 hover:bg-gray-50'
+                                        ? 'bg-indigo-600 text-white'
+                                        : 'bg-[#1a1f2e] text-indigo-400 hover:bg-indigo-900/30'
                                     }`}
                                   >
                                     {pageNum}
@@ -398,10 +398,10 @@ const CustomerDashboard: React.FC = () => {
                               <button
                                 onClick={() => handlePageChange(currentPage + 1)}
                                 disabled={currentPage === totalPages}
-                                className={`px-4 py-2 rounded-r-md border border-gray-300 text-sm font-medium ${
+                                className={`px-4 py-2 rounded-r-md border border-indigo-500/30 text-sm font-medium ${
                                   currentPage === totalPages 
-                                    ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
-                                    : 'bg-white text-gray-700 hover:bg-gray-50'
+                                    ? 'bg-[#1a1f2e] text-gray-600 cursor-not-allowed' 
+                                    : 'bg-[#1a1f2e] text-indigo-400 hover:bg-indigo-900/30'
                                 }`}
                               >
                                 Next
@@ -416,12 +416,10 @@ const CustomerDashboard: React.FC = () => {
                 
                 {!loading && activeTab === 'all' && products.length === 0 && (
                   <div className="text-center py-12">
-                    <p className="text-gray-500 text-lg">No products available</p>
-                    <p className="text-gray-400">Check back later for new products</p>
+                    <p className="text-gray-400 text-lg">No products available</p>
+                    <p className="text-gray-500">Check back later for new products</p>
                   </div>
                 )}
-                
-
               </div>
             </div>
           </main>

@@ -224,7 +224,7 @@ export default function ProductManagementPage() {
     try {
       if (isEditing && currentProduct._id) {
         await http.patch(`/products/${currentProduct._id}`, productData as any);
-        toast.success("✨ Item upgraded successfully!");
+        toast.success("✨ Product upgraded successfully!");
       } else {
         await http.post("/products", productData as any);
         toast.success("🎉 New Product created successfully!");
@@ -589,7 +589,7 @@ export default function ProductManagementPage() {
                                   ) : (
                                     <div className="bg-indigo-900/30 border-2 border-indigo-500/30 rounded-xl w-10 h-10 flex items-center justify-center">
                                       <span className="text-indigo-400 text-xs">
-                                        🎮
+                                        
                                       </span>
                                     </div>
                                   )}

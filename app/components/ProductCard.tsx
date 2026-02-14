@@ -63,7 +63,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           />
         ) : (
           <div className="h-full w-full bg-gradient-to-br from-indigo-900/30 to-purple-900/30 flex items-center justify-center">
-            <span className="text-4xl">🎮</span>
+            <span className="text-4xl"></span>
           </div>
         )}
         {!product.isActive && (
@@ -136,7 +136,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         
         {!canAddToCart && product.isActive && product.stock > 0 && (
           <div className="mt-4 p-2 bg-indigo-900/30 rounded text-center text-sm text-indigo-400 border border-indigo-500/30">
-            🎮 Only customers can purchase products
+             Only customers can purchase products
           </div>
         )}
       </div>

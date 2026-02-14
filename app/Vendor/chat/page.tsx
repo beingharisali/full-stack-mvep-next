@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import Navbar from '../../components/Navbar';
 import Sidebar from '../../components/Sidebar';
 import ProtectedRoute from '../../../shared/ProtectedRoute';
@@ -40,7 +41,7 @@ const VendorChatPage: React.FC = () => {
 
   return (
     <ProtectedRoute allowedRoles={['vendor']} redirectPath="/">
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-[#050a14]">
         <Navbar onMenuToggle={toggleSidebar}/>
         <div className="flex">
           <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} onToggle={toggleSidebar} />
@@ -50,10 +51,10 @@ const VendorChatPage: React.FC = () => {
             } ${typeof window !== 'undefined' && window.innerWidth < 1024 ? 'ml-0' : ''}`}>
             <div className="max-w-7xl mx-auto p-4 lg:p-6 h-[calc(100vh-100px)] flex flex-col">
               <div className="flex justify-between items-center mb-6">
-                <h1 className="text-2xl font-bold text-gray-800">Chat</h1>
+                <h1 className="text-2xl font-bold neon-text">Chat</h1>
                 <button 
                   onClick={() => router.back()}
-                  className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
+                  className="px-4 py-2 bg-indigo-900/30 text-indigo-400 rounded-md border border-indigo-500/30 hover:bg-indigo-800/50 transition-colors"
                 >
                   Back
                 </button>

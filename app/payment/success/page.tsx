@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import Navbar from '../../components/Navbar';
 import Sidebar from '../../components/Sidebar';
 import ProtectedRoute from '../../../shared/ProtectedRoute';
@@ -11,6 +11,14 @@ import { Order } from '../../../types/order';
 
 const PaymentSuccessContent: React.FC = () => {
   const router = useRouter();
+  
+  const handleContinueShopping = () => {
+    router.push('/products');
+  };
+  
+  const handleViewOrders = () => {
+    router.push('/Customer/orders');
+  };
   const searchParams = useSearchParams();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [order, setOrder] = useState<Order | null>(null);
@@ -72,11 +80,12 @@ const PaymentSuccessContent: React.FC = () => {
                 <div className="text-red-500 text-6xl mb-4">⚠️</div>
                 <h1 className="text-2xl font-bold text-white mb-4">Order Not Found</h1>
                 <p className="text-gray-400 mb-6">{error || 'Unable to load order details'}</p>
-                <Link href="/products">
-                  <button className="px-6 py-3 gaming-btn text-white rounded-md transition-all">
-                    Continue Shopping
-                  </button>
-                </Link>
+                <button 
+                  onClick={handleContinueShopping}
+                  className="px-6 py-3 gaming-btn text-white rounded-md transition-all touch-button"
+                >
+                  Continue Shopping
+                </button>
               </div>
             </main>
           </div>
@@ -169,16 +178,18 @@ const PaymentSuccessContent: React.FC = () => {
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <Link href="/Customer/orders">
-                    <button className="px-6 py-3 gaming-btn text-white rounded-md transition-all">
-                      View Orders
-                    </button>
-                  </Link>
-                  <Link href="/products">
-                    <button className="px-6 py-3 border border-indigo-500 text-indigo-400 rounded-md hover:bg-indigo-900/30 transition-all">
-                      Continue Shopping
-                    </button>
-                  </Link>
+                  <button 
+                    onClick={handleViewOrders}
+                    className="px-6 py-3 gaming-btn text-white rounded-md transition-all touch-button"
+                  >
+                    View Orders
+                  </button>
+                  <button 
+                    onClick={handleContinueShopping}
+                    className="px-6 py-3 border border-indigo-500 text-indigo-400 rounded-md hover:bg-indigo-900/30 transition-all touch-button"
+                  >
+                    Continue Shopping
+                  </button>
                 </div>
               </div>
             </div>

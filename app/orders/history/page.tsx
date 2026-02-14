@@ -124,7 +124,7 @@ const OrderHistoryPage: React.FC = () => {
           <main className={`flex-1 p-4 lg:p-6 transition-all duration-300 ${sidebarOpen ? 'lg:ml-0' : ''}`}>
             <div className="container-mobile-lg mx-auto max-w-7xl">
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-                <h1 className="text-2xl md:text-3xl font-bold neon-text">Order History</h1>
+                <h1 className="text-2xl sm:text-3xl font-bold neon-text">Order History</h1>
               </div>
 
               <div className="glass-card p-4 rounded-lg mb-6">
@@ -193,17 +193,17 @@ const OrderHistoryPage: React.FC = () => {
                       </div>
 
                       <div className="border-t border-indigo-500/30 pt-4 mt-4">
-                        <div className="flex justify-between">
+                        <div className="flex flex-col sm:flex-row justify-between gap-1">
                           <span className="text-gray-400">Total Amount:</span>
                           <span className="font-semibold text-yellow-400">${order.totalAmount.toFixed(2)}</span>
                         </div>
-                        <div className="flex justify-between mt-1">
+                        <div className="flex flex-col sm:flex-row justify-between gap-1 mt-1">
                           <span className="text-gray-400">Payment Method:</span>
                           <span className="text-gray-300 capitalize">
                             {(order.paymentMethod ?? 'card').replace('-', ' ')}
                           </span>
                         </div>
-                        <div className="flex justify-between mt-1">
+                        <div className="flex flex-col sm:flex-row justify-between gap-1 mt-1">
                           <span className="text-gray-400">Last Updated:</span>
                           <span className="text-gray-300">{order.statusInfo.formattedLastUpdated}</span>
                         </div>

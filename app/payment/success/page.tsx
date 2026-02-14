@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useRouter } from 'next/navigation';
 import Navbar from '../../components/Navbar';
 import Sidebar from '../../components/Sidebar';
 import ProtectedRoute from '../../../shared/ProtectedRoute';
@@ -103,7 +102,7 @@ const PaymentSuccessContent: React.FC = () => {
         <div className="flex">
           <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
           <main className={`flex-1 p-4 lg:p-6 transition-all duration-300 ${sidebarOpen ? 'lg:ml-0' : ''}`}>
-            <div className="max-w-4xl mx-auto">
+            <div className="container-mobile-lg mx-auto max-w-4xl">
               <div className={`glass-card rounded-lg p-6 md:p-8 text-center ${isSuccess ? 'border-green-500/50' : 'border-red-500/50'}`}>
                 <div className={`text-6xl mb-4 ${isSuccess ? 'text-green-500' : 'text-red-500'}`}>
                   {isSuccess ? '✓' : '✗'}

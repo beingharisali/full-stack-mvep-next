@@ -165,7 +165,6 @@ body {
   @apply block;
 }
 
-/* Responsive Design for Large Desktops */
 @media (min-width: 1920px) {
   .container-wide {
     max-width: 1800px;

@@ -57,7 +57,7 @@ export default function SettingsPage() {
         <div className="flex">
           <Sidebar />
           <main className="flex-1 p-4 lg:p-6">
-            <div className="max-w-7xl mx-auto">
+            <div className="container-mobile-lg mx-auto max-w-7xl">
               <h1 className="text-3xl font-bold neon-text mb-6">Settings</h1>
 
               <div className="glass-card rounded-lg overflow-hidden">

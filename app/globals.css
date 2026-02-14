@@ -267,7 +267,6 @@ body {
   }
 }
 
-/* Large Mobile Devices */
 @media (min-width: 640px) and (max-width: 767px) {
   .text-responsive-h1 {
     @apply text-2xl;

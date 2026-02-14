@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   description:
     "Level up your shopping experience with our multi-vendor marketplace",
   viewport:
-    "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no",
+    "width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes",
 };
 
 export default function RootLayout({
@@ -34,13 +34,14 @@ export default function RootLayout({
       <head>
         <meta
           name="viewport"
-          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+          content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes"
         />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased relative`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased relative container-mobile-xs sm:container-mobile-sm md:container-mobile-md lg:container-mobile-lg xl:container-tablet 2xl:container-desktop`}
       >
         <ParticlesBackground />
+        <div className="fixed inset-0 pointer-events-none -z-10"></div>
         <div className="relative z-10">
           <AuthProvider>
             <CartProvider>

@@ -2,13 +2,14 @@
 
 import Navbar from "@/app/components/Navbar";
 import Sidebar from "@/app/components/Sidebar";
-import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import ProtectedRoute from "../../../shared/ProtectedRoute";
 import { useAuth } from "../../../context/AuthContext";
+import { useRouter } from 'next/navigation';
 
 function AdminDashboardPage() {
   const { user } = useAuth();
+  const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const toggleSidebar = () => {
@@ -35,7 +36,7 @@ function AdminDashboardPage() {
 
   return (
     <ProtectedRoute allowedRoles={["admin"]} redirectPath="/">
-      <div className="min-h-screen bg-[#050a14]">
+      <div className="min-h-screen bg-[#050a14] container-mobile-xs sm:container-mobile-sm md:container-mobile-md lg:container-mobile-lg xl:container-tablet 2xl:container-desktop">
         <Navbar onMenuToggle={toggleSidebar} />
         <div className="flex">
           <Sidebar
@@ -48,7 +49,7 @@ function AdminDashboardPage() {
               sidebarOpen ? "lg:ml-0" : ""
             } ${typeof window !== "undefined" && window.innerWidth < 1024 ? "ml-0" : ""}`}
           >
-            <div className="max-w-7xl mx-auto p-4 lg:p-6">
+            <div className="max-w-7xl mx-auto p-4 lg:p-6 container-mobile-xs sm:container-mobile-sm md:container-mobile-md lg:container-mobile-lg xl:container-tablet 2xl:container-desktop">
               <div className="mb-8">
                 <h1 className="text-xl sm:text-2xl md:text-3xl font-bold neon-text mb-2">
                   ⚔️ Welcome back, {user?.firstName}!
@@ -56,7 +57,7 @@ function AdminDashboardPage() {
                 <p className="text-gray-400">Manage all activities here</p>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 <div className="glass-card rounded-lg p-4 hover:scale-105 transition-all duration-300">
                   <h2 className="text-base sm:text-lg md:text-xl font-semibold mb-2 text-indigo-400">
                     Products
@@ -64,12 +65,12 @@ function AdminDashboardPage() {
                   <p className="text-gray-400 mb-3 sm:mb-4 text-xs sm:text-sm">
                     Add, edit, and manage all products
                   </p>
-                  <Link
-                    href="/Admin/products"
-                    className="px-3 py-2 sm:px-4 sm:py-2 gaming-btn text-white rounded-md inline-block transition-all text-sm sm:text-base"
+                  <button
+                    onClick={() => router.push("/Admin/products")}
+                    className="px-3 py-2 sm:px-4 sm:py-2 gaming-btn text-white rounded-md inline-block transition-all text-sm sm:text-base touch-button"
                   >
                     Manage Products
-                  </Link>
+                  </button>
                 </div>
 
                 <div className="glass-card rounded-lg p-4 hover:scale-105 transition-all duration-300">
@@ -79,12 +80,12 @@ function AdminDashboardPage() {
                   <p className="text-gray-400 mb-3 sm:mb-4 text-xs sm:text-sm">
                     View comprehensive statistics
                   </p>
-                  <Link
-                    href="/Admin/analytics"
-                    className="px-3 py-2 sm:px-4 sm:py-2 gaming-btn text-white rounded-md inline-block transition-all text-sm sm:text-base"
+                  <button
+                    onClick={() => router.push("/Admin/analytics")}
+                    className="px-3 py-2 sm:px-4 sm:py-2 gaming-btn text-white rounded-md inline-block transition-all text-sm sm:text-base touch-button"
                   >
                     View Analytics
-                  </Link>
+                  </button>
                 </div>
 
                 <div className="glass-card rounded-lg p-4 hover:scale-105 transition-all duration-300">
@@ -94,12 +95,12 @@ function AdminDashboardPage() {
                   <p className="text-gray-400 mb-3 sm:mb-4 text-xs sm:text-sm">
                     Monitor and manage all active Orders
                   </p>
-                  <Link
-                    href="/Admin/orders"
-                    className="px-3 py-2 sm:px-4 sm:py-2 gaming-btn text-white rounded-md inline-block transition-all text-sm sm:text-base"
+                  <button
+                    onClick={() => router.push("/Admin/orders")}
+                    className="px-3 py-2 sm:px-4 sm:py-2 gaming-btn text-white rounded-md inline-block transition-all text-sm sm:text-base touch-button"
                   >
                     Manage Orders
-                  </Link>
+                  </button>
                 </div>
 
                 <div className="glass-card rounded-lg p-4 hover:scale-105 transition-all duration-300">
@@ -109,12 +110,12 @@ function AdminDashboardPage() {
                   <p className="text-gray-400 mb-3 sm:mb-4 text-xs sm:text-sm">
                     Manage products categories
                   </p>
-                  <Link
-                    href="/Admin/categories"
-                    className="px-3 py-2 sm:px-4 sm:py-2 gaming-btn text-white rounded-md inline-block transition-all text-sm sm:text-base"
+                  <button
+                    onClick={() => router.push("/Admin/categories")}
+                    className="px-3 py-2 sm:px-4 sm:py-2 gaming-btn text-white rounded-md inline-block transition-all text-sm sm:text-base touch-button"
                   >
                     Manage Categories
-                  </Link>
+                  </button>
                 </div>
 
                 <div className="glass-card rounded-lg p-4 hover:scale-105 transition-all duration-300">
@@ -124,12 +125,12 @@ function AdminDashboardPage() {
                   <p className="text-gray-400 mb-3 sm:mb-4 text-xs sm:text-sm">
                     Configure settings
                   </p>
-                  <Link
-                    href="/Admin/settings"
-                    className="px-3 py-2 sm:px-4 sm:py-2 gaming-btn text-white rounded-md inline-block transition-all text-sm sm:text-base"
+                  <button
+                    onClick={() => router.push("/Admin/settings")}
+                    className="px-3 py-2 sm:px-4 sm:py-2 gaming-btn text-white rounded-md inline-block transition-all text-sm sm:text-base touch-button"
                   >
                     Settings
-                  </Link>
+                  </button>
                 </div>
 
                 <div className="glass-card rounded-lg p-4 hover:scale-105 transition-all duration-300">
@@ -139,12 +140,12 @@ function AdminDashboardPage() {
                   <p className="text-gray-400 mb-3 sm:mb-4 text-xs sm:text-sm">
                     Manage all Users
                   </p>
-                  <Link
-                    href="/Admin/accounts"
-                    className="px-3 py-2 sm:px-4 sm:py-2 gaming-btn text-white rounded-md inline-block transition-all text-sm sm:text-base"
+                  <button
+                    onClick={() => router.push("/Admin/accounts")}
+                    className="px-3 py-2 sm:px-4 sm:py-2 gaming-btn text-white rounded-md inline-block transition-all text-sm sm:text-base touch-button"
                   >
                     Manage Users
-                  </Link>
+                  </button>
                 </div>
               </div>
             </div>

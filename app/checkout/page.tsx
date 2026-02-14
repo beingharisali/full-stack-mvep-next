@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
 import ProtectedRoute from '../../shared/ProtectedRoute';
@@ -69,7 +68,7 @@ const CheckoutPage: React.FC = () => {
     expiryDate: '',
     cvv: ''
   });
-  
+
   const [paymentMethods, setPaymentMethods] = useState<PaymentMethodsResponse>({});
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string>('card');
   const [isProcessing, setIsProcessing] = useState(false);
@@ -222,19 +221,20 @@ const CheckoutPage: React.FC = () => {
   if (cart.items.length === 0) {
     return (
       <ProtectedRoute allowedRoles={['customer', 'admin', 'vendor']} redirectPath="/">
-        <div className="min-h-screen bg-[#050a14]">
+        <div className="min-h-screen bg-[#050a14] container-mobile-xs sm:container-mobile-sm md:container-mobile-md lg:container-mobile-lg xl:container-tablet 2xl:container-desktop">
           <Navbar />
           <div className="flex">
             <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
             <main className={`flex-1 p-4 lg:p-6 transition-all duration-300 ${sidebarOpen ? 'lg:ml-0' : ''}`}>
-              <div className="max-w-4xl mx-auto text-center py-12">
+              <div className="max-w-4xl mx-auto text-center py-12 container-mobile-xs sm:container-mobile-sm md:container-mobile-md lg:container-mobile-lg xl:container-tablet">
                 <h1 className="text-2xl md:text-3xl font-bold neon-text mb-4">Checkout</h1>
                 <p className="text-lg text-gray-400">Your cart is empty. Add some items to proceed to checkout.</p>
-                <Link href="/products" className="inline-block mt-6">
-                  <button className="px-6 py-3 gaming-btn text-white rounded-md transition-all">
-                    Start Shopping
-                  </button>
-                </Link>
+                <button 
+                  onClick={() => router.push("/products")}
+                  className="inline-block mt-6 px-6 py-3 gaming-btn text-white rounded-md transition-all touch-button"
+                >
+                  Start Shopping
+                </button>
               </div>
             </main>
           </div>
@@ -245,12 +245,12 @@ const CheckoutPage: React.FC = () => {
 
   return (
     <ProtectedRoute allowedRoles={['customer', 'admin', 'vendor']} redirectPath="/">
-      <div className="min-h-screen bg-[#050a14]">
+      <div className="min-h-screen bg-[#050a14] container-mobile-xs sm:container-mobile-sm md:container-mobile-md lg:container-mobile-lg xl:container-tablet 2xl:container-desktop">
         <Navbar />
         <div className="flex">
           <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
           <main className={`flex-1 p-4 lg:p-6 transition-all duration-300 ${sidebarOpen ? 'lg:ml-0' : ''}`}>
-            <div className="max-w-7xl mx-auto">
+            <div className="max-w-7xl mx-auto container-mobile-xs sm:container-mobile-sm md:container-mobile-md lg:container-mobile-lg xl:container-tablet 2xl:container-desktop">
               <h1 className="text-2xl md:text-3xl font-bold neon-text mb-6">Checkout</h1>
               
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -278,7 +278,7 @@ const CheckoutPage: React.FC = () => {
                           value={formData.firstName}
                           onChange={handleInputChange}
                           required
-                          className="w-full px-3 py-2 gaming-input rounded-md"
+                          className="w-full px-3 py-2 gaming-input rounded-md touch-button"
                         />
                       </div>
                       
@@ -293,7 +293,7 @@ const CheckoutPage: React.FC = () => {
                           value={formData.lastName}
                           onChange={handleInputChange}
                           required
-                          className="w-full px-3 py-2 gaming-input rounded-md"
+                          className="w-full px-3 py-2 gaming-input rounded-md touch-button"
                         />
                       </div>
                     </div>
@@ -309,7 +309,7 @@ const CheckoutPage: React.FC = () => {
                         value={formData.email}
                         onChange={handleInputChange}
                         required
-                        className="w-full px-3 py-2 gaming-input rounded-md"
+                        className="w-full px-3 py-2 gaming-input rounded-md touch-button"
                       />
                     </div>
                     
@@ -324,7 +324,7 @@ const CheckoutPage: React.FC = () => {
                         value={formData.phone}
                         onChange={handleInputChange}
                         required
-                        className="w-full px-3 py-2 gaming-input rounded-md"
+                        className="w-full px-3 py-2 gaming-input rounded-md touch-button"
                       />
                     </div>
                     
@@ -339,7 +339,7 @@ const CheckoutPage: React.FC = () => {
                         value={formData.address}
                         onChange={handleInputChange}
                         required
-                        className="w-full px-3 py-2 gaming-input rounded-md"
+                        className="w-full px-3 py-2 gaming-input rounded-md touch-button"
                       />
                     </div>
                     
@@ -355,7 +355,7 @@ const CheckoutPage: React.FC = () => {
                           value={formData.city}
                           onChange={handleInputChange}
                           required
-                          className="w-full px-3 py-2 gaming-input rounded-md"
+                          className="w-full px-3 py-2 gaming-input rounded-md touch-button"
                         />
                       </div>
                       
@@ -370,7 +370,7 @@ const CheckoutPage: React.FC = () => {
                           value={formData.state}
                           onChange={handleInputChange}
                           required
-                          className="w-full px-3 py-2 gaming-input rounded-md"
+                          className="w-full px-3 py-2 gaming-input rounded-md touch-button"
                         />
                       </div>
                       
@@ -385,7 +385,7 @@ const CheckoutPage: React.FC = () => {
                           value={formData.zipCode}
                           onChange={handleInputChange}
                           required
-                          className="w-full px-3 py-2 gaming-input rounded-md"
+                          className="w-full px-3 py-2 gaming-input rounded-md touch-button"
                         />
                       </div>
                     </div>
@@ -401,7 +401,7 @@ const CheckoutPage: React.FC = () => {
                         value={formData.country}
                         onChange={handleInputChange}
                         required
-                        className="w-full px-3 py-2 gaming-input rounded-md"
+                        className="w-full px-3 py-2 gaming-input rounded-md touch-button"
                       />
                     </div>
                     
@@ -410,7 +410,7 @@ const CheckoutPage: React.FC = () => {
                     <div className="mb-6 grid grid-cols-1 sm:grid-cols-2 gap-3">
                       {paymentMethods.stripe?.enabled && (
                         <div 
-                          className={`border rounded-lg p-4 cursor-pointer transition-colors ${selectedPaymentMethod === 'stripe' ? 'border-indigo-500 bg-indigo-900/30' : 'border-gray-700 hover:border-gray-600'}`}
+                          className={`border rounded-lg p-4 cursor-pointer transition-colors ${selectedPaymentMethod === 'stripe' ? 'border-indigo-500 bg-indigo-900/30' : 'border-gray-700 hover:border-gray-600'} touch-button`}
                           onClick={() => setSelectedPaymentMethod('stripe')}
                         >
                           <div className="flex items-center">
@@ -425,7 +425,7 @@ const CheckoutPage: React.FC = () => {
                       
                       {paymentMethods.braintree?.enabled && (
                         <div 
-                          className={`border rounded-lg p-4 cursor-pointer transition-colors ${selectedPaymentMethod === 'braintree' ? 'border-indigo-500 bg-indigo-900/30' : 'border-gray-700 hover:border-gray-600'}`}
+                          className={`border rounded-lg p-4 cursor-pointer transition-colors ${selectedPaymentMethod === 'braintree' ? 'border-indigo-500 bg-indigo-900/30' : 'border-gray-700 hover:border-gray-600'} touch-button`}
                           onClick={() => setSelectedPaymentMethod('braintree')}
                         >
                           <div className="flex items-center">
@@ -440,7 +440,7 @@ const CheckoutPage: React.FC = () => {
                       
                       {paymentMethods.paypal?.enabled && (
                         <div 
-                          className={`border rounded-lg p-4 cursor-pointer transition-colors ${selectedPaymentMethod === 'paypal' ? 'border-indigo-500 bg-indigo-900/30' : 'border-gray-700 hover:border-gray-600'}`}
+                          className={`border rounded-lg p-4 cursor-pointer transition-colors ${selectedPaymentMethod === 'paypal' ? 'border-indigo-500 bg-indigo-900/30' : 'border-gray-700 hover:border-gray-600'} touch-button`}
                           onClick={() => setSelectedPaymentMethod('paypal')}
                         >
                           <div className="flex items-center">
@@ -470,7 +470,7 @@ const CheckoutPage: React.FC = () => {
                             onChange={handleInputChange}
                             placeholder="0000 0000 0000 0000"
                             required
-                            className="w-full px-3 py-2 gaming-input rounded-md"
+                            className="w-full px-3 py-2 gaming-input rounded-md touch-button"
                           />
                         </div>
                         
@@ -485,7 +485,7 @@ const CheckoutPage: React.FC = () => {
                             value={formData.cardName}
                             onChange={handleInputChange}
                             required
-                            className="w-full px-3 py-2 gaming-input rounded-md"
+                            className="w-full px-3 py-2 gaming-input rounded-md touch-button"
                           />
                         </div>
                         
@@ -502,7 +502,7 @@ const CheckoutPage: React.FC = () => {
                               onChange={handleInputChange}
                               placeholder="MM/YY"
                               required
-                              className="w-full px-3 py-2 gaming-input rounded-md"
+                              className="w-full px-3 py-2 gaming-input rounded-md touch-button"
                             />
                           </div>
                           
@@ -518,14 +518,14 @@ const CheckoutPage: React.FC = () => {
                               onChange={handleInputChange}
                               placeholder="123"
                               required
-                              className="w-full px-3 py-2 gaming-input rounded-md"
+                              className="w-full px-3 py-2 gaming-input rounded-md touch-button"
                             />
                           </div>
                         </div>
                         
                         <button
                           type="submit"
-                          className="w-full gaming-btn border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white disabled:opacity-50"
+                          className="w-full gaming-btn border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white disabled:opacity-50 touch-button"
                           disabled={isProcessing}
                         >
                           {isProcessing ? 'Processing...' : `Place Order - $${getCartTotal().toFixed(2)}`}
@@ -542,7 +542,7 @@ const CheckoutPage: React.FC = () => {
                     {(selectedPaymentMethod === 'paypal' || selectedPaymentMethod === 'cash-on-delivery') && (
                       <button
                         type="submit"
-                        className="w-full gaming-btn border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white disabled:opacity-50"
+                        className="w-full gaming-btn border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white disabled:opacity-50 touch-button"
                         disabled={isProcessing}
                       >
                         {isProcessing ? 'Processing...' : `Place Order - $${getCartTotal().toFixed(2)}`}

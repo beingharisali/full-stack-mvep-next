@@ -50,12 +50,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
       className="glass-card rounded-lg overflow-hidden hover:scale-105 transition-all duration-300 cursor-pointer h-full flex flex-col border border-indigo-500/30 hover:border-indigo-500"
       onClick={handleViewDetails}
     >
-      <div className="h-40 sm:h-48 bg-[#1a1f2e] flex items-center justify-center relative overflow-hidden">
+      <div className="h-40 sm:h-48 md:h-52 lg:h-48 xl:h-52 bg-[#1a1f2e] flex items-center justify-center relative overflow-hidden">
         {product.images && product.images.length > 0 ? (
           <img 
             src={product.images[0]} 
             alt={product.name} 
-            className="h-full w-full object-cover"
+            className="h-full w-full object-cover responsive-image"
             onError={(e) => {
               const target = e.target as HTMLImageElement;
               target.src = '/placeholder-image.jpg';
@@ -73,12 +73,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
         )}
       </div>
       
-      <div className="p-3 sm:p-4 flex-1 flex flex-col">
-        <h3 className="font-semibold text-base sm:text-lg text-white truncate">{product.name}</h3>
-        <p className="text-gray-400 text-xs sm:text-sm truncate mt-1 flex-1">{product.description || 'No description'}</p>
+      <div className="p-3 sm:p-4 flex-1 flex flex-col container-mobile-xs sm:container-mobile-sm md:container-mobile-md lg:container-tablet">
+        <h3 className="font-semibold text-base sm:text-lg md:text-xl text-white truncate">{product.name}</h3>
+        <p className="text-gray-400 text-xs sm:text-sm md:text-base truncate mt-1 flex-1">{product.description || 'No description'}</p>
         
         <div className="mt-3 flex justify-between items-center">
-          <span className="text-base sm:text-lg font-bold text-yellow-400"> {Math.max(0, product.price).toFixed(2)} $</span>
+          <span className="text-base sm:text-lg md:text-xl font-bold text-yellow-400"> {Math.max(0, product.price).toFixed(2)} $</span>
           <span className={`px-2 py-1 rounded-full text-xs border ${
             product.stock > 0 
               ? 'bg-green-900/50 text-green-400 border-green-500/50' 
@@ -90,13 +90,13 @@ const ProductCard: React.FC<ProductCardProps> = ({
         
         {product.category && (
           <div className="mt-2">
-            <span className="text-xs text-gray-500">📚 Category: {product.category}</span>
+            <span className="text-xs sm:text-sm text-gray-500">📚 Category: {product.category}</span>
           </div>
         )}
         
         {canAddToCart && product.isActive && product.stock > 0 && (
-          <div className="mt-4 flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
-            <div className="flex items-center border border-indigo-500/30 rounded-md bg-[#1a1f2e]">
+          <div className="mt-4 flex flex-col sm:flex-row items-stretch sm:items-center gap-2 container-mobile-xs sm:container-mobile-sm md:container-mobile-md lg:container-mobile-lg">
+            <div className="flex items-center border border-indigo-500/30 rounded-md bg-[#1a1f2e] touch-button">
               <button 
                 className="px-2 py-1 text-gray-400 hover:text-white hover:bg-indigo-500/20 disabled:opacity-50 text-sm rounded-l"
                 onClick={(e) => {
@@ -123,7 +123,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
             <button
               onClick={handleAddToCart}
               disabled={isAdding}
-              className={`flex-1 px-3 py-2 rounded-md text-white text-sm font-medium transition-all ${
+              className={`flex-1 px-3 py-2 rounded-md text-white text-sm font-medium transition-all touch-button ${
                 isAdding 
                   ? 'bg-gray-600 cursor-not-allowed' 
                   : 'gaming-btn'

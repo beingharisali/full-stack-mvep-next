@@ -308,7 +308,6 @@ body {
   }
 }
 
-/* Medium Mobile Devices */
 @media (min-width: 480px) and (max-width: 639px) {
   .btn-responsive {
     @apply w-full py-3 text-sm;

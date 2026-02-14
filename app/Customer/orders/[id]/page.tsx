@@ -165,7 +165,7 @@ const OrderDetailPage: React.FC = () => {
                     </div>
                     
                     <div className="border-t border-indigo-500/30 pt-4 mt-4">
-                      <div className="flex justify-between text-lg font-semibold">
+                      <div className="flex flex-col sm:flex-row justify-between text-lg font-semibold gap-1">
                         <span className="text-white">Total Amount:</span>
                         <span className="text-yellow-400">${order.totalAmount.toFixed(2)}</span>
                       </div>

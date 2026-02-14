@@ -103,21 +103,21 @@ export default function AnalyticsPage() {
                   <h3 className="text-lg font-medium text-white mb-4">
                     users vs orders
                   </h3>
-                  <div className="h-80">
-                    <div className="flex items-end h-64 gap-2 mt-4">
+                  <div className="h-64 md:h-80">
+                    <div className="flex items-end h-52 md:h-64 gap-1 md:gap-2 mt-4 overflow-x-auto">
                       {chartData.map((data, index) => (
                         <div
                           key={index}
-                          className="flex flex-col items-center flex-1"
+                          className="flex flex-col items-center flex-[0_0_auto] min-w-[30px] md:min-w-[40px]"
                         >
-                          <div className="flex items-end justify-center space-x-1 h-56">
+                          <div className="flex items-end justify-center space-x-0.5 md:space-x-1 h-40 md:h-56">
                             <div
-                              className="w-6 bg-indigo-500 rounded-t hover:bg-indigo-600 transition-all"
+                              className="w-3 md:w-4 bg-indigo-500 rounded-t hover:bg-indigo-600 transition-all"
                               style={{ height: `${(data.users / 50) * 100}%` }}
                               title={`users: ${data.users}`}
                             ></div>
                             <div
-                              className="w-6 bg-green-500 rounded-t hover:bg-green-600 transition-all"
+                              className="w-3 md:w-4 bg-green-500 rounded-t hover:bg-green-600 transition-all"
                               style={{ height: `${(data.orders / 35) * 100}%` }}
                               title={`Orders: ${data.orders}`}
                             ></div>

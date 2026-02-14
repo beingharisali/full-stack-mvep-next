@@ -67,7 +67,7 @@ export default function SettingsPage() {
                       <button
                         key={tab}
                         onClick={() => setActiveTab(tab)}
-                        className={`py-4 px-6 text-center border-b-2 font-medium text-sm transition-all ${
+                        className={`py-4 px-6 text-center border-b-2 font-medium text-sm transition-all touch-button ${
                           activeTab === tab
                             ? "border-indigo-500 text-indigo-400"
                             : "border-transparent text-gray-400 hover:text-gray-300 hover:border-gray-600"
@@ -94,7 +94,7 @@ export default function SettingsPage() {
                         </p>
                       </div>
 
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                         <div>
                           <label
                             htmlFor="siteName"
@@ -108,7 +108,7 @@ export default function SettingsPage() {
                             name="siteName"
                             value={formData.siteName}
                             onChange={handleInputChange}
-                            className="w-full px-3 py-2 gaming-input rounded-md"
+                            className="w-full px-3 py-2 gaming-input rounded-md touch-button"
                           />
                         </div>
 
@@ -124,7 +124,7 @@ export default function SettingsPage() {
                             name="currency"
                             value={formData.currency}
                             onChange={handleInputChange}
-                            className="w-full px-3 py-2 gaming-input rounded-md"
+                            className="w-full px-3 py-2 gaming-input rounded-md touch-button"
                           >
                             <option value="Gold (G)">$</option>
                             <option value="Silver (S)">euro</option>
@@ -133,7 +133,7 @@ export default function SettingsPage() {
                           </select>
                         </div>
 
-                        <div className="md:col-span-2">
+                        <div className="sm:col-span-2">
                           <label
                             htmlFor="siteDescription"
                             className="block text-sm font-medium text-gray-400 mb-1"
@@ -146,18 +146,18 @@ export default function SettingsPage() {
                             value={formData.siteDescription}
                             onChange={handleInputChange}
                             rows={3}
-                            className="w-full px-3 py-2 gaming-input rounded-md"
+                            className="w-full px-3 py-2 gaming-input rounded-md touch-button"
                           />
                         </div>
 
-                        <div className="md:col-span-2">
+                        <div className="sm:col-span-2">
                           <label className="flex items-center">
                             <input
                               type="checkbox"
                               name="enableRegistration"
                               checked={formData.enableRegistration}
                               onChange={handleInputChange}
-                              className="h-4 w-4 text-indigo-600 border-gray-600 rounded focus:ring-indigo-500 bg-gray-700"
+                              className="h-4 w-4 text-indigo-600 border-gray-600 rounded focus:ring-indigo-500 bg-gray-700 touch-button"
                             />
                             <span className="ml-2 text-sm text-gray-300">
                               Allow new users to join
@@ -165,14 +165,14 @@ export default function SettingsPage() {
                           </label>
                         </div>
 
-                        <div className="md:col-span-2">
+                        <div className="sm:col-span-2">
                           <label className="flex items-center">
                             <input
                               type="checkbox"
                               name="requireEmailVerification"
                               checked={formData.requireEmailVerification}
                               onChange={handleInputChange}
-                              className="h-4 w-4 text-indigo-600 border-gray-600 rounded focus:ring-indigo-500 bg-gray-700"
+                              className="h-4 w-4 text-indigo-600 border-gray-600 rounded focus:ring-indigo-500 bg-gray-700 touch-button"
                             />
                             <span className="ml-2 text-sm text-gray-300">
                               Verify useremails
@@ -194,7 +194,7 @@ export default function SettingsPage() {
                         </p>
                       </div>
 
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                         <div>
                           <label
                             htmlFor="contactEmail"
@@ -208,7 +208,7 @@ export default function SettingsPage() {
                             name="contactEmail"
                             value={formData.contactEmail}
                             onChange={handleInputChange}
-                            className="w-full px-3 py-2 gaming-input rounded-md"
+                            className="w-full px-3 py-2 gaming-input rounded-md touch-button"
                           />
                         </div>
 
@@ -225,11 +225,11 @@ export default function SettingsPage() {
                             name="contactPhone"
                             value={formData.contactPhone}
                             onChange={handleInputChange}
-                            className="w-full px-3 py-2 gaming-input rounded-md"
+                            className="w-full px-3 py-2 gaming-input rounded-md touch-button"
                           />
                         </div>
 
-                        <div className="md:col-span-2">
+                        <div className="sm:col-span-2">
                           <h3 className="text-md font-medium text-white mb-3">
                             Mail Server Settings
                           </h3>
@@ -248,7 +248,7 @@ export default function SettingsPage() {
                             name="smtpHost"
                             value={formData.smtpHost}
                             onChange={handleInputChange}
-                            className="w-full px-3 py-2 gaming-input rounded-md"
+                            className="w-full px-3 py-2 gaming-input rounded-md touch-button"
                           />
                         </div>
 
@@ -265,7 +265,7 @@ export default function SettingsPage() {
                             name="smtpPort"
                             value={formData.smtpPort}
                             onChange={handleInputChange}
-                            className="w-full px-3 py-2 gaming-input rounded-md"
+                            className="w-full px-3 py-2 gaming-input rounded-md touch-button"
                           />
                         </div>
 
@@ -282,7 +282,7 @@ export default function SettingsPage() {
                             name="smtpUser"
                             value={formData.smtpUser}
                             onChange={handleInputChange}
-                            className="w-full px-3 py-2 gaming-input rounded-md"
+                            className="w-full px-3 py-2 gaming-input rounded-md touch-button"
                           />
                         </div>
 
@@ -299,7 +299,7 @@ export default function SettingsPage() {
                             name="smtpPassword"
                             value={formData.smtpPassword}
                             onChange={handleInputChange}
-                            className="w-full px-3 py-2 gaming-input rounded-md"
+                            className="w-full px-3 py-2 gaming-input rounded-md touch-button"
                           />
                         </div>
                       </div>
@@ -317,7 +317,7 @@ export default function SettingsPage() {
                         </p>
                       </div>
 
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                         <div>
                           <label
                             htmlFor="timezone"
@@ -330,7 +330,7 @@ export default function SettingsPage() {
                             name="timezone"
                             value={formData.timezone}
                             onChange={handleInputChange}
-                            className="w-full px-3 py-2 gaming-input rounded-md"
+                            className="w-full px-3 py-2 gaming-input rounded-md touch-button"
                           >
                             <option value="UTC">UTC</option>
                             <option value="EST">
@@ -356,7 +356,7 @@ export default function SettingsPage() {
                                 name="enableNotifications"
                                 checked={formData.enableNotifications}
                                 onChange={handleInputChange}
-                                className="h-4 w-4 text-indigo-600 border-gray-600 rounded focus:ring-indigo-500 bg-gray-700"
+                                className="h-4 w-4 text-indigo-600 border-gray-600 rounded focus:ring-indigo-500 bg-gray-700 touch-button"
                               />
                               <span className="ml-2 text-sm text-gray-300">
                                 Enable security notifications
@@ -365,7 +365,7 @@ export default function SettingsPage() {
                             <label className="flex items-center">
                               <input
                                 type="checkbox"
-                                className="h-4 w-4 text-indigo-600 border-gray-600 rounded focus:ring-indigo-500 bg-gray-700"
+                                className="h-4 w-4 text-indigo-600 border-gray-600 rounded focus:ring-indigo-500 bg-gray-700 touch-button"
                               />
                               <span className="ml-2 text-sm text-gray-300">
                                 Require 2FA for customer
@@ -374,7 +374,7 @@ export default function SettingsPage() {
                           </div>
                         </div>
 
-                        <div className="md:col-span-2">
+                        <div className="sm:col-span-2">
                           <div className="bg-yellow-900/30 border-l-4 border-yellow-500 p-4">
                             <div className="flex">
                               <div className="flex-shrink-0">
@@ -402,7 +402,7 @@ export default function SettingsPage() {
                         </h2>
                       </div>
 
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                         <div>
                           <label
                             htmlFor="maxusersPerOrder"
@@ -418,7 +418,7 @@ export default function SettingsPage() {
                             onChange={handleInputChange}
                             min="1"
                             max="50"
-                            className="w-full px-3 py-2 gaming-input rounded-md"
+                            className="w-full px-3 py-2 gaming-input rounded-md touch-button"
                           />
                         </div>
 
@@ -436,18 +436,18 @@ export default function SettingsPage() {
                             value={formData.minimumGoldForTrade}
                             onChange={handleInputChange}
                             min="0"
-                            className="w-full px-3 py-2 gaming-input rounded-md"
+                            className="w-full px-3 py-2 gaming-input rounded-md touch-button"
                           />
                         </div>
 
-                        <div className="md:col-span-2">
+                        <div className="sm:col-span-2">
                           <label className="flex items-center">
                             <input
                               type="checkbox"
                               name="enablePVP"
                               checked={formData.enablePVP}
                               onChange={handleInputChange}
-                              className="h-4 w-4 text-indigo-600 border-gray-600 rounded focus:ring-indigo-500 bg-gray-700"
+                              className="h-4 w-4 text-indigo-600 border-gray-600 rounded focus:ring-indigo-500 bg-gray-700 touch-button"
                             />
                             <span className="ml-2 text-sm text-gray-300">
                               Enable PvP (uservs user) Trading
@@ -461,7 +461,7 @@ export default function SettingsPage() {
                   <div className="mt-8 flex justify-end">
                     <button
                       type="submit"
-                      className="px-6 py-2 gaming-btn text-white rounded-md transition-all"
+                      className="px-6 py-2 gaming-btn text-white rounded-md transition-all touch-button"
                     >
                       💾 Save Settings
                     </button>

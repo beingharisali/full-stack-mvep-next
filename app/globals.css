@@ -182,7 +182,6 @@ body {
   }
 }
 
-/* Desktop/Laptop Devices */
 @media (min-width: 1280px) and (max-width: 1919px) {
   .container-desktop {
     max-width: 1200px;

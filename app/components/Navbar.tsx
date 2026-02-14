@@ -25,7 +25,7 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle }) => {
           <div className="flex items-center">
             <Link href="/" className="flex-shrink-0 flex items-center group">
               <span className="text-xl font-bold neon-text group-hover:scale-105 transition-transform">
-                🎮 MVEP
+                MVEP
               </span>
             </Link>
           </div>
@@ -51,7 +51,7 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle }) => {
                       : "text-gray-300 hover:text-indigo-400 hover:bg-indigo-500/10"
                   }`}
                 >
-                  🛒 Inventory
+                  🛒 Cart
                 </Link>
                 <Link
                   href="/checkout"
@@ -61,7 +61,7 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle }) => {
                       : "text-gray-300 hover:text-indigo-400 hover:bg-indigo-500/10"
                   }`}
                 >
-                  💰 Trade
+                   Checkout
                 </Link>
                 <Link
                   href="/Customer/chat"
@@ -71,7 +71,7 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle }) => {
                       : "text-gray-300 hover:text-indigo-400 hover:bg-indigo-500/10"
                   }`}
                 >
-                  💬 Guild Chat
+                  💬 Chat
                 </Link>
                 <Link
                   href="/orders/history"
@@ -81,7 +81,7 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle }) => {
                       : "text-gray-300 hover:text-indigo-400 hover:bg-indigo-500/10"
                   }`}
                 >
-                  📜 Order Log
+                  📜 Order History
                 </Link>
               </>
             )}
@@ -151,7 +151,7 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle }) => {
                       : "text-gray-300 hover:text-indigo-400 hover:bg-indigo-500/10"
                   }`}
                 >
-                  📦 Inventory
+                  📦 Cart
                 </Link>
                 <Link
                   href="/Vendor/orders"
@@ -161,7 +161,7 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle }) => {
                       : "text-gray-300 hover:text-indigo-400 hover:bg-indigo-500/10"
                   }`}
                 >
-                  📋 Trade Requests
+                  📋 Order Requests
                 </Link>
                 <Link
                   href="/Vendor/chat"
@@ -171,7 +171,7 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle }) => {
                       : "text-gray-300 hover:text-indigo-400 hover:bg-indigo-500/10"
                   }`}
                 >
-                  💬 Guild Chat
+                  💬 Chat
                 </Link>
                 <Link
                   href="/Vendor/orders/history"
@@ -181,7 +181,7 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle }) => {
                       : "text-gray-300 hover:text-indigo-400 hover:bg-indigo-500/10"
                   }`}
                 >
-                  📜 Trade History
+                  📜 Order History
                 </Link>
               </>
             )}

@@ -89,7 +89,7 @@ export default function SignupPage() {
 
         <div className="text-center mb-4 sm:mb-6 md:mb-8 relative">
           <div className="flex justify-center mb-2">
-            <span className="text-4xl animate-bounce">🎮</span>
+            <span className="text-4xl animate-bounce"></span>
           </div>
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold neon-text">
             Create Your Account

@@ -222,16 +222,16 @@ const CheckoutPage: React.FC = () => {
   if (cart.items.length === 0) {
     return (
       <ProtectedRoute allowedRoles={['customer', 'admin', 'vendor']} redirectPath="/">
-        <div className="min-h-screen bg-gray-50">
+        <div className="min-h-screen bg-[#050a14]">
           <Navbar />
           <div className="flex">
             <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
             <main className={`flex-1 p-4 lg:p-6 transition-all duration-300 ${sidebarOpen ? 'lg:ml-0' : ''}`}>
               <div className="max-w-4xl mx-auto text-center py-12">
-                <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4">Checkout</h1>
-                <p className="text-lg text-gray-600">Your cart is empty. Add some items to proceed to checkout.</p>
+                <h1 className="text-2xl md:text-3xl font-bold neon-text mb-4">Checkout</h1>
+                <p className="text-lg text-gray-400">Your cart is empty. Add some items to proceed to checkout.</p>
                 <Link href="/products" className="inline-block mt-6">
-                  <button className="px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
+                  <button className="px-6 py-3 gaming-btn text-white rounded-md transition-all">
                     Start Shopping
                   </button>
                 </Link>
@@ -245,21 +245,21 @@ const CheckoutPage: React.FC = () => {
 
   return (
     <ProtectedRoute allowedRoles={['customer', 'admin', 'vendor']} redirectPath="/">
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-[#050a14]">
         <Navbar />
         <div className="flex">
           <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
           <main className={`flex-1 p-4 lg:p-6 transition-all duration-300 ${sidebarOpen ? 'lg:ml-0' : ''}`}>
             <div className="max-w-7xl mx-auto">
-              <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6">Checkout</h1>
+              <h1 className="text-2xl md:text-3xl font-bold neon-text mb-6">Checkout</h1>
               
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div className="bg-white p-4 md:p-6 rounded-lg shadow-md">
-                  <h2 className="text-xl font-semibold text-gray-800 mb-4">Billing Information</h2>
+                <div className="glass-card p-4 md:p-6 rounded-lg">
+                  <h2 className="text-xl font-semibold text-white mb-4">Billing Information</h2>
                   
                   {!paymentConfigured && (
-                    <div className="mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded-md">
-                      <p className="text-yellow-700 text-sm">
+                    <div className="mb-4 p-3 bg-yellow-900/30 border border-yellow-500/30 rounded-md">
+                      <p className="text-yellow-400 text-sm">
                         <strong>Notice:</strong> Payment processing is not configured. Orders will be created but payment verification will be skipped.
                       </p>
                     </div>
@@ -268,7 +268,7 @@ const CheckoutPage: React.FC = () => {
                   <form onSubmit={handleSubmit}>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                       <div>
-                        <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-1">
+                        <label htmlFor="firstName" className="block text-sm font-medium text-gray-400 mb-1">
                           First Name
                         </label>
                         <input
@@ -278,12 +278,12 @@ const CheckoutPage: React.FC = () => {
                           value={formData.firstName}
                           onChange={handleInputChange}
                           required
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                          className="w-full px-3 py-2 gaming-input rounded-md"
                         />
                       </div>
                       
                       <div>
-                        <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-1">
+                        <label htmlFor="lastName" className="block text-sm font-medium text-gray-400 mb-1">
                           Last Name
                         </label>
                         <input
@@ -293,13 +293,13 @@ const CheckoutPage: React.FC = () => {
                           value={formData.lastName}
                           onChange={handleInputChange}
                           required
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                          className="w-full px-3 py-2 gaming-input rounded-md"
                         />
                       </div>
                     </div>
                     
                     <div className="mb-4">
-                      <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                      <label htmlFor="email" className="block text-sm font-medium text-gray-400 mb-1">
                         Email Address
                       </label>
                       <input
@@ -309,12 +309,12 @@ const CheckoutPage: React.FC = () => {
                         value={formData.email}
                         onChange={handleInputChange}
                         required
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        className="w-full px-3 py-2 gaming-input rounded-md"
                       />
                     </div>
                     
                     <div className="mb-4">
-                      <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+                      <label htmlFor="phone" className="block text-sm font-medium text-gray-400 mb-1">
                         Phone Number
                       </label>
                       <input
@@ -324,12 +324,12 @@ const CheckoutPage: React.FC = () => {
                         value={formData.phone}
                         onChange={handleInputChange}
                         required
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        className="w-full px-3 py-2 gaming-input rounded-md"
                       />
                     </div>
                     
                     <div className="mb-4">
-                      <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-1">
+                      <label htmlFor="address" className="block text-sm font-medium text-gray-400 mb-1">
                         Address
                       </label>
                       <input
@@ -339,13 +339,13 @@ const CheckoutPage: React.FC = () => {
                         value={formData.address}
                         onChange={handleInputChange}
                         required
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        className="w-full px-3 py-2 gaming-input rounded-md"
                       />
                     </div>
                     
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
                       <div>
-                        <label htmlFor="city" className="block text-sm font-medium text-gray-700 mb-1">
+                        <label htmlFor="city" className="block text-sm font-medium text-gray-400 mb-1">
                           City
                         </label>
                         <input
@@ -355,12 +355,12 @@ const CheckoutPage: React.FC = () => {
                           value={formData.city}
                           onChange={handleInputChange}
                           required
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                          className="w-full px-3 py-2 gaming-input rounded-md"
                         />
                       </div>
                       
                       <div>
-                        <label htmlFor="state" className="block text-sm font-medium text-gray-700 mb-1">
+                        <label htmlFor="state" className="block text-sm font-medium text-gray-400 mb-1">
                           State
                         </label>
                         <input
@@ -370,12 +370,12 @@ const CheckoutPage: React.FC = () => {
                           value={formData.state}
                           onChange={handleInputChange}
                           required
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                          className="w-full px-3 py-2 gaming-input rounded-md"
                         />
                       </div>
                       
                       <div>
-                        <label htmlFor="zipCode" className="block text-sm font-medium text-gray-700 mb-1">
+                        <label htmlFor="zipCode" className="block text-sm font-medium text-gray-400 mb-1">
                           ZIP Code
                         </label>
                         <input
@@ -385,13 +385,13 @@ const CheckoutPage: React.FC = () => {
                           value={formData.zipCode}
                           onChange={handleInputChange}
                           required
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                          className="w-full px-3 py-2 gaming-input rounded-md"
                         />
                       </div>
                     </div>
                     
                     <div className="mb-6">
-                      <label htmlFor="country" className="block text-sm font-medium text-gray-700 mb-1">
+                      <label htmlFor="country" className="block text-sm font-medium text-gray-400 mb-1">
                         Country
                       </label>
                       <input
@@ -401,23 +401,23 @@ const CheckoutPage: React.FC = () => {
                         value={formData.country}
                         onChange={handleInputChange}
                         required
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        className="w-full px-3 py-2 gaming-input rounded-md"
                       />
                     </div>
                     
-                    <h2 className="text-xl font-semibold text-gray-800 mb-4">Payment Method</h2>
+                    <h2 className="text-xl font-semibold text-white mb-4">Payment Method</h2>
                     
                     <div className="mb-6 grid grid-cols-1 sm:grid-cols-2 gap-3">
                       {paymentMethods.stripe?.enabled && (
                         <div 
-                          className={`border rounded-lg p-4 cursor-pointer transition-colors ${selectedPaymentMethod === 'stripe' ? 'border-indigo-500 bg-indigo-50' : 'border-gray-300 hover:border-gray-400'}`}
+                          className={`border rounded-lg p-4 cursor-pointer transition-colors ${selectedPaymentMethod === 'stripe' ? 'border-indigo-500 bg-indigo-900/30' : 'border-gray-700 hover:border-gray-600'}`}
                           onClick={() => setSelectedPaymentMethod('stripe')}
                         >
                           <div className="flex items-center">
-                            <div className={`w-4 h-4 rounded-full border mr-3 ${selectedPaymentMethod === 'stripe' ? 'bg-indigo-500 border-indigo-500' : 'border-gray-400'}`}></div>
+                            <div className={`w-4 h-4 rounded-full border mr-3 ${selectedPaymentMethod === 'stripe' ? 'bg-indigo-500 border-indigo-500' : 'border-gray-600'}`}></div>
                             <div>
-                              <div className="font-medium text-gray-900">Credit/Debit Card</div>
-                              <div className="text-sm text-gray-500">Pay with Stripe</div>
+                              <div className="font-medium text-white">Credit/Debit Card</div>
+                              <div className="text-sm text-gray-400">Pay with Stripe</div>
                             </div>
                           </div>
                         </div>
@@ -425,14 +425,14 @@ const CheckoutPage: React.FC = () => {
                       
                       {paymentMethods.braintree?.enabled && (
                         <div 
-                          className={`border rounded-lg p-4 cursor-pointer transition-colors ${selectedPaymentMethod === 'braintree' ? 'border-indigo-500 bg-indigo-50' : 'border-gray-300 hover:border-gray-400'}`}
+                          className={`border rounded-lg p-4 cursor-pointer transition-colors ${selectedPaymentMethod === 'braintree' ? 'border-indigo-500 bg-indigo-900/30' : 'border-gray-700 hover:border-gray-600'}`}
                           onClick={() => setSelectedPaymentMethod('braintree')}
                         >
                           <div className="flex items-center">
-                            <div className={`w-4 h-4 rounded-full border mr-3 ${selectedPaymentMethod === 'braintree' ? 'bg-indigo-500 border-indigo-500' : 'border-gray-400'}`}></div>
+                            <div className={`w-4 h-4 rounded-full border mr-3 ${selectedPaymentMethod === 'braintree' ? 'bg-indigo-500 border-indigo-500' : 'border-gray-600'}`}></div>
                             <div>
-                              <div className="font-medium text-gray-900">Credit/Debit Card</div>
-                              <div className="text-sm text-gray-500">Pay with Braintree</div>
+                              <div className="font-medium text-white">Credit/Debit Card</div>
+                              <div className="text-sm text-gray-400">Pay with Braintree</div>
                             </div>
                           </div>
                         </div>
@@ -440,152 +440,150 @@ const CheckoutPage: React.FC = () => {
                       
                       {paymentMethods.paypal?.enabled && (
                         <div 
-                          className={`border rounded-lg p-4 cursor-pointer transition-colors ${selectedPaymentMethod === 'paypal' ? 'border-indigo-500 bg-indigo-50' : 'border-gray-300 hover:border-gray-400'}`}
+                          className={`border rounded-lg p-4 cursor-pointer transition-colors ${selectedPaymentMethod === 'paypal' ? 'border-indigo-500 bg-indigo-900/30' : 'border-gray-700 hover:border-gray-600'}`}
                           onClick={() => setSelectedPaymentMethod('paypal')}
                         >
                           <div className="flex items-center">
-                            <div className={`w-4 h-4 rounded-full border mr-3 ${selectedPaymentMethod === 'paypal' ? 'bg-indigo-500 border-indigo-500' : 'border-gray-400'}`}></div>
+                            <div className={`w-4 h-4 rounded-full border mr-3 ${selectedPaymentMethod === 'paypal' ? 'bg-indigo-500 border-indigo-500' : 'border-gray-600'}`}></div>
                             <div>
-                              <div className="font-medium text-gray-900">PayPal</div>
-                              <div className="text-sm text-gray-500">Pay with PayPal</div>
+                              <div className="font-medium text-white">PayPal</div>
+                              <div className="text-sm text-gray-400">Pay with PayPal</div>
                             </div>
                           </div>
                         </div>
                       )}
-                      
-
                     </div>
                     
                     {(selectedPaymentMethod === 'card' || selectedPaymentMethod === 'stripe' || selectedPaymentMethod === 'braintree') && (
                       <>
-                        <h3 className="text-lg font-medium text-gray-800 mb-4">Card Information</h3>
+                        <h3 className="text-lg font-medium text-white mb-4">Card Information</h3>
                         
                         <div className="mb-4">
-                          <label htmlFor="cardNumber" className="block text-sm font-medium text-gray-700 mb-1">
+                          <label htmlFor="cardNumber" className="block text-sm font-medium text-gray-400 mb-1">
                             Card Number
                           </label>
-                      <input
-                        type="text"
-                        id="cardNumber"
-                        name="cardNumber"
-                        value={formData.cardNumber}
-                        onChange={handleInputChange}
-                        placeholder="0000 0000 0000 0000"
-                        required
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                      />
-                    </div>
+                          <input
+                            type="text"
+                            id="cardNumber"
+                            name="cardNumber"
+                            value={formData.cardNumber}
+                            onChange={handleInputChange}
+                            placeholder="0000 0000 0000 0000"
+                            required
+                            className="w-full px-3 py-2 gaming-input rounded-md"
+                          />
+                        </div>
+                        
+                        <div className="mb-4">
+                          <label htmlFor="cardName" className="block text-sm font-medium text-gray-400 mb-1">
+                            Name on Card
+                          </label>
+                          <input
+                            type="text"
+                            id="cardName"
+                            name="cardName"
+                            value={formData.cardName}
+                            onChange={handleInputChange}
+                            required
+                            className="w-full px-3 py-2 gaming-input rounded-md"
+                          />
+                        </div>
+                        
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                          <div>
+                            <label htmlFor="expiryDate" className="block text-sm font-medium text-gray-400 mb-1">
+                              Expiration Date
+                            </label>
+                            <input
+                              type="text"
+                              id="expiryDate"
+                              name="expiryDate"
+                              value={formData.expiryDate}
+                              onChange={handleInputChange}
+                              placeholder="MM/YY"
+                              required
+                              className="w-full px-3 py-2 gaming-input rounded-md"
+                            />
+                          </div>
+                          
+                          <div>
+                            <label htmlFor="cvv" className="block text-sm font-medium text-gray-400 mb-1">
+                              CVV
+                            </label>
+                            <input
+                              type="text"
+                              id="cvv"
+                              name="cvv"
+                              value={formData.cvv}
+                              onChange={handleInputChange}
+                              placeholder="123"
+                              required
+                              className="w-full px-3 py-2 gaming-input rounded-md"
+                            />
+                          </div>
+                        </div>
+                        
+                        <button
+                          type="submit"
+                          className="w-full gaming-btn border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white disabled:opacity-50"
+                          disabled={isProcessing}
+                        >
+                          {isProcessing ? 'Processing...' : `Place Order - $${getCartTotal().toFixed(2)}`}
+                        </button>
+                      </>
+                    )}
                     
-                    <div className="mb-4">
-                      <label htmlFor="cardName" className="block text-sm font-medium text-gray-700 mb-1">
-                        Name on Card
-                      </label>
-                      <input
-                        type="text"
-                        id="cardName"
-                        name="cardName"
-                        value={formData.cardName}
-                        onChange={handleInputChange}
-                        required
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                      />
-                    </div>
-                    
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-                      <div>
-                        <label htmlFor="expiryDate" className="block text-sm font-medium text-gray-700 mb-1">
-                          Expiration Date
-                        </label>
-                        <input
-                          type="text"
-                          id="expiryDate"
-                          name="expiryDate"
-                          value={formData.expiryDate}
-                          onChange={handleInputChange}
-                          placeholder="MM/YY"
-                          required
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                        />
+                    {paymentError && (
+                      <div className="mb-4 p-3 bg-red-900/30 border border-red-500/30 rounded-md">
+                        <p className="text-red-400 text-sm">{paymentError}</p>
                       </div>
-                      
-                      <div>
-                        <label htmlFor="cvv" className="block text-sm font-medium text-gray-700 mb-1">
-                          CVV
-                        </label>
-                        <input
-                          type="text"
-                          id="cvv"
-                          name="cvv"
-                          value={formData.cvv}
-                          onChange={handleInputChange}
-                          placeholder="123"
-                          required
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                        />
-                      </div>
-                    </div>
+                    )}
                     
-                    <button
-                      type="submit"
-                      className="w-full bg-indigo-600 border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
-                      disabled={isProcessing}
-                    >
-                      {isProcessing ? 'Processing...' : `Place Order - $${getCartTotal().toFixed(2)}`}
-                    </button>
-                  </>
-                )}
-                
-                {paymentError && (
-                  <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-md">
-                    <p className="text-red-700 text-sm">{paymentError}</p>
-                  </div>
-                )}
-                
-                {(selectedPaymentMethod === 'paypal' || selectedPaymentMethod === 'cash-on-delivery') && (
-                  <button
-                    type="submit"
-                    className="w-full bg-indigo-600 border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
-                    disabled={isProcessing}
-                  >
-                    {isProcessing ? 'Processing...' : `Place Order - $${getCartTotal().toFixed(2)}`}
-                  </button>
-                )}
-              </form>
+                    {(selectedPaymentMethod === 'paypal' || selectedPaymentMethod === 'cash-on-delivery') && (
+                      <button
+                        type="submit"
+                        className="w-full gaming-btn border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white disabled:opacity-50"
+                        disabled={isProcessing}
+                      >
+                        {isProcessing ? 'Processing...' : `Place Order - $${getCartTotal().toFixed(2)}`}
+                      </button>
+                    )}
+                  </form>
                 </div>
                 
-                <div className="bg-white p-4 md:p-6 rounded-lg shadow-md">
-                  <h2 className="text-xl font-semibold text-gray-800 mb-4">Order Summary</h2>
+                <div className="glass-card p-4 md:p-6 rounded-lg">
+                  <h2 className="text-xl font-semibold text-white mb-4">Order Summary</h2>
                   
-                  <div className="divide-y divide-gray-200 max-h-96 overflow-y-auto">
+                  <div className="divide-y divide-indigo-500/30 max-h-96 overflow-y-auto">
                     {cart.items.map((item) => (
                       <div key={item._id} className="py-4">
                         <div className="flex justify-between">
                           <div>
-                            <h3 className="font-medium text-gray-900">{item.name}</h3>
-                            <p className="text-sm text-gray-500">Qty: {item.quantity}</p>
+                            <h3 className="font-medium text-white">{item.name}</h3>
+                            <p className="text-sm text-gray-400">Qty: {item.quantity}</p>
                           </div>
-                          <p className="font-medium text-gray-900">${(item.price * item.quantity).toFixed(2)}</p>
+                          <p className="font-medium text-yellow-400">💰 {(item.price * item.quantity).toFixed(2)}</p>
                         </div>
                       </div>
                     ))}
                   </div>
                   
-                  <div className="mt-6 space-y-2 border-t pt-4">
+                  <div className="mt-6 space-y-2 border-t border-indigo-500/30 pt-4">
                     <div className="flex justify-between">
-                      <span className="text-gray-600">Subtotal</span>
-                      <span className="text-gray-900">${getCartTotal().toFixed(2)}</span>
+                      <span className="text-gray-400">Subtotal</span>
+                      <span className="text-white">${getCartTotal().toFixed(2)}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-600">Shipping</span>
-                      <span className="text-gray-900">$5.99</span>
+                      <span className="text-gray-400">Shipping</span>
+                      <span className="text-white">$5.99</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-600">Tax</span>
-                      <span className="text-gray-900">${(getCartTotal() * 0.08).toFixed(2)}</span>
+                      <span className="text-gray-400">Tax</span>
+                      <span className="text-white">${(getCartTotal() * 0.08).toFixed(2)}</span>
                     </div>
-                    <div className="flex justify-between pt-4 border-t border-gray-200">
-                      <span className="text-lg font-semibold text-gray-900">Total</span>
-                      <span className="text-lg font-semibold text-gray-900">
+                    <div className="flex justify-between pt-4 border-t border-indigo-500/30">
+                      <span className="text-lg font-semibold text-white">Total</span>
+                      <span className="text-lg font-semibold text-yellow-400">
                         ${(getCartTotal() + 5.99 + (getCartTotal() * 0.08)).toFixed(2)}
                       </span>
                     </div>

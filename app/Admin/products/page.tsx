@@ -589,7 +589,7 @@ export default function ProductManagementPage() {
                                   ) : (
                                     <div className="bg-indigo-900/30 border-2 border-indigo-500/30 rounded-xl w-10 h-10 flex items-center justify-center">
                                       <span className="text-indigo-400 text-xs">
-                                        🎮
+                                        
                                       </span>
                                     </div>
                                   )}

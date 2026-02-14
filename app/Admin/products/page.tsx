@@ -265,7 +265,7 @@ export default function ProductManagementPage() {
 
   return (
     <ProtectedRoute allowedRoles={["admin"]} redirectPath="/">
-      <div className="min-h-screen bg-[#050a14]">
+      <div className="min-h-screen bg-[#050a14] container-mobile-xs sm:container-mobile-sm md:container-mobile-md lg:container-mobile-lg xl:container-tablet 2xl:container-desktop">
         <Navbar />
         <div className="flex">
           <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
@@ -274,7 +274,7 @@ export default function ProductManagementPage() {
               sidebarOpen ? "lg:ml-0" : ""
             } ${typeof window !== "undefined" && window.innerWidth < 1024 ? "ml-0" : ""}`}
           >
-            <div className="max-w-7xl mx-auto p-4 lg:p-6">
+            <div className="max-w-7xl mx-auto p-4 lg:p-6 container-mobile-xs sm:container-mobile-sm md:container-mobile-md lg:container-mobile-lg xl:container-tablet 2xl:container-desktop">
               <h1 className="text-xl sm:text-2xl md:text-3xl font-bold neon-text mb-4 sm:mb-6">
                 📦 Create & Manage Products
               </h1>
@@ -293,7 +293,7 @@ export default function ProductManagementPage() {
                         setCurrentPage(1);
                       }}
                       placeholder="Search by name..."
-                      className="w-full px-3 py-2 gaming-input rounded-md"
+                      className="w-full px-3 py-2 gaming-input rounded-md touch-button"
                     />
                   </div>
 
@@ -309,7 +309,7 @@ export default function ProductManagementPage() {
                         setCurrentPage(1);
                       }}
                       placeholder="Filter by category..."
-                      className="w-full px-3 py-2 gaming-input rounded-md"
+                      className="w-full px-3 py-2 gaming-input rounded-md touch-button"
                     />
                   </div>
 
@@ -325,14 +325,14 @@ export default function ProductManagementPage() {
                         setCurrentPage(1);
                       }}
                       placeholder="Filter by brand..."
-                      className="w-full px-3 py-2 gaming-input rounded-md"
+                      className="w-full px-3 py-2 gaming-input rounded-md touch-button"
                     />
                   </div>
 
                   <div className="flex items-end">
                     <button
                       onClick={handleAddProduct}
-                      className="w-full gaming-btn text-white rounded-md py-2 transition-all"
+                      className="w-full gaming-btn text-white rounded-md py-2 transition-all touch-button"
                     >
                       ⚒️ Create New Product
                     </button>
@@ -357,7 +357,7 @@ export default function ProductManagementPage() {
                         }}
                         min="0"
                         placeholder="Min"
-                        className="w-full px-3 py-2 gaming-input rounded-md"
+                        className="w-full px-3 py-2 gaming-input rounded-md touch-button"
                       />
                     </div>
                     <div>
@@ -376,7 +376,7 @@ export default function ProductManagementPage() {
                         }}
                         min="0"
                         placeholder="Max"
-                        className="w-full px-3 py-2 gaming-input rounded-md"
+                        className="w-full px-3 py-2 gaming-input rounded-md touch-button"
                       />
                     </div>
                   </div>
@@ -401,7 +401,7 @@ export default function ProductManagementPage() {
                         }}
                         min="0"
                         placeholder="Min"
-                        className="w-full px-3 py-2 gaming-input rounded-md"
+                        className="w-full px-3 py-2 gaming-input rounded-md touch-button"
                       />
                     </div>
                     <div>
@@ -423,7 +423,7 @@ export default function ProductManagementPage() {
                         }}
                         min="0"
                         placeholder="Max"
-                        className="w-full px-3 py-2 gaming-input rounded-md"
+                        className="w-full px-3 py-2 gaming-input rounded-md touch-button"
                       />
                     </div>
                   </div>
@@ -438,7 +438,7 @@ export default function ProductManagementPage() {
                         setStatusFilter(e.target.value);
                         setCurrentPage(1);
                       }}
-                      className="w-full px-3 py-2 gaming-input rounded-md"
+                      className="w-full px-3 py-2 gaming-input rounded-md touch-button"
                     >
                       <option value="all">All Status</option>
                       <option value="active">✨ Active</option>
@@ -461,7 +461,7 @@ export default function ProductManagementPage() {
                         setSortOrder("desc");
                         setCurrentPage(1);
                       }}
-                      className="w-full px-4 py-2 bg-gray-700 text-white rounded-md hover:bg-gray-600 transition-all border border-gray-600"
+                      className="w-full px-4 py-2 bg-gray-700 text-white rounded-md hover:bg-gray-600 transition-all border border-gray-600 touch-button"
                     >
                       🧹 Clear Filters
                     </button>
@@ -479,7 +479,7 @@ export default function ProductManagementPage() {
                         setSortBy(e.target.value);
                         setCurrentPage(1);
                       }}
-                      className="w-full px-3 py-2 gaming-input rounded-md"
+                      className="w-full px-3 py-2 gaming-input rounded-md touch-button"
                     >
                       <option value="">Default (Newest)</option>
                       <option value="name">Name</option>
@@ -500,7 +500,7 @@ export default function ProductManagementPage() {
                         setSortOrder(e.target.value as "asc" | "desc");
                         setCurrentPage(1);
                       }}
-                      className="w-full px-3 py-2 gaming-input rounded-md"
+                      className="w-full px-3 py-2 gaming-input rounded-md touch-button"
                     >
                       <option value="desc">⬇️ Descending</option>
                       <option value="asc">⬆️ Ascending</option>
@@ -518,7 +518,7 @@ export default function ProductManagementPage() {
               </div>
 
               {loading ? (
-                <div className="flex justify-center items-center h-48 sm:h-64">
+                <div className="flex justify-center items-center h-48 sm:h-64 container-mobile-xs sm:container-mobile-sm md:container-mobile-md lg:container-mobile-lg xl:container-tablet">
                   <div className="animate-spin rounded-full h-8 w-8 sm:h-12 sm:w-12 border-t-2 border-b-2 border-indigo-500"></div>
                 </div>
               ) : (
@@ -579,7 +579,7 @@ export default function ProductManagementPage() {
                                     <img
                                       src={product.images[0]}
                                       alt={product.name}
-                                      className="h-10 w-10 object-cover rounded-md border border-indigo-500/30"
+                                      className="h-10 w-10 object-cover rounded-md border border-indigo-500/30 responsive-image"
                                       onError={(e) => {
                                         const target =
                                           e.target as HTMLImageElement;
@@ -629,7 +629,7 @@ export default function ProductManagementPage() {
                               <div className="flex justify-end space-x-2">
                                 <button
                                   onClick={() => handleEditProduct(product)}
-                                  className="text-indigo-400 hover:text-indigo-300 transition-colors px-2 py-1 rounded border border-indigo-500/30 hover:border-indigo-500"
+                                  className="text-indigo-400 hover:text-indigo-300 transition-colors px-2 py-1 rounded border border-indigo-500/30 hover:border-indigo-500 touch-button"
                                 >
                                   ✏️ Edit
                                 </button>
@@ -637,7 +637,7 @@ export default function ProductManagementPage() {
                                   onClick={() =>
                                     handleDeleteProduct(product._id)
                                   }
-                                  className="text-red-400 hover:text-red-300 transition-colors px-2 py-1 rounded border border-red-500/30 hover:border-red-500"
+                                  className="text-red-400 hover:text-red-300 transition-colors px-2 py-1 rounded border border-red-500/30 hover:border-red-500 touch-button"
                                 >
                                   🗑️ Delete
                                 </button>
@@ -648,7 +648,7 @@ export default function ProductManagementPage() {
                                       product.isActive,
                                     )
                                   }
-                                  className={`px-2 py-1 rounded text-xs transition-colors ${
+                                  className={`px-2 py-1 rounded text-xs transition-colors touch-button ${
                                     product.isActive
                                       ? "bg-orange-900/50 text-orange-400 border border-orange-500/30 hover:border-orange-500"
                                       : "bg-green-900/50 text-green-400 border border-green-500/30 hover:border-green-500"
@@ -667,7 +667,7 @@ export default function ProductManagementPage() {
                   </div>
 
                   {products.length === 0 && !loading && (
-                    <div className="text-center py-12">
+                    <div className="text-center py-12 container-mobile-xs sm:container-mobile-sm md:container-mobile-md lg:container-mobile-lg xl:container-tablet">
                       <p className="text-gray-400 text-base sm:text-lg">
                         🏺 No items found in the forge
                       </p>
@@ -683,13 +683,13 @@ export default function ProductManagementPage() {
                         Page {currentPage} of {totalPages}
                       </div>
 
-                      <div className="flex space-x-2">
+                      <div className="flex flex-wrap gap-2">
                         <button
                           onClick={() =>
                             setCurrentPage((prev) => Math.max(prev - 1, 1))
                           }
                           disabled={currentPage === 1}
-                          className={`px-3 py-1 rounded-md text-sm ${currentPage === 1 ? "bg-gray-800 text-gray-600 cursor-not-allowed" : "bg-indigo-900/50 text-indigo-400 hover:bg-indigo-800/50 border border-indigo-500/30"}`}
+                          className={`px-3 py-1 rounded-md text-sm touch-button ${currentPage === 1 ? "bg-gray-800 text-gray-600 cursor-not-allowed" : "bg-indigo-900/50 text-indigo-400 hover:bg-indigo-800/50 border border-indigo-500/30"}`}
                         >
                           ◀ Previous
                         </button>
@@ -712,7 +712,7 @@ export default function ProductManagementPage() {
                               <button
                                 key={pageNum}
                                 onClick={() => setCurrentPage(pageNum)}
-                                className={`px-3 py-1 rounded-md text-sm ${currentPage === pageNum ? "bg-indigo-600 text-white" : "bg-indigo-900/50 text-indigo-400 hover:bg-indigo-800/50 border border-indigo-500/30"}`}
+                                className={`px-3 py-1 rounded-md text-sm touch-button ${currentPage === pageNum ? "bg-indigo-600 text-white" : "bg-indigo-900/50 text-indigo-400 hover:bg-indigo-800/50 border border-indigo-500/30"}`}
                               >
                                 {pageNum}
                               </button>
@@ -727,7 +727,7 @@ export default function ProductManagementPage() {
                             )
                           }
                           disabled={currentPage === totalPages}
-                          className={`px-3 py-1 rounded-md text-sm ${currentPage === totalPages ? "bg-gray-800 text-gray-600 cursor-not-allowed" : "bg-indigo-900/50 text-indigo-400 hover:bg-indigo-800/50 border border-indigo-500/30"}`}
+                          className={`px-3 py-1 rounded-md text-sm touch-button ${currentPage === totalPages ? "bg-gray-800 text-gray-600 cursor-not-allowed" : "bg-indigo-900/50 text-indigo-400 hover:bg-indigo-800/50 border border-indigo-500/30"}`}
                         >
                           Next ▶
                         </button>
@@ -742,7 +742,7 @@ export default function ProductManagementPage() {
 
         {showModal && (
           <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 p-2 sm:p-4 backdrop-blur-sm">
-            <div className="glass-card rounded-lg p-3 sm:p-4 md:p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto border border-indigo-500/30">
+            <div className="glass-card rounded-lg p-3 sm:p-4 md:p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto border border-indigo-500/30 container-mobile-xs sm:container-mobile-sm md:container-mobile-md lg:container-mobile-lg xl:container-tablet">
               <h2 className="text-lg sm:text-xl font-bold neon-text mb-3 sm:mb-4">
                 {isEditing ? "⚒️ Upgrade Item" : "⚒️ Create New Products"}
               </h2>
@@ -761,7 +761,7 @@ export default function ProductManagementPage() {
                         name: e.target.value,
                       })
                     }
-                    className="w-full px-2 py-1.5 sm:px-3 sm:py-2 text-sm sm:text-base gaming-input rounded-md"
+                    className="w-full px-2 py-1.5 sm:px-3 sm:py-2 text-sm sm:text-base gaming-input rounded-md touch-button"
                     placeholder="Enter item name"
                   />
                 </div>
@@ -778,7 +778,7 @@ export default function ProductManagementPage() {
                         description: e.target.value,
                       })
                     }
-                    className="w-full px-2 py-1.5 sm:px-3 sm:py-2 text-sm sm:text-base gaming-input rounded-md"
+                    className="w-full px-2 py-1.5 sm:px-3 sm:py-2 text-sm sm:text-base gaming-input rounded-md touch-button"
                     placeholder="Item description"
                     rows={3}
                   />
@@ -802,7 +802,7 @@ export default function ProductManagementPage() {
                         }
                       }}
                       min="0"
-                      className="w-full px-2 py-1.5 sm:px-3 sm:py-2 text-sm sm:text-base gaming-input rounded-md"
+                      className="w-full px-2 py-1.5 sm:px-3 sm:py-2 text-sm sm:text-base gaming-input rounded-md touch-button"
                       placeholder="0"
                       step="0.01"
                     />
@@ -821,7 +821,7 @@ export default function ProductManagementPage() {
                           stock: parseInt(e.target.value) || 0,
                         })
                       }
-                      className="w-full px-2 py-1.5 sm:px-3 sm:py-2 text-sm sm:text-base gaming-input rounded-md"
+                      className="w-full px-2 py-1.5 sm:px-3 sm:py-2 text-sm sm:text-base gaming-input rounded-md touch-button"
                       placeholder="0"
                     />
                   </div>
@@ -841,7 +841,7 @@ export default function ProductManagementPage() {
                           category: e.target.value,
                         })
                       }
-                      className="w-full px-2 py-1.5 sm:px-3 sm:py-2 text-sm sm:text-base gaming-input rounded-md"
+                      className="w-full px-2 py-1.5 sm:px-3 sm:py-2 text-sm sm:text-base gaming-input rounded-md touch-button"
                       placeholder="e.g., Weapons, Armor, Potions"
                     />
                   </div>
@@ -859,7 +859,7 @@ export default function ProductManagementPage() {
                           brand: e.target.value,
                         })
                       }
-                      className="w-full px-2 py-1.5 sm:px-3 sm:py-2 text-sm sm:text-base gaming-input rounded-md"
+                      className="w-full px-2 py-1.5 sm:px-3 sm:py-2 text-sm sm:text-base gaming-input rounded-md touch-button"
                       placeholder="Brand name"
                     />
                   </div>
@@ -878,7 +878,7 @@ export default function ProductManagementPage() {
                         images: [e.target.value],
                       })
                     }
-                    className="w-full px-2 py-1.5 sm:px-3 sm:py-2 text-sm sm:text-base gaming-input rounded-md"
+                    className="w-full px-2 py-1.5 sm:px-3 sm:py-2 text-sm sm:text-base gaming-input rounded-md touch-button"
                     placeholder="https://example.com/item-image.jpg"
                   />
                 </div>
@@ -893,7 +893,7 @@ export default function ProductManagementPage() {
                         isActive: e.target.checked,
                       })
                     }
-                    className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-600 rounded bg-gray-700"
+                    className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-600 rounded bg-gray-700 touch-button"
                   />
                   <label className="ml-3 block text-sm font-medium text-gray-300">
                     <span className="font-semibold">⚡ Item Status:</span>
@@ -909,7 +909,7 @@ export default function ProductManagementPage() {
               <div className="mt-4 sm:mt-6 flex flex-col-reverse sm:flex-row sm:justify-end space-y-2 sm:space-y-0 sm:space-x-3">
                 <button
                   onClick={() => setShowModal(false)}
-                  className="px-3 py-2 sm:px-4 sm:py-2 text-sm sm:text-base bg-gray-700 text-gray-300 rounded-md hover:bg-gray-600 transition-all w-full sm:w-auto border border-gray-600"
+                  className="px-3 py-2 sm:px-4 sm:py-2 text-sm sm:text-base bg-gray-700 text-gray-300 rounded-md hover:bg-gray-600 transition-all w-full sm:w-auto border border-gray-600 touch-button"
                 >
                   Cancel
                 </button>
@@ -922,7 +922,7 @@ export default function ProductManagementPage() {
                     currentProduct.stock === undefined ||
                     currentProduct.stock < 0
                   }
-                  className="px-3 py-2 sm:px-4 sm:py-2 text-sm sm:text-base gaming-btn text-white rounded-md disabled:opacity-50 disabled:cursor-not-allowed w-full sm:w-auto"
+                  className="px-3 py-2 sm:px-4 sm:py-2 text-sm sm:text-base gaming-btn text-white rounded-md disabled:opacity-50 disabled:cursor-not-allowed w-full sm:w-auto touch-button"
                 >
                   {isEditing ? "⚒️ Upgrade Item" : "⚒️ Create Item"}
                 </button>

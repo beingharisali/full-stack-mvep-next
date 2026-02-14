@@ -41,7 +41,7 @@ export default function AnalyticsPage() {
                 <select
                   value={dateRange}
                   onChange={(e) => setDateRange(e.target.value)}
-                  className="px-4 py-2 gaming-input rounded-md"
+                  className="px-4 py-2 gaming-input rounded-md touch-button"
                 >
                   <option value="7">Last 7 days</option>
                   <option value="30">Last 30 days</option>
@@ -50,7 +50,7 @@ export default function AnalyticsPage() {
                 </select>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                 <div className="glass-card rounded-lg p-6">
                   <h3 className="text-lg font-medium text-gray-400">
                     Total users
@@ -98,7 +98,7 @@ export default function AnalyticsPage() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                 <div className="glass-card rounded-lg p-6">
                   <h3 className="text-lg font-medium text-white mb-4">
                     users vs orders

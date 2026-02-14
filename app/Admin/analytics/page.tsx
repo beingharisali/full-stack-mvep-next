@@ -135,8 +135,8 @@ export default function AnalyticsPage() {
                   <h3 className="text-lg font-medium text-white mb-4">
                     user Distribution
                   </h3>
-                  <div className="flex items-center justify-center gap-8">
-                    <div className="relative w-48 h-48">
+                  <div className="flex flex-col md:flex-row items-center justify-center gap-8">
+                    <div className="relative w-40 h-40 md:w-48 md:h-48">
                       <div className="absolute inset-0 flex items-center justify-center">
                         <div className="text-center">
                           <p className="text-xl font-bold text-white">124</p>

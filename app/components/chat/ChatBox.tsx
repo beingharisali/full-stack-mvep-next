@@ -59,7 +59,7 @@ const ChatBox: React.FC<ChatBoxProps> = ({
       await markChatAsRead((selectedChat as Chat)._id);
     } catch (error) {
       console.error("Failed to load messages:", error);
-      alert("Failed to load guild messages");
+      alert("Failed to load messages");
     }
   };
 
@@ -99,7 +99,7 @@ const ChatBox: React.FC<ChatBoxProps> = ({
     if (!newMessage.trim() && !file) return;
 
     if (!selectedChat) {
-      alert("Please select a guild chat first");
+      alert("Please select a chat first");
       return;
     }
 
@@ -135,7 +135,7 @@ const ChatBox: React.FC<ChatBoxProps> = ({
       }
     } catch (error) {
       console.error("Failed to send message:", error);
-      alert("Failed to send guild message");
+      alert("Failed to send message");
     }
   };
 
@@ -195,7 +195,7 @@ const ChatBox: React.FC<ChatBoxProps> = ({
       <div className="hidden md:flex items-center justify-center w-full h-full bg-[#0f1420] rounded-xl border border-indigo-500/30">
         <div className="text-center p-4">
           <p className="text-gray-400 text-lg mb-4">
-            💬 Select a guild to start chatting
+            💬 Select a user to start chatting
           </p>
           <div className="max-w-md mx-auto">
             <SearchUser />

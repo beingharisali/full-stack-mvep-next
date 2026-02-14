@@ -315,7 +315,7 @@ export default function AdminAccountsPage() {
               <div className="flex items-center justify-between text-white">
                 <div className="flex items-center gap-3">
                   <FaUser className="text-xl text-indigo-400" />
-                  <h2 className="text-xl font-bold">🛡️ Merchants Guild</h2>
+                  <h2 className="text-xl font-bold">Vendors</h2>
                 </div>
                 <span className="bg-indigo-500/20 px-3 py-1 rounded-full text-sm text-indigo-400 border border-indigo-500/30">
                   {vendors.length} members
@@ -368,7 +368,7 @@ export default function AdminAccountsPage() {
               <div className="flex items-center justify-between text-white">
                 <div className="flex items-center gap-3">
                   <FaUser className="text-xl text-green-400" />
-                  <h2 className="text-xl font-bold">⚔️ Adventurers Guild</h2>
+                  <h2 className="text-xl font-bold">Customers</h2>
                 </div>
                 <span className="bg-green-500/20 px-3 py-1 rounded-full text-sm text-green-400 border border-green-500/30">
                   {customers.length} members

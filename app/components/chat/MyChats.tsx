@@ -54,8 +54,8 @@ const MyChats: React.FC<MyChatsProps> = ({
       }));
       setChats(chatsWithBlockStatus);
     } catch (error: any) {
-      console.error("Failed to load guilds:", error);
-      alert("Failed to load guild chats");
+      console.error("Failed to load:", error);
+      alert("Failed to load chats");
     }
   };
 
@@ -65,7 +65,7 @@ const MyChats: React.FC<MyChatsProps> = ({
 
   const handleDeleteChat = async (chatId: string) => {
     try {
-      console.log("Deleting guild:", chatId);
+      console.log("Deleting chat:", chatId);
       await deleteChatApi(chatId);
 
       setChats(chats.filter((c: Chat) => c._id !== chatId));
@@ -74,16 +74,16 @@ const MyChats: React.FC<MyChatsProps> = ({
         setSelectedChat(null);
       }
 
-      alert("🗑️ Guild chat deleted successfully");
+      alert("🗑️ Chat deleted successfully");
     } catch (error: any) {
       console.error("Delete error:", error);
-      alert("Failed to delete guild: " + (error.message || "Unknown error"));
+      alert("Failed to delete: " + (error.message || "Unknown error"));
     }
   };
 
   const handleBlockChat = async (chatId: string) => {
     try {
-      console.log("Blocking guild:", chatId);
+      console.log("Blocking:", chatId);
       await blockChatApi(chatId);
 
       setChats(
@@ -92,16 +92,16 @@ const MyChats: React.FC<MyChatsProps> = ({
         ),
       );
 
-      alert("🚫 Guild blocked successfully");
+      alert("🚫Blocked successfully");
     } catch (error: any) {
       console.error("Block error:", error);
-      alert("Failed to block guild: " + (error.message || "Unknown error"));
+      alert("Failed to block: " + (error.message || "Unknown error"));
     }
   };
 
   const handleUnblockChat = async (chatId: string) => {
     try {
-      console.log("Unblocking guild:", chatId);
+      console.log("Unblocking:", chatId);
       await unblockChatApi(chatId);
 
       setChats(
@@ -110,10 +110,10 @@ const MyChats: React.FC<MyChatsProps> = ({
         ),
       );
 
-      alert("🔓 Guild unblocked successfully");
+      alert("🔓Unblocked successfully");
     } catch (error: any) {
       console.error("Unblock error:", error);
-      alert("Failed to unblock guild: " + (error.message || "Unknown error"));
+      alert("Failed to unblock: " + (error.message || "Unknown error"));
     }
   };
 
@@ -138,7 +138,7 @@ const MyChats: React.FC<MyChatsProps> = ({
           >
             {showChats ? "📜" : "📚"}
           </button>
-          <span className="text-lg font-bold text-white">Guild Chats</span>
+          <span className="text-lg font-bold text-white">Chats</span>
         </div>
       </div>
 
@@ -208,7 +208,7 @@ const MyChats: React.FC<MyChatsProps> = ({
                                 setDropdownOpen(null);
                               }}
                             >
-                              🗑️ Delete Guild
+                              🗑️ Delete
                             </button>
 
                             {(chat as any).isBlocked ? (
@@ -219,7 +219,7 @@ const MyChats: React.FC<MyChatsProps> = ({
                                   setDropdownOpen(null);
                                 }}
                               >
-                                🔓 Unblock Guild
+                                🔓 Unblock
                               </button>
                             ) : (
                               <button
@@ -229,7 +229,7 @@ const MyChats: React.FC<MyChatsProps> = ({
                                   setDropdownOpen(null);
                                 }}
                               >
-                                🚫 Block Guild
+                                🚫 Block
                               </button>
                             )}
                           </div>
@@ -242,7 +242,7 @@ const MyChats: React.FC<MyChatsProps> = ({
             </div>
           ) : (
             <div className="flex items-center justify-center h-full">
-              <span className="text-gray-400">No guilds yet</span>
+              <span className="text-gray-400">No chat yet</span>
             </div>
           )}
         </div>

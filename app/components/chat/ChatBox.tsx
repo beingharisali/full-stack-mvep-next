@@ -35,6 +35,8 @@ const ChatBox: React.FC<ChatBoxProps> = ({
     selectedChat,
     socket,
     setFetchAgain: contextSetFetchAgain,
+    unreadCounts,
+    setUnreadCounts,
   } = useChat();
 
   const setFetchAgain = propSetFetchAgain || contextSetFetchAgain;
@@ -57,6 +59,10 @@ const ChatBox: React.FC<ChatBoxProps> = ({
       setLoading(false);
 
       await markChatAsRead((selectedChat as Chat)._id);
+      setUnreadCounts((prev) => ({
+        ...prev,
+        [(selectedChat as Chat)._id]: 0,
+      }));
     } catch (error) {
       console.error("Failed to load messages:", error);
       alert("Failed to load messages");
@@ -74,13 +80,16 @@ const ChatBox: React.FC<ChatBoxProps> = ({
       socket.emit("join chat", (selectedChat as Chat)._id);
 
       const handleMessageReceived = (newMessage: Message) => {
-        if (
-          selectedChat &&
-          (selectedChat as Chat)._id === newMessage.chat._id
-        ) {
+        const chatId = (selectedChat as Chat)._id;
+        
+        if (newMessage.chat._id === chatId) {
           setMessages((prev) => [...prev, newMessage]);
-          markChatAsRead((selectedChat as Chat)._id);
+          markChatAsRead(chatId);
         } else {
+          setUnreadCounts((prev) => ({
+            ...prev,
+            [newMessage.chat._id]: (prev[newMessage.chat._id] || 0) + 1,
+          }));
           setFetchAgain((prev) => !prev);
         }
       };
@@ -91,7 +100,7 @@ const ChatBox: React.FC<ChatBoxProps> = ({
         socket.off("message received", handleMessageReceived);
       };
     }
-  }, [socket, selectedChat, setFetchAgain]);
+  }, [socket, selectedChat, setFetchAgain, setUnreadCounts]);
 
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -119,7 +128,7 @@ const ChatBox: React.FC<ChatBoxProps> = ({
         (selectedChat as Chat)._id,
         fileUrl,
         fileName,
-        fileType,
+        fileType
       );
 
       setMessages((prev) => [...prev, messageData]);
@@ -156,7 +165,7 @@ const ChatBox: React.FC<ChatBoxProps> = ({
     const date = new Date(dateString);
     const now = new Date();
     const diffInDays = Math.floor(
-      (now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24),
+      (now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24)
     );
 
     if (diffInDays === 0) {
@@ -168,11 +177,21 @@ const ChatBox: React.FC<ChatBoxProps> = ({
     }
 
     if (diffInDays === 1) {
-      return `Yesterday at ${date.toLocaleTimeString([], { hour: "numeric", minute: "2-digit", hour12: true })}`;
+      return `Yesterday at ${date.toLocaleTimeString([], {
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true,
+      })}`;
     }
 
     if (diffInDays < 7) {
-      return `${date.toLocaleDateString("en-US", { weekday: "long" })} at ${date.toLocaleTimeString([], { hour: "numeric", minute: "2-digit", hour12: true })}`;
+      return `${date.toLocaleDateString("en-US", {
+        weekday: "long",
+      })} at ${date.toLocaleTimeString([], {
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true,
+      })}`;
     }
 
     return (
@@ -214,7 +233,7 @@ const ChatBox: React.FC<ChatBoxProps> = ({
             ? (selectedChat as Chat).chatName
             : getChatPartnerName(
                 user as UserType,
-                (selectedChat as Chat).users,
+                (selectedChat as Chat).users
               )}
         </h2>
       </div>
@@ -229,7 +248,9 @@ const ChatBox: React.FC<ChatBoxProps> = ({
             {messages.map((msg, index) => (
               <div
                 key={msg._id || index}
-                className={`flex ${msg.sender._id === user?.id ? "justify-end" : "justify-start"}`}
+                className={`flex ${
+                  msg.sender._id === user?.id ? "justify-end" : "justify-start"
+                }`}
               >
                 <div
                   className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
@@ -254,7 +275,11 @@ const ChatBox: React.FC<ChatBoxProps> = ({
                     <p>{msg.content}</p>
                   )}
                   <div
-                    className={`text-xs mt-1 ${msg.sender._id === user?.id ? "text-indigo-200" : "text-gray-500"}`}
+                    className={`text-xs mt-1 ${
+                      msg.sender._id === user?.id
+                        ? "text-indigo-200"
+                        : "text-gray-500"
+                    }`}
                   >
                     {formatDate(msg.createdAt)}
                   </div>

@@ -1,81 +1,69 @@
-'use client';
 
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import { User } from '../types/user';
-import { Chat } from '../services/chat.api';
-import io from 'socket.io-client';
+"use client";
+
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { useAuth } from "./AuthContext";
+import { io, type Socket } from "socket.io-client";
+import { Chat } from "../services/chat.api";
 
 interface ChatContextType {
-  user: User | null;
-  setUser: React.Dispatch<React.SetStateAction<User | null>>;
-  selectedChat: Chat | string | null;
-  setSelectedChat: React.Dispatch<React.SetStateAction<Chat | string | null>>;
+  selectedChat: Chat | null;
+  setSelectedChat: React.Dispatch<React.SetStateAction<Chat | null>>;
   chats: Chat[];
   setChats: React.Dispatch<React.SetStateAction<Chat[]>>;
-  notification: any[];
-  setNotification: React.Dispatch<React.SetStateAction<any[]>>;
   fetchAgain: boolean;
   setFetchAgain: React.Dispatch<React.SetStateAction<boolean>>;
-  socket: any;
-  onlineUsers: string[];
+  socket: Socket | null;
+  setSocket: React.Dispatch<React.SetStateAction<Socket | null>>;
+  unreadCounts: Record<string, number>;
+  setUnreadCounts: React.Dispatch<React.SetStateAction<Record<string, number>>>;
 }
 
 const ChatContext = createContext<ChatContextType | undefined>(undefined);
 
-interface ChatProviderProps {
-  children: ReactNode;
-}
-
-let socket: any = null;
-
-export const ChatProvider: React.FC<ChatProviderProps> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [selectedChat, setSelectedChat] = useState<Chat | string | null>(null);
+export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
+  const [selectedChat, setSelectedChat] = useState<Chat | null>(null);
   const [chats, setChats] = useState<Chat[]>([]);
-  const [notification, setNotification] = useState<any[]>([]);
-  const [fetchAgain, setFetchAgain] = useState<boolean>(false);
-  const [onlineUsers, setOnlineUsers] = useState<string[]>([]);
+  const [fetchAgain, setFetchAgain] = useState(false);
+  const [socket, setSocket] = useState<Socket | null>(null);
+  const [unreadCounts, setUnreadCounts] = useState<Record<string, number>>({});
 
-  useEffect(() => {
-  }, []);
+  const { user } = useAuth();
 
   useEffect(() => {
     if (user) {
-      socket = io(process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:5000');
-      
-      socket.emit('setup', user);
-      socket.on('connected', () => console.log('Connected to socket'));
-      
-      socket.on('onlineUsers', (users: string[]) => {
-        setOnlineUsers(users);
+      const newSocket = io(process.env.NEXT_PUBLIC_SOCKET_URL || "http://localhost:5000", {
+        transports: ["websocket"],
       });
+      setSocket(newSocket);
+
+      newSocket.emit("setup", user.id);
+
+      newSocket.on("connected", () => console.log("Socket connected"));
 
       return () => {
-        if (socket) {
-          socket.disconnect();
-          socket = null;
-        }
+        newSocket.disconnect();
       };
     }
   }, [user]);
 
-  const contextValue: ChatContextType = {
-    user,
-    setUser,
-    selectedChat,
-    setSelectedChat,
-    chats,
-    setChats,
-    notification,
-    setNotification,
-    fetchAgain,
-    setFetchAgain,
-    socket,
-    onlineUsers
-  };
-
   return (
-    <ChatContext.Provider value={contextValue}>
+    <ChatContext.Provider
+      value={{
+        selectedChat,
+        setSelectedChat,
+        chats,
+        setChats,
+        fetchAgain,
+        setFetchAgain,
+        socket,
+        setSocket,
+        unreadCounts,
+        setUnreadCounts,
+      }}
+    >
       {children}
     </ChatContext.Provider>
   );
@@ -83,8 +71,6 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({ children }) => {
 
 export const useChat = () => {
   const context = useContext(ChatContext);
-  if (!context) {
-    throw new Error('useChat must be used within a ChatProvider');
-  }
+  if (!context) throw new Error("useChat must be used within ChatProvider");
   return context;
 };

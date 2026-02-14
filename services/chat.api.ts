@@ -1,4 +1,5 @@
-import http from './http';
+
+import http from "./http";
 
 export interface User {
   _id: string;
@@ -6,6 +7,7 @@ export interface User {
   lastName: string;
   email: string;
   role: string;
+  avatar?: string;
 }
 
 export interface Message {
@@ -13,12 +15,12 @@ export interface Message {
   sender: User;
   content: string;
   chat: Chat;
-  createdAt: string;
-  updatedAt: string;
-  isRead: boolean;
   fileUrl?: string;
   fileName?: string;
   fileType?: string;
+  createdAt: string;
+  updatedAt: string;
+  readBy: string[]; 
 }
 
 export interface Chat {
@@ -33,58 +35,31 @@ export interface Chat {
   updatedAt: string;
 }
 
-export const accessChat = async (userId: string): Promise<Chat> => {
-  const response = await http.post('/chat', { userId });
-  return response.data;
-};
-
 export const fetchChats = async (): Promise<Chat[]> => {
-  const response = await http.get('/chat');
+  const response = await http.get("/chat");
   return response.data;
 };
 
-export const createGroup = async (name: string, users: string[]): Promise<Chat> => {
-  const response = await http.post('/chat/group', { name, users: JSON.stringify(users) });
+export const searchUsers = async (query: string): Promise<User[]> => {
+  const response = await http.get(`/user?search=${query}`);
   return response.data;
 };
 
-export const renameGroup = async (chatId: string, chatName: string): Promise<Chat> => {
-  const response = await http.put('/chat/rename', { chatId, chatName });
+export const accessChat = async (userId: string): Promise<Chat> => {
+  const response = await http.post("/chat", { userId });
   return response.data;
 };
 
-export const addToGroup = async (chatId: string, userId: string): Promise<Chat> => {
-  const response = await http.put('/chat/groupadd', { chatId, userId });
+export const createGroup = async (
+  name: string,
+  users: string[]
+): Promise<Chat> => {
+  const response = await http.post("/chat/group", { name, users });
   return response.data;
 };
 
-export const removeFromGroup = async (chatId: string, userId: string): Promise<Chat> => {
-  const response = await http.put('/chat/groupremove', { chatId, userId });
-  return response.data;
-};
-
-export const deleteGroup = async (chatId: string): Promise<{ message: string }> => {
-  const response = await http.delete(`/chat/groupdelete`, { data: { chatId } });
-  return response.data;
-};
-
-export const markChatAsRead = async (chatId: string): Promise<{ message: string }> => {
-  const response = await http.put(`/chat/${chatId}/read`);
-  return response.data;
-};
-
-export const deleteChat = async (chatId: string): Promise<{ message: string }> => {
-  const response = await http.delete(`/chat/${chatId}`);
-  return response.data;
-};
-
-export const blockChat = async (chatId: string): Promise<{ message: string }> => {
-  const response = await http.post(`/chat/${chatId}/block`);
-  return response.data;
-};
-
-export const unblockChat = async (chatId: string): Promise<{ message: string }> => {
-  const response = await http.post(`/chat/${chatId}/unblock`);
+export const getAllMessages = async (chatId: string): Promise<Message[]> => {
+  const response = await http.get(`/message/${chatId}`);
   return response.data;
 };
 
@@ -95,32 +70,28 @@ export const sendMessage = async (
   fileName?: string,
   fileType?: string
 ): Promise<Message> => {
-  const response = await http.post('/message', {
+  const response = await http.post("/message", {
     content,
     chatId,
     fileUrl,
     fileName,
-    fileType
+    fileType,
   });
   return response.data;
 };
 
-export const getAllMessages = async (chatId: string): Promise<Message[]> => {
-  const response = await http.get(`/message/${chatId}`);
-  return response.data;
+export const markChatAsRead = async (chatId: string): Promise<void> => {
+  await http.put(`/chat/${chatId}/read`);
 };
 
-export const deleteMessage = async (messageId: string): Promise<{ message: string }> => {
-  const response = await http.delete(`/message/${messageId}`);
-  return response.data;
+export const deleteChat = async (chatId: string): Promise<void> => {
+  await http.delete(`/chat/${chatId}`);
 };
 
-export const clearNotifications = async (): Promise<{ message: string }> => {
-  const response = await http.put('/message/clear-notifications');
-  return response.data;
+export const blockChat = async (chatId: string): Promise<void> => {
+  await http.put(`/chat/${chatId}/block`);
 };
 
-export const searchUsers = async (searchQuery: string): Promise<User[]> => {
-  const response = await http.get(`/users/search?searchQuery=${encodeURIComponent(searchQuery)}`);
-  return response.data;
+export const unblockChat = async (chatId: string): Promise<void> => {
+  await http.put(`/chat/${chatId}/unblock`);
 };

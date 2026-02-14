@@ -206,7 +206,7 @@ export default function AdminAccountsPage() {
           <>
             <button
               onClick={() => startEditingUser(vendor.id)}
-              className="p-2 text-blue-400 hover:bg-blue-500/20 rounded-full transition-colors duration-200 border border-blue-500/30 hover:border-blue-500"
+              className="p-2 text-blue-400 hover:bg-blue-500/20 rounded-full transition-colors duration-200 border border-blue-500/30 hover:border-blue-500 touch-button"
               title="Edit merchant"
             >
               <FaEdit />
@@ -214,7 +214,7 @@ export default function AdminAccountsPage() {
             <button
               onClick={() => handleDelete(vendor.id)}
               disabled={deletingUserId === vendor.id}
-              className={`p-2 text-red-400 hover:bg-red-500/20 rounded-full transition-colors duration-200 border border-red-500/30 hover:border-red-500 ${deletingUserId === vendor.id ? "opacity-50 cursor-not-allowed" : ""}`}
+              className={`p-2 text-red-400 hover:bg-red-500/20 rounded-full transition-colors duration-200 border border-red-500/30 hover:border-red-500 touch-button ${deletingUserId === vendor.id ? "opacity-50 cursor-not-allowed" : ""}`}
               title="Banish merchant"
             >
               <FaTrash />
@@ -238,7 +238,7 @@ export default function AdminAccountsPage() {
           <>
             <button
               onClick={() => startEditingUser(customer.id)}
-              className="p-2 text-blue-400 hover:bg-blue-500/20 rounded-full transition-colors duration-200 border border-blue-500/30 hover:border-blue-500"
+              className="p-2 text-blue-400 hover:bg-blue-500/20 rounded-full transition-colors duration-200 border border-blue-500/30 hover:border-blue-500 touch-button"
               title="Edit user"
             >
               <FaEdit />
@@ -246,7 +246,7 @@ export default function AdminAccountsPage() {
             <button
               onClick={() => handleDelete(customer.id)}
               disabled={deletingUserId === customer.id}
-              className={`p-2 text-red-400 hover:bg-red-500/20 rounded-full transition-colors duration-200 border border-red-500/30 hover:border-red-500 ${deletingUserId === customer.id ? "opacity-50 cursor-not-allowed" : ""}`}
+              className={`p-2 text-red-400 hover:bg-red-500/20 rounded-full transition-colors duration-200 border border-red-500/30 hover:border-red-500 touch-button ${deletingUserId === customer.id ? "opacity-50 cursor-not-allowed" : ""}`}
               title="Banish user"
             >
               <FaTrash />
@@ -301,7 +301,7 @@ export default function AdminAccountsPage() {
                   role: "vendor",
                 });
               }}
-              className="flex items-center gap-2 px-4 py-2 gaming-btn text-white rounded-lg transition-all"
+              className="flex items-center gap-2 px-4 py-2 gaming-btn text-white rounded-lg transition-all touch-button"
             >
               <FaPlus />
               👋 Invite New user

@@ -1,8 +1,7 @@
 "use client";
 
-import Link from "next/link";
-import { useAuth } from "../../context/AuthContext";
 import { useRouter, usePathname } from "next/navigation";
+import { useAuth } from "../../context/AuthContext";
 
 interface NavbarProps {
   onMenuToggle?: () => void;
@@ -12,6 +11,10 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle }) => {
   const { user, logout } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
+  
+  const handleNavigation = (path: string) => {
+    router.push(path);
+  };
 
   const handleLogout = () => {
     logout();
@@ -23,18 +26,21 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
-            <Link href="/" className="flex-shrink-0 flex items-center group">
+            <button 
+              onClick={() => handleNavigation("/")} 
+              className="flex-shrink-0 flex items-center group"
+            >
               <span className="text-xl font-bold neon-text group-hover:scale-105 transition-transform">
                 MVEP
               </span>
-            </Link>
+            </button>
           </div>
 
           <div className="hidden md:flex items-center space-x-8">
             {user?.role === "customer" && (
               <>
-                <Link
-                  href="/products"
+                <button
+                  onClick={() => handleNavigation("/products")}
                   className={`px-3 py-2 rounded-md text-sm font-medium transition-all ${
                     pathname === "/products"
                       ? "text-indigo-400 bg-indigo-500/20 border border-indigo-500/50"
@@ -42,9 +48,9 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle }) => {
                   }`}
                 >
                   Products
-                </Link>
-                <Link
-                  href="/cart"
+                </button>
+                <button
+                  onClick={() => handleNavigation("/cart")}
                   className={`px-3 py-2 rounded-md text-sm font-medium transition-all ${
                     pathname === "/cart"
                       ? "text-indigo-400 bg-indigo-500/20 border border-indigo-500/50"
@@ -52,9 +58,9 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle }) => {
                   }`}
                 >
                   🛒 Cart
-                </Link>
-                <Link
-                  href="/checkout"
+                </button>
+                <button
+                  onClick={() => handleNavigation("/checkout")}
                   className={`px-3 py-2 rounded-md text-sm font-medium transition-all ${
                     pathname === "/checkout"
                       ? "text-indigo-400 bg-indigo-500/20 border border-indigo-500/50"
@@ -62,9 +68,9 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle }) => {
                   }`}
                 >
                    Checkout
-                </Link>
-                <Link
-                  href="/Customer/chat"
+                </button>
+                <button
+                  onClick={() => handleNavigation("/Customer/chat")}
                   className={`px-3 py-2 rounded-md text-sm font-medium transition-all ${
                     pathname === "/Customer/chat"
                       ? "text-indigo-400 bg-indigo-500/20 border border-indigo-500/50"
@@ -72,9 +78,9 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle }) => {
                   }`}
                 >
                   💬 Chat
-                </Link>
-                <Link
-                  href="/orders/history"
+                </button>
+                <button
+                  onClick={() => handleNavigation("/orders/history")}
                   className={`px-3 py-2 rounded-md text-sm font-medium transition-all ${
                     pathname === "/orders/history"
                       ? "text-indigo-400 bg-indigo-500/20 border border-indigo-500/50"
@@ -82,14 +88,14 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle }) => {
                   }`}
                 >
                   📜 Order History
-                </Link>
+                </button>
               </>
             )}
 
             {user?.role === "admin" && (
               <>
-                <Link
-                  href="/Admin/dashboard"
+                <button
+                  onClick={() => handleNavigation("/Admin/dashboard")}
                   className={`px-3 py-2 rounded-md text-sm font-medium transition-all ${
                     pathname === "/Admin/dashboard"
                       ? "text-indigo-400 bg-indigo-500/20 border border-indigo-500/50"
@@ -97,9 +103,9 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle }) => {
                   }`}
                 >
                   DASHBOARD
-                </Link>
-                <Link
-                  href="/Admin/products"
+                </button>
+                <button
+                  onClick={() => handleNavigation("/Admin/products")}
                   className={`px-3 py-2 rounded-md text-sm font-medium transition-all ${
                     pathname === "/Admin/products"
                       ? "text-indigo-400 bg-indigo-500/20 border border-indigo-500/50"
@@ -107,9 +113,9 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle }) => {
                   }`}
                 >
                   PRODUCTS
-                </Link>
-                <Link
-                  href="/Admin/orders"
+                </button>
+                <button
+                  onClick={() => handleNavigation("/Admin/orders")}
                   className={`px-3 py-2 rounded-md text-sm font-medium transition-all ${
                     pathname === "/Admin/orders"
                       ? "text-indigo-400 bg-indigo-500/20 border border-indigo-500/50"
@@ -117,9 +123,9 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle }) => {
                   }`}
                 >
                   ORDERS
-                </Link>
-                <Link
-                  href="/Admin/orders/history"
+                </button>
+                <button
+                  onClick={() => handleNavigation("/Admin/orders/history")}
                   className={`px-3 py-2 rounded-md text-sm font-medium transition-all ${
                     pathname === "/Admin/orders/history"
                       ? "text-indigo-400 bg-indigo-500/20 border border-indigo-500/50"
@@ -127,14 +133,14 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle }) => {
                   }`}
                 >
                   ORDERS HISTORY
-                </Link>
+                </button>
               </>
             )}
 
             {user?.role === "vendor" && (
               <>
-                <Link
-                  href="/Vendor/dashboard"
+                <button
+                  onClick={() => handleNavigation("/Vendor/dashboard")}
                   className={`px-3 py-2 rounded-md text-sm font-medium transition-all ${
                     pathname === "/Vendor/dashboard"
                       ? "text-indigo-400 bg-indigo-500/20 border border-indigo-500/50"
@@ -142,9 +148,9 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle }) => {
                   }`}
                 >
                   🏪 Merchant Stall
-                </Link>
-                <Link
-                  href="/Vendor/products"
+                </button>
+                <button
+                  onClick={() => handleNavigation("/Vendor/products")}
                   className={`px-3 py-2 rounded-md text-sm font-medium transition-all ${
                     pathname === "/Vendor/products"
                       ? "text-indigo-400 bg-indigo-500/20 border border-indigo-500/50"
@@ -152,9 +158,9 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle }) => {
                   }`}
                 >
                   📦 Cart
-                </Link>
-                <Link
-                  href="/Vendor/orders"
+                </button>
+                <button
+                  onClick={() => handleNavigation("/Vendor/orders")}
                   className={`px-3 py-2 rounded-md text-sm font-medium transition-all ${
                     pathname === "/Vendor/orders"
                       ? "text-indigo-400 bg-indigo-500/20 border border-indigo-500/50"
@@ -162,9 +168,9 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle }) => {
                   }`}
                 >
                   📋 Order Requests
-                </Link>
-                <Link
-                  href="/Vendor/chat"
+                </button>
+                <button
+                  onClick={() => handleNavigation("/Vendor/chat")}
                   className={`px-3 py-2 rounded-md text-sm font-medium transition-all ${
                     pathname === "/Vendor/chat"
                       ? "text-indigo-400 bg-indigo-500/20 border border-indigo-500/50"
@@ -172,9 +178,9 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle }) => {
                   }`}
                 >
                   💬 Chat
-                </Link>
-                <Link
-                  href="/Vendor/orders/history"
+                </button>
+                <button
+                  onClick={() => handleNavigation("/Vendor/orders/history")}
                   className={`px-3 py-2 rounded-md text-sm font-medium transition-all ${
                     pathname === "/Vendor/orders/history"
                       ? "text-indigo-400 bg-indigo-500/20 border border-indigo-500/50"
@@ -182,7 +188,7 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle }) => {
                   }`}
                 >
                   📜 Order History
-                </Link>
+                </button>
               </>
             )}
 
@@ -201,18 +207,18 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle }) => {
               </div>
             ) : (
               <div className="flex items-center space-x-4">
-                <Link
-                  href="/login"
+                <button
+                  onClick={() => handleNavigation("/login")}
                   className="px-4 py-2 text-sm font-medium text-indigo-400 border border-indigo-500/50 rounded-md hover:bg-indigo-500/10 transition-all"
                 >
                   Login
-                </Link>
-                <Link
-                  href="/register"
+                </button>
+                <button
+                  onClick={() => handleNavigation("/register")}
                   className="px-4 py-2 text-sm font-medium text-white gaming-btn rounded-md transition-all"
                 >
                   Create Character
-                </Link>
+                </button>
               </div>
             )}
           </div>

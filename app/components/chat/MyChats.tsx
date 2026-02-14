@@ -9,6 +9,7 @@ import {
   deleteChat as deleteChatApi,
   blockChat as blockChatApi,
   unblockChat as unblockChatApi,
+  getAllMessages,
 } from "../../../services/chat.api";
 import { getChatPartnerName } from "./ChatLogic";
 import { User as UserType } from "../../../types/user";
@@ -34,16 +35,14 @@ const MyChats: React.FC<MyChatsProps> = ({
     setChats,
     fetchAgain: contextFetchAgain,
     setFetchAgain: contextSetFetchAgain,
+    unreadCounts,
+    setUnreadCounts,
   } = useChat();
 
   const effectiveFetchAgain =
     propFetchAgain !== undefined ? propFetchAgain : contextFetchAgain;
   const setEffectiveFetchAgain =
     propSetFetchAgain !== undefined ? propSetFetchAgain : contextSetFetchAgain;
-
-  const refreshChats = () => {
-    setEffectiveFetchAgain((prev) => !prev);
-  };
 
   const fetchChatsData = async () => {
     try {
@@ -53,6 +52,21 @@ const MyChats: React.FC<MyChatsProps> = ({
         isBlocked: chat.blockedBy && chat.blockedBy.includes(user?.id || ""),
       }));
       setChats(chatsWithBlockStatus);
+
+      const counts: Record<string, number> = {};
+      for (const chat of data) {
+        try {
+          const messages = await getAllMessages(chat._id);
+          const unread = messages.filter(
+            (msg) => !msg.readBy?.includes(user?.id || "")
+          ).length;
+          counts[chat._id] = unread;
+        } catch (error) {
+          console.error(`Failed to fetch messages for chat ${chat._id}`, error);
+          counts[chat._id] = 0;
+        }
+      }
+      setUnreadCounts(counts);
     } catch (error: any) {
       console.error("Failed to load:", error);
       alert("Failed to load chats");
@@ -61,19 +75,15 @@ const MyChats: React.FC<MyChatsProps> = ({
 
   useEffect(() => {
     fetchChatsData();
-  }, [effectiveFetchAgain, refreshChats]);
+  }, [effectiveFetchAgain]);
 
   const handleDeleteChat = async (chatId: string) => {
     try {
-      console.log("Deleting chat:", chatId);
       await deleteChatApi(chatId);
-
       setChats(chats.filter((c: Chat) => c._id !== chatId));
-
       if (selectedChat && (selectedChat as Chat)._id === chatId) {
         setSelectedChat(null);
       }
-
       alert("🗑️ Chat deleted successfully");
     } catch (error: any) {
       console.error("Delete error:", error);
@@ -83,16 +93,13 @@ const MyChats: React.FC<MyChatsProps> = ({
 
   const handleBlockChat = async (chatId: string) => {
     try {
-      console.log("Blocking:", chatId);
       await blockChatApi(chatId);
-
       setChats(
         chats.map((c: Chat) =>
-          c._id === chatId ? { ...c, isBlocked: true } : c,
-        ),
+          c._id === chatId ? { ...c, isBlocked: true } : c
+        )
       );
-
-      alert("🚫Blocked successfully");
+      alert("🚫 Blocked successfully");
     } catch (error: any) {
       console.error("Block error:", error);
       alert("Failed to block: " + (error.message || "Unknown error"));
@@ -101,16 +108,13 @@ const MyChats: React.FC<MyChatsProps> = ({
 
   const handleUnblockChat = async (chatId: string) => {
     try {
-      console.log("Unblocking:", chatId);
       await unblockChatApi(chatId);
-
       setChats(
         chats.map((c: Chat) =>
-          c._id === chatId ? { ...c, isBlocked: false } : c,
-        ),
+          c._id === chatId ? { ...c, isBlocked: false } : c
+        )
       );
-
-      alert("🔓Unblocked successfully");
+      alert("🔓 Unblocked successfully");
     } catch (error: any) {
       console.error("Unblock error:", error);
       alert("Failed to unblock: " + (error.message || "Unknown error"));
@@ -119,7 +123,10 @@ const MyChats: React.FC<MyChatsProps> = ({
 
   const handleSelectChat = (chat: Chat) => {
     setSelectedChat(chat);
-    setEffectiveFetchAgain((prev) => !prev);
+    setUnreadCounts((prev) => ({
+      ...prev,
+      [chat._id]: 0,
+    }));
   };
 
   const toggleDropdown = (chatId: string) => {
@@ -128,7 +135,9 @@ const MyChats: React.FC<MyChatsProps> = ({
 
   return (
     <div
-      className={`${selectedChat ? "hidden md:flex" : "flex"} flex-col w-full md:w-[32%] h-full overflow-hidden min-w-[300px]`}
+      className={`${
+        selectedChat ? "hidden md:flex" : "flex"
+      } flex-col w-full md:w-[32%] h-full overflow-hidden min-w-[300px]`}
     >
       <div className="flex justify-between items-center mb-3">
         <div className="flex items-center gap-2">
@@ -153,6 +162,7 @@ const MyChats: React.FC<MyChatsProps> = ({
               {chats.map((chat: Chat) => {
                 const isSelected =
                   selectedChat && (selectedChat as Chat)._id === chat._id;
+                const unread = unreadCounts[chat._id] || 0;
 
                 return (
                   <div
@@ -164,8 +174,8 @@ const MyChats: React.FC<MyChatsProps> = ({
                     }`}
                     onClick={() => handleSelectChat(chat)}
                   >
-                    <div className="flex items-center gap-3 flex-1">
-                      <div className="bg-indigo-900/50 rounded-full w-10 h-10 flex items-center justify-center border border-indigo-500/50">
+                    <div className="flex items-center gap-3 flex-1 min-w-0">
+                      <div className="bg-indigo-900/50 rounded-full w-10 h-10 flex items-center justify-center border border-indigo-500/50 flex-shrink-0">
                         <span className="font-medium text-indigo-400">
                           {chat.isGroupChat
                             ? chat.chatName.charAt(0).toUpperCase()
@@ -175,22 +185,28 @@ const MyChats: React.FC<MyChatsProps> = ({
                         </span>
                       </div>
 
-                      <div>
-                        <div className="font-semibold truncate max-w-[150px]">
+                      <div className="flex-1 min-w-0">
+                        <div className="font-semibold truncate">
                           {chat.isGroupChat
                             ? chat.chatName
                             : getChatPartnerName(user as UserType, chat.users)}
                         </div>
 
                         {chat.latestMessage && (
-                          <div className="text-sm truncate max-w-[150px] text-gray-400">
+                          <div className="text-sm truncate text-gray-400">
                             {chat.latestMessage.content}
                           </div>
                         )}
                       </div>
+
+                      {unread > 0 && (
+                        <span className="bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full ml-2 flex-shrink-0">
+                          {unread > 99 ? "99+" : unread}
+                        </span>
+                      )}
                     </div>
 
-                    <div onClick={(e) => e.stopPropagation()}>
+                    <div onClick={(e) => e.stopPropagation()} className="flex-shrink-0">
                       <div className="relative">
                         <button
                           className="p-1 rounded-full hover:bg-indigo-500/20 transition-colors"

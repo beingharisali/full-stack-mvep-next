@@ -40,7 +40,7 @@ const OrderDetailPage: React.FC = () => {
           <div className="flex">
             <Sidebar />
             <main className="flex-1 p-6 lg:p-6">
-              <div className="max-w-7xl mx-auto">
+              <div className="container-mobile-lg mx-auto max-w-7xl">
                 <h1 className="text-3xl font-bold neon-text mb-6">Order Details</h1>
                 <div className="flex justify-center items-center h-64">
                   <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
@@ -61,7 +61,7 @@ const OrderDetailPage: React.FC = () => {
           <div className="flex">
             <Sidebar />
             <main className="flex-1 p-6 lg:p-6">
-              <div className="max-w-7xl mx-auto">
+              <div className="container-mobile-lg mx-auto max-w-7xl">
                 <h1 className="text-3xl font-bold neon-text mb-6">Order Details</h1>
                 <div className="bg-red-900/30 border border-red-500/30 text-red-400 px-4 py-3 rounded relative" role="alert">
                   <strong className="font-bold">Error: </strong>
@@ -83,7 +83,7 @@ const OrderDetailPage: React.FC = () => {
           <div className="flex">
             <Sidebar />
             <main className="flex-1 p-6 lg:p-6">
-              <div className="max-w-7xl mx-auto">
+              <div className="container-mobile-lg mx-auto max-w-7xl">
                 <h1 className="text-3xl font-bold neon-text mb-6">Order Details</h1>
                 <div className="text-center py-12">
                   <h3 className="text-lg font-medium text-white mb-2">Order not found</h3>
@@ -107,12 +107,12 @@ const OrderDetailPage: React.FC = () => {
             <div className="max-w-7xl mx-auto">
               <h1 className="text-3xl font-bold neon-text mb-6">Order Details</h1>
               
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <div className="lg:col-span-2">
+              <div className="grid grid-cols-1 gap-8">
+                <div className="">
                   <div className="glass-card p-6 mb-6">
-                    <div className="flex justify-between items-center mb-6">
+                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
                       <h2 className="text-xl font-semibold text-white">Order #{order._id.substring(0, 8)}</h2>
-                      <div className="flex flex-col items-end">
+                      <div className="flex flex-col sm:items-end">
                         <span className={`px-3 py-1 rounded-full text-sm font-medium border ${
                           order.status === 'delivered' 
                             ? 'bg-green-900/50 text-green-400 border-green-500/50' 
@@ -183,7 +183,7 @@ const OrderDetailPage: React.FC = () => {
                               : 'bg-gray-600'
                           }`}></div>
                           <div className="ml-4 flex-1">
-                            <div className="flex justify-between">
+                            <div className="flex flex-col sm:flex-row justify-between gap-1">
                               <span className={`px-2 py-1 text-xs rounded-full border ${
                                 history.status === 'delivered' 
                                   ? 'bg-green-900/50 text-green-400 border-green-500/50' 

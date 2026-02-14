@@ -435,14 +435,12 @@ body {
   }
 }
 
-/* High DPI Screens */
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
   .high-dpi-text {
-    font-weight: 400; /* Slightly lighter weight for crispness */
+    font-weight: 400; 
   }
 }
 
-/* Responsive Particles */
 .responsive-particles {
   position: fixed;
   top: 0;

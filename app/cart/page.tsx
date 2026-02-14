@@ -6,9 +6,11 @@ import Sidebar from '../components/Sidebar';
 import ProtectedRoute from '../../shared/ProtectedRoute';
 import { useCart } from '../../context/CartContext';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 const CartPage: React.FC = () => {
   const { cart, removeFromCart, updateQuantity, getCartTotal, getCartItemCount } = useCart();
+  const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const handleRemoveFromCart = async (productId: string) => {
@@ -29,28 +31,29 @@ const CartPage: React.FC = () => {
   };
 
   const handleCheckout = () => {
-    console.log('Proceeding to checkout');
+    router.push('/checkout');
   };
 
   return (
     <ProtectedRoute allowedRoles={['customer', 'admin', 'vendor']} redirectPath="/">
-      <div className="min-h-screen bg-[#050a14]">
+      <div className="min-h-screen bg-[#050a14] container-mobile-xs sm:container-mobile-sm md:container-mobile-md lg:container-mobile-lg xl:container-tablet 2xl:container-desktop">
         <Navbar />
         <div className="flex">
           <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
           <main className={`flex-1 p-4 lg:p-6 transition-all duration-300 ${sidebarOpen ? 'lg:ml-0' : ''}`}>
-            <div className="max-w-7xl mx-auto">
+            <div className="max-w-7xl mx-auto container-mobile-xs sm:container-mobile-sm md:container-mobile-md lg:container-mobile-lg xl:container-tablet 2xl:container-desktop">
               <h1 className="text-2xl md:text-3xl font-bold neon-text mb-6">Your Cart</h1>
               
               {cart.items.length === 0 ? (
                 <div className="glass-card rounded-lg p-8 text-center">
                   <h3 className="text-lg font-medium text-white mb-2">Your cart is empty</h3>
                   <p className="text-gray-400 mb-6">Looks like you haven't added anything to your cart yet</p>
-                  <Link href="/products">
-                    <button className="px-6 py-3 gaming-btn text-white rounded-md transition-all">
-                      Start Shopping
-                    </button>
-                  </Link>
+                  <button 
+                    onClick={() => router.push("/products")}
+                    className="px-6 py-3 gaming-btn text-white rounded-md transition-all touch-button"
+                  >
+                    Start Shopping
+                  </button>
                 </div>
               ) : (
                 <div className="glass-card rounded-lg overflow-hidden">
@@ -63,7 +66,7 @@ const CartPage: React.FC = () => {
                               <img
                                 src={item.images[0]}
                                 alt={item.name}
-                                className="w-full h-full object-cover"
+                                className="w-full h-full object-cover responsive-image"
                               />
                             ) : (
                               <div className="w-full h-full bg-indigo-900/30 flex items-center justify-center text-indigo-400 text-2xl">
@@ -85,7 +88,7 @@ const CartPage: React.FC = () => {
                               <div className="flex items-center">
                                 <button
                                   onClick={() => handleUpdateQuantity(item._id, item.quantity - 1)}
-                                  className="px-3 py-1 bg-indigo-900/50 rounded-l-md text-indigo-400 hover:bg-indigo-800/50 disabled:opacity-50 disabled:cursor-not-allowed border border-indigo-500/30"
+                                  className="px-3 py-1 bg-indigo-900/50 rounded-l-md text-indigo-400 hover:bg-indigo-800/50 disabled:opacity-50 disabled:cursor-not-allowed border border-indigo-500/30 touch-button"
                                   disabled={item.quantity <= 1}
                                 >
                                   -
@@ -95,7 +98,7 @@ const CartPage: React.FC = () => {
                                 </span>
                                 <button
                                   onClick={() => handleUpdateQuantity(item._id, item.quantity + 1)}
-                                  className="px-3 py-1 bg-indigo-900/50 rounded-r-md text-indigo-400 hover:bg-indigo-800/50 disabled:opacity-50 disabled:cursor-not-allowed border border-indigo-500/30"
+                                  className="px-3 py-1 bg-indigo-900/50 rounded-r-md text-indigo-400 hover:bg-indigo-800/50 disabled:opacity-50 disabled:cursor-not-allowed border border-indigo-500/30 touch-button"
                                   disabled={item.quantity >= item.stock}
                                 >
                                   +
@@ -104,7 +107,7 @@ const CartPage: React.FC = () => {
                               
                               <button
                                 onClick={() => handleRemoveFromCart(item._id)}
-                                className="ml-0 sm:ml-6 text-red-400 hover:text-red-300 text-sm font-medium transition-colors"
+                                className="ml-0 sm:ml-6 text-red-400 hover:text-red-300 text-sm font-medium transition-colors touch-button"
                               >
                                 Remove
                               </button>
@@ -125,14 +128,12 @@ const CartPage: React.FC = () => {
                     </p>
                     
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <Link href="/checkout" className="w-full">
-                        <button
-                          type="button"
-                          className="w-full gaming-btn text-white rounded-md shadow-sm py-3 px-4 text-base font-medium"
-                        >
-                          Checkout
-                        </button>
-                      </Link>
+                      <button
+                        onClick={handleCheckout}
+                        className="w-full gaming-btn text-white rounded-md shadow-sm py-3 px-4 text-base font-medium touch-button"
+                      >
+                        Checkout
+                      </button>
                     </div>
                   </div>
                 </div>

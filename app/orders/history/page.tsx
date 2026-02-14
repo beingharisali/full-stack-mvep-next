@@ -122,9 +122,9 @@ const OrderHistoryPage: React.FC = () => {
         <div className="flex">
           <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
           <main className={`flex-1 p-4 lg:p-6 transition-all duration-300 ${sidebarOpen ? 'lg:ml-0' : ''}`}>
-            <div className="max-w-7xl mx-auto">
+            <div className="container-mobile-lg mx-auto max-w-7xl">
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-                <h1 className="text-2xl md:text-3xl font-bold neon-text">Order History</h1>
+                <h1 className="text-2xl sm:text-3xl font-bold neon-text">Order History</h1>
               </div>
 
               <div className="glass-card p-4 rounded-lg mb-6">
@@ -133,7 +133,7 @@ const OrderHistoryPage: React.FC = () => {
                   <select
                     value={statusFilter}
                     onChange={(e) => setStatusFilter(e.target.value)}
-                    className="w-full md:w-64 px-3 py-2 gaming-input rounded-md"
+                    className="w-full md:w-64 px-3 py-2 gaming-input rounded-md touch-button"
                   >
                     <option value="all">All Completed Orders</option>
                     <option value="delivered">Delivered</option>
@@ -146,7 +146,7 @@ const OrderHistoryPage: React.FC = () => {
                 {filteredOrders.map((order) => (
                   <div key={order._id} className="glass-card rounded-lg overflow-hidden">
                     <div className="p-6">
-                      <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-2">
                         <div>
                           <h2 className="text-lg font-semibold text-white">Order #{order._id}</h2>
                           <p className="text-sm text-gray-400">
@@ -164,23 +164,25 @@ const OrderHistoryPage: React.FC = () => {
                         <h3 className="text-md font-medium text-white mb-3">Items</h3>
                         <div className="space-y-3">
                           {order.items.map((item: any) => (  
-                            <div key={item._id} className="flex items-center">
-                              <div className="flex-shrink-0 w-16 h-16 bg-indigo-900/30 rounded-md overflow-hidden border border-indigo-500/30">
-                                {item.images && item.images.length > 0 ? (
-                                  <img 
-                                    src={item.images[0]} 
-                                    alt={item.name}
-                                    className="w-full h-full object-cover"
-                                  />
-                                ) : (
-                                  <div className="w-full h-full flex items-center justify-center text-indigo-400 text-2xl">
-                                    
-                                  </div>
-                                )}
-                              </div>
-                              <div className="ml-4 flex-1">
-                                <h4 className="text-sm font-medium text-white">{item.name}</h4>
-                                <p className="text-sm text-gray-400">Qty: {item.quantity}</p>
+                            <div key={item._id} className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                              <div className="flex items-center gap-4">
+                                <div className="flex-shrink-0 w-16 h-16 bg-indigo-900/30 rounded-md overflow-hidden border border-indigo-500/30">
+                                  {item.images && item.images.length > 0 ? (
+                                    <img 
+                                      src={item.images[0]} 
+                                      alt={item.name}
+                                      className="w-full h-full object-cover"
+                                    />
+                                  ) : (
+                                    <div className="w-full h-full flex items-center justify-center text-indigo-400 text-2xl">
+                                      
+                                    </div>
+                                  )}
+                                </div>
+                                <div>
+                                  <h4 className="text-sm font-medium text-white">{item.name}</h4>
+                                  <p className="text-sm text-gray-400">Qty: {item.quantity}</p>
+                                </div>
                               </div>
                               <div className="text-sm font-medium text-yellow-400">
                                 ${(item.price * item.quantity).toFixed(2)}
@@ -191,17 +193,17 @@ const OrderHistoryPage: React.FC = () => {
                       </div>
 
                       <div className="border-t border-indigo-500/30 pt-4 mt-4">
-                        <div className="flex justify-between">
+                        <div className="flex flex-col sm:flex-row justify-between gap-1">
                           <span className="text-gray-400">Total Amount:</span>
                           <span className="font-semibold text-yellow-400">${order.totalAmount.toFixed(2)}</span>
                         </div>
-                        <div className="flex justify-between mt-1">
+                        <div className="flex flex-col sm:flex-row justify-between gap-1 mt-1">
                           <span className="text-gray-400">Payment Method:</span>
                           <span className="text-gray-300 capitalize">
                             {(order.paymentMethod ?? 'card').replace('-', ' ')}
                           </span>
                         </div>
-                        <div className="flex justify-between mt-1">
+                        <div className="flex flex-col sm:flex-row justify-between gap-1 mt-1">
                           <span className="text-gray-400">Last Updated:</span>
                           <span className="text-gray-300">{order.statusInfo.formattedLastUpdated}</span>
                         </div>

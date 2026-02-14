@@ -72,17 +72,17 @@ export default function ProductsPage() {
 
   return (
     <ProtectedRoute allowedRoles={["customer", "vendor", "admin"]}>
-      <div className="min-h-screen bg-[#050a14]">
+      <div className="min-h-screen bg-[#050a14] container-mobile-xs sm:container-mobile-sm md:container-mobile-md lg:container-mobile-lg xl:container-tablet 2xl:container-desktop">
         <Navbar />
         <div className="flex">
           <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
           
-          <main className={`flex-1 transition-all duration-300 ${sidebarOpen ? '' : 'ml-0'}`}>
-            <div className="max-w-7xl mx-auto p-4 lg:p-6">
+          <main className={`flex-1 transition-all duration-300 ${sidebarOpen ? '' : 'ml-0'} container-mobile-xs sm:container-mobile-sm md:container-mobile-md lg:container-mobile-lg xl:container-tablet 2xl:container-desktop`}>
+            <div className="max-w-7xl mx-auto p-4 lg:p-6 container-mobile-xs sm:container-mobile-sm md:container-mobile-md lg:container-mobile-lg xl:container-tablet 2xl:container-desktop">
               <h1 className="text-2xl md:text-3xl font-bold neon-text mb-6">Products</h1>
 
               <div className="glass-card p-4 mb-6">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-400 mb-1">
                       Search
@@ -95,7 +95,7 @@ export default function ProductsPage() {
                         setCurrentPage(1);
                       }}
                       placeholder="Search products..."
-                      className="w-full px-3 py-2 gaming-input rounded-md"
+                      className="w-full px-3 py-2 gaming-input rounded-md touch-button"
                     />
                   </div>
                   
@@ -111,7 +111,7 @@ export default function ProductsPage() {
                         setCurrentPage(1);
                       }}
                       placeholder="Filter by category..."
-                      className="w-full px-3 py-2 gaming-input rounded-md"
+                      className="w-full px-3 py-2 gaming-input rounded-md touch-button"
                     />
                   </div>
                   
@@ -128,7 +128,7 @@ export default function ProductsPage() {
                           setCurrentPage(1);
                         }}
                         placeholder="Min"
-                        className="w-full px-3 py-2 gaming-input rounded-md"
+                        className="w-full px-3 py-2 gaming-input rounded-md touch-button"
                       />
                     </div>
                     <div>
@@ -143,7 +143,7 @@ export default function ProductsPage() {
                           setCurrentPage(1);
                         }}
                         placeholder="Max"
-                        className="w-full px-3 py-2 gaming-input rounded-md"
+                        className="w-full px-3 py-2 gaming-input rounded-md touch-button"
                       />
                     </div>
                   </div>
@@ -157,14 +157,14 @@ export default function ProductsPage() {
                         setSortBy("-createdAt");
                         setCurrentPage(1);
                       }}
-                      className="w-full px-4 py-2 bg-indigo-900/30 text-indigo-400 rounded-md border border-indigo-500/30 hover:bg-indigo-800/50 transition-colors"
+                      className="w-full px-4 py-2 bg-indigo-900/30 text-indigo-400 rounded-md border border-indigo-500/30 hover:bg-indigo-800/50 transition-colors touch-button"
                     >
                       Clear Filters
                     </button>
                   </div>
                 </div>
                 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4 pt-4 border-t border-indigo-500/30">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-4 mt-4 pt-4 border-t border-indigo-500/30">
                   <div>
                     <label className="block text-sm font-medium text-gray-400 mb-1">
                       Sort By
@@ -175,7 +175,7 @@ export default function ProductsPage() {
                         setSortBy(e.target.value);
                         setCurrentPage(1);
                       }}
-                      className="w-full px-3 py-2 gaming-input rounded-md"
+                      className="w-full px-3 py-2 gaming-input rounded-md touch-button"
                     >
                       <option value="-createdAt">Newest First</option>
                       <option value="createdAt">Oldest First</option>
@@ -192,7 +192,7 @@ export default function ProductsPage() {
                         setSortBy("-createdAt");
                         setCurrentPage(1);
                       }}
-                      className="w-full px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors"
+                      className="w-full px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors touch-button"
                     >
                       Reset Sorting
                     </button>
@@ -201,32 +201,32 @@ export default function ProductsPage() {
               </div>
 
               {loading ? (
-                <div className="text-center py-20">
+                <div className="text-center py-20 container-mobile-xs sm:container-mobile-sm md:container-mobile-md lg:container-mobile-lg xl:container-tablet">
                   <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-500 mx-auto"></div>
                   <p className="mt-4 text-gray-400">Loading products...</p>
                 </div>
               ) : (
                 <>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 product-grid">
                     {products.map((p) => (
                       <ProductCard key={p._id} product={p} />
                     ))}
                   </div>
 
                   {products.length === 0 && (
-                    <div className="text-center py-12">
+                    <div className="text-center py-12 container-mobile-xs sm:container-mobile-sm md:container-mobile-md lg:container-mobile-lg xl:container-tablet">
                       <p className="text-gray-400 text-lg">No products found</p>
                       <p className="text-gray-500">Try adjusting your search criteria</p>
                     </div>
                   )}
 
                   {totalPages > 1 && (
-                    <div className="flex justify-center mt-8">
-                      <div className="flex space-x-2">
+                    <div className="flex justify-center mt-8 flex-wrap gap-2">
+                      <div className="flex space-x-2 flex-wrap gap-1">
                         <button
                           onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                           disabled={currentPage === 1}
-                          className="px-3 py-2 rounded-md bg-[#1a1f2e] text-indigo-400 border border-indigo-500/30 hover:bg-indigo-900/30 disabled:opacity-50 disabled:cursor-not-allowed"
+                          className="px-3 py-2 rounded-md bg-[#1a1f2e] text-indigo-400 border border-indigo-500/30 hover:bg-indigo-900/30 disabled:opacity-50 disabled:cursor-not-allowed touch-button"
                         >
                           Previous
                         </button>
@@ -261,7 +261,7 @@ export default function ProductsPage() {
                         <button
                           onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
                           disabled={currentPage === totalPages}
-                          className="px-3 py-2 rounded-md bg-[#1a1f2e] text-indigo-400 border border-indigo-500/30 hover:bg-indigo-900/30 disabled:opacity-50 disabled:cursor-not-allowed"
+                          className="px-3 py-2 rounded-md bg-[#1a1f2e] text-indigo-400 border border-indigo-500/30 hover:bg-indigo-900/30 disabled:opacity-50 disabled:cursor-not-allowed touch-button"
                         >
                           Next
                         </button>

@@ -206,7 +206,7 @@ export default function AdminAccountsPage() {
           <>
             <button
               onClick={() => startEditingUser(vendor.id)}
-              className="p-2 text-blue-400 hover:bg-blue-500/20 rounded-full transition-colors duration-200 border border-blue-500/30 hover:border-blue-500"
+              className="p-2 text-blue-400 hover:bg-blue-500/20 rounded-full transition-colors duration-200 border border-blue-500/30 hover:border-blue-500 touch-button"
               title="Edit merchant"
             >
               <FaEdit />
@@ -214,7 +214,7 @@ export default function AdminAccountsPage() {
             <button
               onClick={() => handleDelete(vendor.id)}
               disabled={deletingUserId === vendor.id}
-              className={`p-2 text-red-400 hover:bg-red-500/20 rounded-full transition-colors duration-200 border border-red-500/30 hover:border-red-500 ${deletingUserId === vendor.id ? "opacity-50 cursor-not-allowed" : ""}`}
+              className={`p-2 text-red-400 hover:bg-red-500/20 rounded-full transition-colors duration-200 border border-red-500/30 hover:border-red-500 touch-button ${deletingUserId === vendor.id ? "opacity-50 cursor-not-allowed" : ""}`}
               title="Banish merchant"
             >
               <FaTrash />
@@ -238,7 +238,7 @@ export default function AdminAccountsPage() {
           <>
             <button
               onClick={() => startEditingUser(customer.id)}
-              className="p-2 text-blue-400 hover:bg-blue-500/20 rounded-full transition-colors duration-200 border border-blue-500/30 hover:border-blue-500"
+              className="p-2 text-blue-400 hover:bg-blue-500/20 rounded-full transition-colors duration-200 border border-blue-500/30 hover:border-blue-500 touch-button"
               title="Edit user"
             >
               <FaEdit />
@@ -246,7 +246,7 @@ export default function AdminAccountsPage() {
             <button
               onClick={() => handleDelete(customer.id)}
               disabled={deletingUserId === customer.id}
-              className={`p-2 text-red-400 hover:bg-red-500/20 rounded-full transition-colors duration-200 border border-red-500/30 hover:border-red-500 ${deletingUserId === customer.id ? "opacity-50 cursor-not-allowed" : ""}`}
+              className={`p-2 text-red-400 hover:bg-red-500/20 rounded-full transition-colors duration-200 border border-red-500/30 hover:border-red-500 touch-button ${deletingUserId === customer.id ? "opacity-50 cursor-not-allowed" : ""}`}
               title="Banish user"
             >
               <FaTrash />
@@ -259,9 +259,9 @@ export default function AdminAccountsPage() {
 
   return (
     <div className="min-h-screen bg-[#050a14] p-4 md:p-8">
-      <div className="max-w-7xl mx-auto">
+      <div className="container-mobile-lg mx-auto max-w-7xl">
         <div className="glass-card rounded-2xl p-6 mb-8">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
               <h1 className="text-3xl font-bold neon-text flex items-center gap-3">
                 <FaUserTie className="text-indigo-400" />
@@ -272,14 +272,14 @@ export default function AdminAccountsPage() {
               </p>
             </div>
 
-            <div className="flex flex-wrap gap-4">
-              <div className="bg-indigo-900/30 rounded-lg px-4 py-3 border-l-4 border-indigo-500">
+            <div className="flex flex-col sm:flex-row sm:flex-wrap gap-4">
+              <div className="bg-indigo-900/30 rounded-lg px-4 py-3 border-l-4 border-indigo-500 flex-1 min-w-[150px]">
                 <p className="text-sm text-gray-400 font-medium">Merchants</p>
                 <p className="text-2xl font-bold text-indigo-400">
                   {totalVendors}
                 </p>
               </div>
-              <div className="bg-green-900/30 rounded-lg px-4 py-3 border-l-4 border-green-500">
+              <div className="bg-green-900/30 rounded-lg px-4 py-3 border-l-4 border-green-500 flex-1 min-w-[150px]">
                 <p className="text-sm text-gray-400 font-medium">Adventurers</p>
                 <p className="text-2xl font-bold text-green-400">
                   {totalCustomers}
@@ -301,7 +301,7 @@ export default function AdminAccountsPage() {
                   role: "vendor",
                 });
               }}
-              className="flex items-center gap-2 px-4 py-2 gaming-btn text-white rounded-lg transition-all"
+              className="flex items-center gap-2 px-4 py-2 gaming-btn text-white rounded-lg transition-all touch-button"
             >
               <FaPlus />
               👋 Invite New user
@@ -309,7 +309,7 @@ export default function AdminAccountsPage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="glass-card rounded-2xl overflow-hidden">
             <div className="bg-gradient-to-r from-indigo-900/50 to-purple-900/50 p-5 border-b border-indigo-500/30">
               <div className="flex items-center justify-between text-white">
@@ -419,7 +419,7 @@ export default function AdminAccountsPage() {
 
         {(showCreateForm || editingUser) && (
           <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center p-4 z-50 backdrop-blur-sm">
-            <div className="glass-card rounded-2xl shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto border border-indigo-500/30">
+            <div className="glass-card rounded-2xl shadow-xl w-full max-w-[90vw] md:max-w-md max-h-[90vh] overflow-y-auto border border-indigo-500/30">
               <div className="p-6">
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-2xl font-bold neon-text">

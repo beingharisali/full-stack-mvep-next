@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import Link from 'next/link';
 import Navbar from '../../components/Navbar';
 import Sidebar from '../../components/Sidebar';
 import ProtectedRoute from '../../../shared/ProtectedRoute';
@@ -11,6 +10,14 @@ import { Order } from '../../../types/order';
 
 const PaymentSuccessContent: React.FC = () => {
   const router = useRouter();
+  
+  const handleContinueShopping = () => {
+    router.push('/products');
+  };
+  
+  const handleViewOrders = () => {
+    router.push('/Customer/orders');
+  };
   const searchParams = useSearchParams();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [order, setOrder] = useState<Order | null>(null);
@@ -49,7 +56,7 @@ const PaymentSuccessContent: React.FC = () => {
           <div className="flex">
             <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
             <main className={`flex-1 p-4 lg:p-6 transition-all duration-300 ${sidebarOpen ? 'lg:ml-0' : ''}`}>
-              <div className="max-w-4xl mx-auto text-center py-12">
+              <div className="container-mobile-lg mx-auto max-w-4xl text-center py-12">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-500 mx-auto"></div>
                 <p className="mt-4 text-gray-400">Loading order details...</p>
               </div>
@@ -68,15 +75,16 @@ const PaymentSuccessContent: React.FC = () => {
           <div className="flex">
             <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
             <main className={`flex-1 p-4 lg:p-6 transition-all duration-300 ${sidebarOpen ? 'lg:ml-0' : ''}`}>
-              <div className="max-w-4xl mx-auto text-center py-12">
+              <div className="container-mobile-lg mx-auto max-w-4xl text-center py-12">
                 <div className="text-red-500 text-6xl mb-4">⚠️</div>
                 <h1 className="text-2xl font-bold text-white mb-4">Order Not Found</h1>
                 <p className="text-gray-400 mb-6">{error || 'Unable to load order details'}</p>
-                <Link href="/products">
-                  <button className="px-6 py-3 gaming-btn text-white rounded-md transition-all">
-                    Continue Shopping
-                  </button>
-                </Link>
+                <button 
+                  onClick={handleContinueShopping}
+                  className="px-6 py-3 gaming-btn text-white rounded-md transition-all touch-button"
+                >
+                  Continue Shopping
+                </button>
               </div>
             </main>
           </div>
@@ -94,7 +102,7 @@ const PaymentSuccessContent: React.FC = () => {
         <div className="flex">
           <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
           <main className={`flex-1 p-4 lg:p-6 transition-all duration-300 ${sidebarOpen ? 'lg:ml-0' : ''}`}>
-            <div className="max-w-4xl mx-auto">
+            <div className="container-mobile-lg mx-auto max-w-4xl">
               <div className={`glass-card rounded-lg p-6 md:p-8 text-center ${isSuccess ? 'border-green-500/50' : 'border-red-500/50'}`}>
                 <div className={`text-6xl mb-4 ${isSuccess ? 'text-green-500' : 'text-red-500'}`}>
                   {isSuccess ? '✓' : '✗'}
@@ -169,16 +177,18 @@ const PaymentSuccessContent: React.FC = () => {
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <Link href="/Customer/orders">
-                    <button className="px-6 py-3 gaming-btn text-white rounded-md transition-all">
-                      View Orders
-                    </button>
-                  </Link>
-                  <Link href="/products">
-                    <button className="px-6 py-3 border border-indigo-500 text-indigo-400 rounded-md hover:bg-indigo-900/30 transition-all">
-                      Continue Shopping
-                    </button>
-                  </Link>
+                  <button 
+                    onClick={handleViewOrders}
+                    className="px-6 py-3 gaming-btn text-white rounded-md transition-all touch-button"
+                  >
+                    View Orders
+                  </button>
+                  <button 
+                    onClick={handleContinueShopping}
+                    className="px-6 py-3 border border-indigo-500 text-indigo-400 rounded-md hover:bg-indigo-900/30 transition-all touch-button"
+                  >
+                    Continue Shopping
+                  </button>
                 </div>
               </div>
             </div>

@@ -44,7 +44,7 @@ const ParticlesBackground = () => {
     };
   }, []);
 
-  return <div id="particles-container" ref={containerRef} />;
+  return <div id="particles-container" ref={containerRef} className="responsive-particles" />;
 };
 
 export default ParticlesBackground;

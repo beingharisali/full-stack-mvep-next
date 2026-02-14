@@ -123,7 +123,7 @@ const AdminOrderHistoryPage: React.FC = () => {
           <main
             className={`flex-1 p-4 lg:p-6 transition-all duration-300 ${sidebarOpen ? "lg:ml-0" : ""}`}
           >
-            <div className="max-w-7xl mx-auto">
+            <div className="container-mobile-lg mx-auto max-w-7xl">
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
                 <h1 className="text-2xl md:text-3xl font-bold neon-text">
                   📜 Order History
@@ -141,7 +141,7 @@ const AdminOrderHistoryPage: React.FC = () => {
                       placeholder="Search by username, email, or order ID"
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="w-full px-3 py-2 gaming-input rounded-md"
+                      className="w-full px-3 py-2 gaming-input rounded-md touch-button"
                     />
                   </div>
                   <div>
@@ -151,7 +151,7 @@ const AdminOrderHistoryPage: React.FC = () => {
                     <select
                       value={statusFilter}
                       onChange={(e) => setStatusFilter(e.target.value)}
-                      className="w-full px-3 py-2 gaming-input rounded-md"
+                      className="w-full px-3 py-2 gaming-input rounded-md touch-button"
                     >
                       <option value="delivered,cancelled">
                         Completed Orders
@@ -171,7 +171,7 @@ const AdminOrderHistoryPage: React.FC = () => {
                     className="glass-card rounded-lg overflow-hidden"
                   >
                     <div className="p-6">
-                      <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-2">
                         <div>
                           <h2 className="text-lg font-semibold text-indigo-400">
                             Order #{order._id.slice(-8)}
@@ -183,7 +183,7 @@ const AdminOrderHistoryPage: React.FC = () => {
                             {order.user?.email || "No email"})
                           </p>
                         </div>
-                        <div className="mt-2 md:mt-0">
+                        <div className="mt-2 sm:mt-0">
                           <span
                             className={`px-3 py-1 inline-flex text-sm font-semibold rounded-full ${getStatusColor(order.status)}`}
                           >
@@ -224,19 +224,19 @@ const AdminOrderHistoryPage: React.FC = () => {
                       </div>
 
                       <div className="border-t border-indigo-500/30 pt-4 mt-4">
-                        <div className="flex justify-between">
+                        <div className="flex flex-col sm:flex-row justify-between gap-1">
                           <span className="text-gray-400">Total Reward:</span>
                           <span className="font-semibold text-yellow-400">
                             💰 {order.totalAmount.toFixed(2)} gold
                           </span>
                         </div>
-                        <div className="flex justify-between mt-1">
+                        <div className="flex flex-col sm:flex-row justify-between gap-1 mt-1">
                           <span className="text-gray-400">user:</span>
                           <span className="text-white">
                             {order.user?.name || "Unknown user"}
                           </span>
                         </div>
-                        <div className="flex justify-between mt-1">
+                        <div className="flex flex-col sm:flex-row justify-between gap-1 mt-1">
                           <span className="text-gray-400">Last Updated:</span>
                           <span className="text-gray-300">
                             {new Date(order.updatedAt).toLocaleString()}

@@ -123,14 +123,14 @@ const CustomerDashboard: React.FC = () => {
 
   return (
     <ProtectedRoute allowedRoles={['customer']} redirectPath="/">
-      <div className="min-h-screen bg-[#050a14]">
+      <div className="min-h-screen bg-[#050a14] container-mobile-xs sm:container-mobile-sm md:container-mobile-md lg:container-mobile-lg xl:container-tablet 2xl:container-desktop">
         <Navbar onMenuToggle={toggleSidebar}/>
         <div className="flex">
           <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} onToggle={toggleSidebar} />
           <main className={`flex-1 transition-all duration-300 ${
             sidebarOpen ? 'lg:ml-0' : ''
-          } ${typeof window !== 'undefined' && window.innerWidth < 1024 ? 'ml-0' : ''}`}>
-            <div className="max-w-7xl mx-auto p-4 lg:p-6">
+          } ${typeof window !== 'undefined' && window.innerWidth < 1024 ? 'ml-0' : ''} container-mobile-xs sm:container-mobile-sm md:container-mobile-md lg:container-mobile-lg xl:container-tablet 2xl:container-desktop`}>
+            <div className="max-w-7xl mx-auto p-4 lg:p-6 container-mobile-xs sm:container-mobile-sm md:container-mobile-md lg:container-mobile-lg xl:container-tablet 2xl:container-desktop">
               <h1 className="text-2xl sm:text-3xl font-bold neon-text mb-2">Welcome Back!</h1>
               <p className="text-gray-400 mb-6 sm:mb-8 text-sm sm:text-base">Discover our latest products and deals</p>
               
@@ -158,13 +158,13 @@ const CustomerDashboard: React.FC = () => {
                 </div>
               </div>
               
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-10">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-10">
                 <div className="glass-card rounded-lg p-4 sm:p-6 hover:scale-105 transition-all duration-300">
                   <h2 className="text-lg sm:text-xl font-semibold text-indigo-400 mb-2">My Orders</h2>
                   <p className="text-gray-400 text-sm sm:text-base">Track your recent orders</p>
                   <button 
                     onClick={() => router.push('/Customer/orders')}
-                    className="mt-4 px-3 sm:px-4 py-2 gaming-btn text-white rounded-md text-sm sm:text-base"
+                    className="mt-4 px-3 sm:px-4 py-2 gaming-btn text-white rounded-md text-sm sm:text-base touch-button"
                   >
                     View Orders
                   </button>
@@ -175,7 +175,7 @@ const CustomerDashboard: React.FC = () => {
                   <p className="text-gray-400 text-sm sm:text-base">Review items in your cart</p>
                   <button 
                     onClick={() => router.push('/cart')}
-                    className="mt-4 px-3 sm:px-4 py-2 gaming-btn text-white rounded-md text-sm sm:text-base"
+                    className="mt-4 px-3 sm:px-4 py-2 gaming-btn text-white rounded-md text-sm sm:text-base touch-button"
                   >
                     View Cart
                   </button>
@@ -191,7 +191,7 @@ const CustomerDashboard: React.FC = () => {
                         setActiveTab('all');
                         setCurrentPage(1); 
                       }}
-                      className={`px-3 py-2 sm:px-4 sm:py-2 rounded-md text-sm sm:text-base transition-all ${
+                      className={`px-3 py-2 sm:px-4 sm:py-2 rounded-md text-sm sm:text-base transition-all touch-button ${
                         activeTab === 'all' 
                           ? 'gaming-btn text-white' 
                           : 'bg-indigo-900/30 text-indigo-400 border border-indigo-500/30 hover:bg-indigo-800/50'
@@ -202,7 +202,7 @@ const CustomerDashboard: React.FC = () => {
 
                     <button 
                       onClick={() => router.push('/Customer/products')}
-                      className="px-3 py-2 sm:px-4 sm:py-2 bg-indigo-900/30 text-indigo-400 rounded-md border border-indigo-500/30 hover:bg-indigo-800/50 transition-all"
+                      className="px-3 py-2 sm:px-4 sm:py-2 bg-indigo-900/30 text-indigo-400 rounded-md border border-indigo-500/30 hover:bg-indigo-800/50 transition-all touch-button"
                     >
                       Browse All
                     </button>
@@ -211,7 +211,7 @@ const CustomerDashboard: React.FC = () => {
                 
                 {activeTab === 'all' && (
                   <div className="glass-card rounded-lg p-4 mb-6">
-                    <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4">
                       <div>
                         <label htmlFor="search" className="block text-sm font-medium text-gray-400 mb-1">
                           Search
@@ -225,7 +225,7 @@ const CustomerDashboard: React.FC = () => {
                             setCurrentPage(1); 
                           }}
                           placeholder="Search products..."
-                          className="w-full px-3 py-2 gaming-input rounded-md"
+                          className="w-full px-3 py-2 gaming-input rounded-md touch-button"
                         />
                       </div>
                       
@@ -240,7 +240,7 @@ const CustomerDashboard: React.FC = () => {
                             setCategoryFilter(e.target.value);
                             setCurrentPage(1); 
                           }}
-                          className="w-full px-3 py-2 gaming-input rounded-md"
+                          className="w-full px-3 py-2 gaming-input rounded-md touch-button"
                         >
                           <option value="">All Categories</option>
                           {categories.map((category, index) => (
@@ -301,7 +301,7 @@ const CustomerDashboard: React.FC = () => {
                             setSortBy(e.target.value);
                             setCurrentPage(1); 
                           }}
-                          className="w-full px-3 py-2 gaming-input rounded-md"
+                          className="w-full px-3 py-2 gaming-input rounded-md touch-button"
                         >
                           <option value="-createdAt">Newest</option>
                           <option value="createdAt">Oldest</option>
@@ -317,7 +317,7 @@ const CustomerDashboard: React.FC = () => {
                       <div className="flex items-end">
                         <button
                           onClick={handleClearFilters}
-                          className="w-full px-4 py-2 bg-indigo-900/30 text-indigo-400 rounded-md border border-indigo-500/30 hover:bg-indigo-800/50 transition-all"
+                          className="w-full px-4 py-2 bg-indigo-900/30 text-indigo-400 rounded-md border border-indigo-500/30 hover:bg-indigo-800/50 transition-all touch-button"
                         >
                           Clear Filters
                         </button>
@@ -329,12 +329,12 @@ const CustomerDashboard: React.FC = () => {
                 {(
                   <div>
                     {loading ? (
-                      <div className="flex justify-center items-center h-64">
+                      <div className="flex justify-center items-center h-64 container-mobile-xs sm:container-mobile-sm md:container-mobile-md lg:container-mobile-lg xl:container-tablet">
                         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
                       </div>
                     ) : (
                       <>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 product-grid">
                           {products.map((product) => (
                             <ProductCard 
                               key={product._id} 
@@ -345,12 +345,12 @@ const CustomerDashboard: React.FC = () => {
                         </div>
                         
                         {totalPages > 1 && (
-                          <div className="mt-8 flex justify-center">
-                            <nav className="inline-flex rounded-md shadow">
+                          <div className="mt-8 flex justify-center flex-wrap gap-2">
+                            <nav className="inline-flex rounded-md shadow flex-wrap gap-1">
                               <button
                                 onClick={() => handlePageChange(currentPage - 1)}
                                 disabled={currentPage === 1}
-                                className={`px-4 py-2 rounded-l-md border border-indigo-500/30 text-sm font-medium ${
+                                className={`px-4 py-2 rounded-l-md border border-indigo-500/30 text-sm font-medium touch-button ${
                                   currentPage === 1 
                                     ? 'bg-[#1a1f2e] text-gray-600 cursor-not-allowed' 
                                     : 'bg-[#1a1f2e] text-indigo-400 hover:bg-indigo-900/30'
@@ -384,7 +384,7 @@ const CustomerDashboard: React.FC = () => {
                                   <button
                                     key={pageNum}
                                     onClick={() => handlePageChange(pageNum)}
-                                    className={`px-4 py-2 border-t border-b border-indigo-500/30 text-sm font-medium ${
+                                    className={`px-4 py-2 border-t border-b border-indigo-500/30 text-sm font-medium touch-button ${
                                       currentPage === pageNum
                                         ? 'bg-indigo-600 text-white'
                                         : 'bg-[#1a1f2e] text-indigo-400 hover:bg-indigo-900/30'
@@ -398,7 +398,7 @@ const CustomerDashboard: React.FC = () => {
                               <button
                                 onClick={() => handlePageChange(currentPage + 1)}
                                 disabled={currentPage === totalPages}
-                                className={`px-4 py-2 rounded-r-md border border-indigo-500/30 text-sm font-medium ${
+                                className={`px-4 py-2 rounded-r-md border border-indigo-500/30 text-sm font-medium touch-button ${
                                   currentPage === totalPages 
                                     ? 'bg-[#1a1f2e] text-gray-600 cursor-not-allowed' 
                                     : 'bg-[#1a1f2e] text-indigo-400 hover:bg-indigo-900/30'
@@ -415,7 +415,7 @@ const CustomerDashboard: React.FC = () => {
                 )}
                 
                 {!loading && activeTab === 'all' && products.length === 0 && (
-                  <div className="text-center py-12">
+                  <div className="text-center py-12 container-mobile-xs sm:container-mobile-sm md:container-mobile-md lg:container-mobile-lg xl:container-tablet">
                     <p className="text-gray-400 text-lg">No products available</p>
                     <p className="text-gray-500">Check back later for new products</p>
                   </div>

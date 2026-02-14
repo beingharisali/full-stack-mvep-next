@@ -40,7 +40,7 @@ export default function LoginPage() {
 
   if (authLoading) {
     return (
-      <section className="min-h-screen flex items-center justify-center px-4 relative overflow-hidden">
+      <section className="min-h-screen flex items-center justify-center px-4 relative overflow-hidden container-mobile-xs sm:container-mobile-sm md:container-mobile-md lg:container-mobile-lg xl:container-tablet 2xl:container-desktop">
         <div className="glass-card rounded-2xl w-full max-w-md p-6 md:p-8 text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
           <p className="mt-4 text-gray-300">Checking authentication...</p>
@@ -51,7 +51,7 @@ export default function LoginPage() {
 
   if (isAuthenticated() && user) {
     return (
-      <section className="min-h-screen flex items-center justify-center px-4 relative overflow-hidden">
+      <section className="min-h-screen flex items-center justify-center px-4 relative overflow-hidden container-mobile-xs sm:container-mobile-sm md:container-mobile-md lg:container-mobile-lg xl:container-tablet 2xl:container-desktop">
         <div className="glass-card rounded-2xl w-full max-w-md p-6 md:p-8 text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
           <p className="mt-4 text-gray-300">Redirecting...</p>
@@ -87,7 +87,7 @@ export default function LoginPage() {
   };
 
   return (
-    <section className="min-h-screen flex items-center justify-center px-4 py-8 relative overflow-hidden">
+    <section className="min-h-screen flex items-center justify-center px-4 py-8 relative overflow-hidden container-mobile-xs sm:container-mobile-sm md:container-mobile-md lg:container-mobile-lg xl:container-tablet 2xl:container-desktop">
       <div className="glass-card rounded-2xl w-full max-w-md p-4 sm:p-6 md:p-8 animate-fade-in">
         <div className="text-center mb-6 sm:mb-8">
           <h1 className="text-xl sm:text-2xl md:text-3xl font-bold neon-text">

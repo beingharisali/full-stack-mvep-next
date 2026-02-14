@@ -48,18 +48,18 @@ const CustomerChatPage: React.FC = () => {
             className={`flex-1 transition-all duration-300 ${
               sidebarOpen ? "lg:ml-0" : ""
             } ${typeof window !== "undefined" && window.innerWidth < 1024 ? "ml-0" : ""}`}>
-            <div className="max-w-7xl mx-auto p-4 lg:p-6 h-[calc(100vh-100px)] flex flex-col">
+            <div className="container-mobile-lg mx-auto p-4 lg:p-6 h-[calc(100vh-100px)] flex flex-col max-w-7xl">
               <div className="flex justify-between items-center mb-6">
                 <h1 className="text-2xl font-bold neon-text">Chat</h1>
                 <button
                   onClick={() => router.back()}
-                  className="px-4 py-2 bg-indigo-900/50 text-indigo-400 rounded-md hover:bg-indigo-800/50 border border-indigo-500/30 transition-all"
+                  className="px-4 py-2 bg-indigo-900/50 text-indigo-400 rounded-md hover:bg-indigo-800/50 border border-indigo-500/30 transition-all touch-button"
                 >
                   Back
                 </button>
               </div>
 
-              <div className="flex flex-col md:flex-row flex-1 gap-4 overflow-hidden">
+              <div className="flex flex-col sm:flex-row flex-1 gap-4 overflow-hidden">
                 <MyChats />
                 <ChatBox
                   fetchAgain={fetchAgain}

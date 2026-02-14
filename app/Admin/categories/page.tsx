@@ -165,7 +165,7 @@ export default function CategoriesManagementPage() {
                 </h2>
                 <button
                   onClick={() => setShowModal(true)}
-                  className="px-4 py-2 gaming-btn text-white rounded-md"
+                  className="px-4 py-2 gaming-btn text-white rounded-md touch-button"
                 >
                   ➕ Add New Category
                 </button>
@@ -341,13 +341,13 @@ export default function CategoriesManagementPage() {
                     <button
                       type="button"
                       onClick={resetForm}
-                      className="px-4 py-2 border border-gray-600 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 transition-colors"
+                      className="px-4 py-2 border border-gray-600 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 transition-colors touch-button"
                     >
                       Cancel
                     </button>
                     <button
                       type="submit"
-                      className="px-4 py-2 gaming-btn text-white rounded-md text-sm font-medium"
+                      className="px-4 py-2 gaming-btn text-white rounded-md text-sm font-medium touch-button"
                     >
                       {editingCategory ? "✨ Update" : "🎉 Create"} Category
                     </button>

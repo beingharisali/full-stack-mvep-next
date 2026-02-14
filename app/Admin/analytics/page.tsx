@@ -34,14 +34,14 @@ export default function AnalyticsPage() {
         <div className="flex">
           <Sidebar />
           <main className="flex-1 p-4 lg:p-6">
-            <div className="max-w-7xl mx-auto">
+            <div className="container-mobile-lg mx-auto max-w-7xl">
               <h1 className="text-3xl font-bold neon-text mb-6">Analytics</h1>
 
               <div className="mb-6 flex justify-end">
                 <select
                   value={dateRange}
                   onChange={(e) => setDateRange(e.target.value)}
-                  className="px-4 py-2 gaming-input rounded-md"
+                  className="px-4 py-2 gaming-input rounded-md touch-button"
                 >
                   <option value="7">Last 7 days</option>
                   <option value="30">Last 30 days</option>
@@ -50,7 +50,7 @@ export default function AnalyticsPage() {
                 </select>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                 <div className="glass-card rounded-lg p-6">
                   <h3 className="text-lg font-medium text-gray-400">
                     Total users
@@ -98,26 +98,26 @@ export default function AnalyticsPage() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                 <div className="glass-card rounded-lg p-6">
                   <h3 className="text-lg font-medium text-white mb-4">
                     users vs orders
                   </h3>
-                  <div className="h-80">
-                    <div className="flex items-end h-64 gap-2 mt-4">
+                  <div className="h-64 md:h-80">
+                    <div className="flex items-end h-52 md:h-64 gap-1 md:gap-2 mt-4 overflow-x-auto">
                       {chartData.map((data, index) => (
                         <div
                           key={index}
-                          className="flex flex-col items-center flex-1"
+                          className="flex flex-col items-center flex-[0_0_auto] min-w-[30px] md:min-w-[40px]"
                         >
-                          <div className="flex items-end justify-center space-x-1 h-56">
+                          <div className="flex items-end justify-center space-x-0.5 md:space-x-1 h-40 md:h-56">
                             <div
-                              className="w-6 bg-indigo-500 rounded-t hover:bg-indigo-600 transition-all"
+                              className="w-3 md:w-4 bg-indigo-500 rounded-t hover:bg-indigo-600 transition-all"
                               style={{ height: `${(data.users / 50) * 100}%` }}
                               title={`users: ${data.users}`}
                             ></div>
                             <div
-                              className="w-6 bg-green-500 rounded-t hover:bg-green-600 transition-all"
+                              className="w-3 md:w-4 bg-green-500 rounded-t hover:bg-green-600 transition-all"
                               style={{ height: `${(data.orders / 35) * 100}%` }}
                               title={`Orders: ${data.orders}`}
                             ></div>
@@ -135,8 +135,8 @@ export default function AnalyticsPage() {
                   <h3 className="text-lg font-medium text-white mb-4">
                     user Distribution
                   </h3>
-                  <div className="flex items-center justify-center gap-8">
-                    <div className="relative w-48 h-48">
+                  <div className="flex flex-col md:flex-row items-center justify-center gap-8">
+                    <div className="relative w-40 h-40 md:w-48 md:h-48">
                       <div className="absolute inset-0 flex items-center justify-center">
                         <div className="text-center">
                           <p className="text-xl font-bold text-white">124</p>
@@ -179,7 +179,7 @@ export default function AnalyticsPage() {
                         />
                       </svg>
                     </div>
-                    <div className="flex flex-col space-y-3">
+                    <div className="flex flex-col space-y-3 w-full max-w-[200px]">
                       <div className="flex items-center">
                         <div className="w-4 h-4 bg-blue-500 rounded mr-3"></div>
                         <div>

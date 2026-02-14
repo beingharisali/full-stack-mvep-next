@@ -68,26 +68,26 @@ export default function UserManagementPage() {
 
   return (
     <ProtectedRoute allowedRoles={['admin']} redirectPath="/">
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-[#050a14]">
         <Navbar />
         <div className="flex">
           <Sidebar />
           <main className="flex-1 p-4 lg:p-6">
-            <div className="max-w-7xl mx-auto">
-              <h1 className="text-3xl font-bold text-gray-800 mb-6">User Management</h1>
+            <div className="container-mobile-lg mx-auto max-w-7xl">
+              <h1 className="text-3xl font-bold neon-text mb-6">User Management</h1>
               
-              <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              <div className="glass-card rounded-lg p-6 mb-6">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                   <div className="flex-1">
                     <input
                       type="text"
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
                       placeholder="Search users by name or email..."
-                      className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-4 py-2 gaming-input rounded-md touch-button"
                     />
                   </div>
-                  <button className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                  <button className="px-4 py-2 gaming-btn text-white rounded-md touch-button">
                     Add New User
                   </button>
                 </div>
@@ -95,65 +95,65 @@ export default function UserManagementPage() {
               
               {loading ? (
                 <div className="flex justify-center items-center h-64">
-                  <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+                  <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
                 </div>
               ) : (
-                <div className="bg-white rounded-lg shadow-md overflow-hidden">
-                  <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="bg-gray-50">
+                <div className="glass-card rounded-lg overflow-hidden overflow-x-auto">
+                  <table className="min-w-full divide-y divide-gray-700">
+                    <thead className="bg-[#1a1f2e]">
                       <tr>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                           User
                         </th>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col" className="hidden md:table-cell px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                           Email
                         </th>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                           Role
                         </th>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col" className="hidden sm:table-cell px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                           Joined Date
                         </th>
-                        <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col" className="px-4 py-3 text-right text-xs font-medium text-gray-400 uppercase tracking-wider">
                           Actions
                         </th>
                       </tr>
                     </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
+                    <tbody className="bg-[#0f1420] divide-y divide-gray-700">
                       {filteredUsers.map((user) => (
-                        <tr key={user._id} className="hover:bg-gray-50">
-                          <td className="px-6 py-4 whitespace-nowrap">
+                        <tr key={user._id} className="hover:bg-[#1a1f2e] transition-colors">
+                          <td className="px-4 py-4 whitespace-nowrap">
                             <div className="flex items-center">
                               <div className="flex-shrink-0 h-10 w-10">
-                                <div className="bg-gray-200 border-2 border-dashed rounded-xl w-10 h-10" />
+                                <div className="bg-gray-700 border-2 border-dashed rounded-xl w-10 h-10" />
                               </div>
                               <div className="ml-4">
-                                <div className="text-sm font-medium text-gray-900">
+                                <div className="text-sm font-medium text-white">
                                   {user.firstName} {user.lastName}
                                 </div>
                               </div>
                             </div>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                          <td className="hidden md:table-cell px-4 py-4 whitespace-nowrap text-sm text-gray-400">
                             {user.email}
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
+                          <td className="px-4 py-4 whitespace-nowrap">
                             <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                              ${user.role === 'admin' ? 'bg-red-100 text-red-800' : 
-                                user.role === 'vendor' ? 'bg-blue-100 text-blue-800' : 
-                                'bg-green-100 text-green-800'}`}>
+                              ${user.role === 'admin' ? 'bg-red-900/50 text-red-400 border border-red-500/50' : 
+                                user.role === 'vendor' ? 'bg-blue-900/50 text-blue-400 border border-blue-500/50' : 
+                                'bg-green-900/50 text-green-400 border border-green-500/50'}`}>
                               {user.role.charAt(0).toUpperCase() + user.role.slice(1)}
                             </span>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                          <td className="hidden sm:table-cell px-4 py-4 whitespace-nowrap text-sm text-gray-400">
                             {new Date(user.createdAt).toLocaleDateString()}
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                            <button className="text-indigo-600 hover:text-indigo-900 mr-3">Edit</button>
+                          <td className="px-4 py-4 whitespace-nowrap text-right text-sm font-medium">
+                            <button className="text-indigo-400 hover:text-indigo-300 mr-3 transition-colors touch-button">Edit</button>
                             <button 
                               onClick={() => handleDeleteUser(user._id, `${user.firstName} ${user.lastName}`)}
                               disabled={deletingId === user._id}
-                              className={`text-red-600 hover:text-red-900 ${deletingId === user._id ? 'opacity-50 cursor-not-allowed' : ''}`}
+                              className={`text-red-400 hover:text-red-300 transition-colors touch-button ${deletingId === user._id ? 'opacity-50 cursor-not-allowed' : ''}`}
                             >
                               {deletingId === user._id ? 'Deleting...' : 'Delete'}
                             </button>
@@ -165,8 +165,8 @@ export default function UserManagementPage() {
                   
                   {filteredUsers.length === 0 && !loading && (
                     <div className="text-center py-12">
-                      <p className="text-gray-500 text-lg">No users found</p>
-                      <p className="text-gray-400">Try adjusting your search criteria</p>
+                      <p className="text-gray-400 text-lg">No users found</p>
+                      <p className="text-gray-500">Try adjusting your search criteria</p>
                     </div>
                   )}
                 </div>

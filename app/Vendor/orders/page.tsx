@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
+
 import Navbar from '../../components/Navbar';
 import Sidebar from '../../components/Sidebar';
 import ProtectedRoute from '../../../shared/ProtectedRoute';
@@ -126,9 +126,9 @@ const VendorOrdersPage: React.FC = () => {
         <div className="flex">
           <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
           <main className={`flex-1 p-4 lg:p-6 transition-all duration-300 ${sidebarOpen ? 'lg:ml-0' : ''}`}>
-            <div className="max-w-7xl mx-auto">
+            <div className="container-mobile-lg mx-auto max-w-7xl">
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-                <h1 className="text-2xl md:text-3xl font-bold neon-text">Orders Management</h1>
+                <h1 className="text-2xl sm:text-3xl font-bold neon-text">Orders Management</h1>
               </div>
 
               <div className="glass-card p-4 rounded-lg mb-6">
@@ -140,7 +140,7 @@ const VendorOrdersPage: React.FC = () => {
                       placeholder="Search by customer name, email, or order ID"
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="w-full px-3 py-2 gaming-input rounded-md"
+                      className="w-full px-3 py-2 gaming-input rounded-md touch-button"
                     />
                   </div>
                   <div>
@@ -148,7 +148,7 @@ const VendorOrdersPage: React.FC = () => {
                     <select
                       value={statusFilter}
                       onChange={(e) => setStatusFilter(e.target.value)}
-                      className="w-full px-3 py-2 gaming-input rounded-md"
+                      className="w-full px-3 py-2 gaming-input rounded-md touch-button"
                     >
                       <option value="all">All Statuses</option>
                       <option value="pending">Pending</option>
@@ -166,25 +166,25 @@ const VendorOrdersPage: React.FC = () => {
                   <table className="min-w-full divide-y divide-indigo-500/30">
                     <thead className="bg-[#1a1f2e]">
                       <tr>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                           Order ID
                         </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                        <th className="hidden md:table-cell px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                           Customer
                         </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                           Items
                         </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                        <th className="hidden sm:table-cell px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                           Total
                         </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                           Status
                         </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                        <th className="hidden sm:table-cell px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                           Date
                         </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                           Actions
                         </th>
                       </tr>
@@ -192,35 +192,35 @@ const VendorOrdersPage: React.FC = () => {
                     <tbody className="bg-[#0f1420] divide-y divide-indigo-500/30">
                       {filteredOrders.map((order) => (
                         <tr key={order._id} className="hover:bg-[#1a1f2e] transition-colors">
-                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-indigo-400">
+                          <td className="px-4 py-4 whitespace-nowrap text-sm font-medium text-indigo-400">
                             {order._id}
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
+                          <td className="hidden md:table-cell px-4 py-4 whitespace-nowrap">
                             <div>
                               <div className="text-sm font-medium text-white">{order.user.name}</div>
                               <div className="text-sm text-gray-400">{order.user.email}</div>
                             </div>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
+                          <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-400">
                             {order.items.length} item(s)
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-indigo-400">
+                          <td className="hidden sm:table-cell px-4 py-4 whitespace-nowrap text-sm font-medium text-indigo-400">
                             ${order.totalAmount.toFixed(2)}
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
+                          <td className="px-4 py-4 whitespace-nowrap">
                             <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusColor(order.status)}`}>
                               {order.statusInfo.statusDisplay}
                             </span>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
+                          <td className="hidden sm:table-cell px-4 py-4 whitespace-nowrap text-sm text-gray-400">
                             {new Date(order.createdAt).toLocaleDateString()}
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                            <div className="flex space-x-2">
+                          <td className="px-4 py-4 whitespace-nowrap text-sm font-medium">
+                            <div className="flex flex-wrap gap-2">
                               {order.status === 'pending' && (
                                 <button
                                   onClick={() => handleStatusUpdate(order._id, 'processing')}
-                                  className="text-indigo-400 hover:text-indigo-300 border border-indigo-500/30 px-2 py-1 rounded"
+                                  className="text-indigo-400 hover:text-indigo-300 border border-indigo-500/30 px-2 py-1 rounded touch-button"
                                 >
                                   Process
                                 </button>
@@ -228,7 +228,7 @@ const VendorOrdersPage: React.FC = () => {
                               {order.status === 'processing' && (
                                 <button
                                   onClick={() => handleStatusUpdate(order._id, 'shipped')}
-                                  className="text-purple-400 hover:text-purple-300 border border-purple-500/30 px-2 py-1 rounded"
+                                  className="text-purple-400 hover:text-purple-300 border border-purple-500/30 px-2 py-1 rounded touch-button"
                                 >
                                   Ship
                                 </button>
@@ -236,7 +236,7 @@ const VendorOrdersPage: React.FC = () => {
                               {order.status === 'shipped' && (
                                 <button
                                   onClick={() => handleStatusUpdate(order._id, 'delivered')}
-                                  className="text-green-400 hover:text-green-300 border border-green-500/30 px-2 py-1 rounded"
+                                  className="text-green-400 hover:text-green-300 border border-green-500/30 px-2 py-1 rounded touch-button"
                                 >
                                   Deliver
                                 </button>
@@ -244,7 +244,7 @@ const VendorOrdersPage: React.FC = () => {
                               {['pending', 'processing'].includes(order.status) && (
                                 <button
                                   onClick={() => handleStatusUpdate(order._id, 'cancelled')}
-                                  className="text-red-400 hover:text-red-300 border border-red-500/30 px-2 py-1 rounded"
+                                  className="text-red-400 hover:text-red-300 border border-red-500/30 px-2 py-1 rounded touch-button"
                                 >
                                   Cancel
                                 </button>

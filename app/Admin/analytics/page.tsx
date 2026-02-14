@@ -179,7 +179,7 @@ export default function AnalyticsPage() {
                         />
                       </svg>
                     </div>
-                    <div className="flex flex-col space-y-3">
+                    <div className="flex flex-col space-y-3 w-full max-w-[200px]">
                       <div className="flex items-center">
                         <div className="w-4 h-4 bg-blue-500 rounded mr-3"></div>
                         <div>

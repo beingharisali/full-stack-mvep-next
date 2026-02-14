@@ -344,7 +344,6 @@ body {
   }
 }
 
-/* Small Mobile Devices */
 @media (min-width: 320px) and (max-width: 479px) {
   .text-xs-extra {
     @apply text-[10px];
@@ -386,7 +385,6 @@ body {
   }
 }
 
-/* Smallest Devices */
 @media (max-width: 319px) {
   .container-mobile-xs {
     max-width: 100%;
@@ -416,7 +414,6 @@ body {
   }
 }
 
-/* Landscape Mode Adjustments */
 @media (orientation: landscape) and (max-height: 500px) {
   .landscape-adjust {
     overflow-x: auto;
@@ -427,10 +424,9 @@ body {
   }
 }
 
-/* Touch Device Optimizations */
 @media (hover: none) and (pointer: coarse) {
   .touch-button {
-    min-height: 44px; /* Minimum touch target size */
+    min-height: 44px; 
     min-width: 44px;
   }
   

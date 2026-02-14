@@ -198,7 +198,6 @@ body {
   }
 }
 
-/* Small Laptop / Large Tablet */
 @media (min-width: 1024px) and (max-width: 1279px) {
   .container-laptop {
     max-width: 950px;

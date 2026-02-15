@@ -7,29 +7,6 @@ import ProtectedRoute from "../../../../shared/ProtectedRoute";
 import { getAllOrdersForAdminOrVendor } from "../../../../services/order.api";
 import toast from "react-hot-toast";
 
-interface Order {
-  _id: string;
-  user: {
-    id: string;
-    name: string;
-    email: string;
-    role: string;
-  };
-  items: any[];
-  totalAmount: number;
-  status: string;
-  statusHistory: any[];
-  createdAt: string;
-  updatedAt: string;
-  statusInfo: {
-    currentStatus: string;
-    statusDisplay: string;
-    lastUpdated: string;
-    totalStatusChanges: number;
-    isRecent: boolean;
-    canBeCancelled: boolean;
-  };
-}
 
 const AdminOrderHistoryPage: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);

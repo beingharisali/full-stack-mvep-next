@@ -1,9 +1,15 @@
 "use client";
 
-import Link from "next/link";
+import { useRouter } from 'next/navigation';
 import { Home, Settings, BarChart, ShoppingCart, Package, FileText, MessageSquare, X } from "lucide-react";
 import { useAuth } from '../../context/AuthContext';
 import { useState, useEffect } from 'react';
+
+interface MenuItem {
+  href: string;
+  icon: React.ComponentType<{ size: number }>;
+  label: string;
+}
 
 export interface SidebarProps {
   isOpen?: boolean;
@@ -13,6 +19,7 @@ export interface SidebarProps {
 
 export default function Sidebar({ isOpen, setIsOpen, onToggle }: SidebarProps) {
   const { user } = useAuth();
+  const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   useEffect(() => {
@@ -51,7 +58,7 @@ export default function Sidebar({ isOpen, setIsOpen, onToggle }: SidebarProps) {
 
   const isSidebarOpen = isOpen !== undefined ? isOpen : sidebarOpen;
 
-  const getMenuItems = () => {
+  const getMenuItems = (): MenuItem[] => {
     if (!user) return []; 
 
     switch (user.role) {
@@ -114,19 +121,20 @@ export default function Sidebar({ isOpen, setIsOpen, onToggle }: SidebarProps) {
 
         <nav className="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
           {menuItems.map((item, index) => (
-            <Link
+            <button
               key={index}
-              href={item.href}
-              className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-800 transition-colors"
-              onClick={() => {
+              onClick={(e) => {
+                e.preventDefault();
                 if (window.innerWidth < 1024) { 
                   toggleSidebar();
                 }
+                router.push(item.href);
               }}
+              className="w-full text-left flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-800 transition-colors"
             >
               <item.icon size={20} />
               <span className="truncate">{item.label}</span>
-            </Link>
+            </button>
           ))}
         </nav>
       </aside>

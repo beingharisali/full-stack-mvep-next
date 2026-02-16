@@ -1,36 +1,268 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+🚀 Installation
+Prerequisites
+Node.js (v18 or higher)
 
-## Getting Started
+MongoDB (local or Atlas)
 
-First, run the development server:
+npm or yarn
 
-```bash
+Git
+
+git clone https://github.com/yourusername/mvep.git
+cd mvep
+
+npm install
+
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+📋 Table of Contents
+Overview
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Tech Stack
 
-## Learn More
+Features
 
-To learn more about Next.js, take a look at the following resources:
+Project Structure
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Installation
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Environment Variables
 
-## Deploy on Vercel
+Usage Guide
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+API Documentation
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Screenshots
+
+Contributing
+
+License
+
+🌟 Overview
+MVEP is a complete e-commerce solution that connects three types of users:
+
+Customers - Browse products, shop, and chat with vendors
+
+Vendors - Manage products, process orders, and communicate with customers
+
+Admins - Oversee platform operations, manage users, and monitor analytics
+
+Built with Next.js, Node.js, MongoDB, and Tailwind CSS for a seamless shopping experience.
+
+💻 Tech Stack
+Frontend
+Framework: Next.js 15 with App Router
+
+Language: TypeScript
+
+Styling: Tailwind CSS
+
+State Management: Context API (Auth, Cart, Chat)
+
+Real-time: Socket.io Client
+
+Icons: Lucide React
+
+Notifications: React Hot Toast
+
+Forms: Native with TypeScript validation
+
+Backend
+Runtime: Node.js
+
+Framework: Express.js
+
+Database: MongoDB with Mongoose
+
+Authentication: JWT (JSON Web Tokens)
+
+Real-time: Socket.io
+
+File Upload: Multer
+
+Payment: Stripe, Braintree, PayPal integrations
+
+Email: Nodemailer
+
+✨ Features
+👤 User Features
+✅ Role-based registration (Customer, Vendor, Admin)
+
+✅ Secure login with JWT
+
+✅ Profile management
+
+✅ Password change functionality
+
+✅ Email verification
+
+🛍️ Customer Features
+✅ Browse products with advanced filtering
+
+✅ Search by name, category, brand
+
+✅ Price range & stock filters
+
+✅ Sorting options (price, name, date, stock)
+
+✅ Add to cart with quantity management
+
+✅ Checkout with multiple payment methods
+
+✅ Order history & tracking
+
+✅ Real-time chat with vendors
+
+✅ View order status updates
+
+🏪 Vendor Features
+✅ Dashboard with statistics
+
+✅ Product management (CRUD operations)
+
+✅ Inventory management
+
+✅ Order management
+
+✅ Order status updates (pending → processing → shipped → delivered)
+
+✅ Chat with customers
+
+✅ Order history
+
+✅ Sales analytics
+
+👑 Admin Features
+✅ Comprehensive dashboard
+
+✅ User management (view, edit, delete)
+
+✅ Product management across all vendors
+
+✅ Order management & monitoring
+
+✅ Category management
+
+✅ Analytics & reports
+
+✅ Settings configuration
+
+✅ System-wide notifications
+
+💬 Chat System
+✅ Real-time messaging
+
+✅ One-on-one chat between customers and vendors
+
+✅ File sharing in messages
+
+✅ Read receipts
+
+✅ Unread message badges
+
+✅ Chat blocking/unblocking
+
+✅ Message history
+
+💳 Payment Integration
+✅ Stripe integration
+
+✅ Braintree support
+
+✅ PayPal checkout
+
+✅ Cash on delivery option
+
+✅ Transaction history
+
+✅ Payment confirmation emails
+
+📱 Responsive Design
+✅ Mobile-first approach
+
+✅ Tablet-optimized layouts
+
+✅ Desktop-enhanced experience
+
+✅ Touch-friendly buttons and inputs
+
+✅ Responsive tables and cards
+
+✅ Adaptive navigation
+
+
+PROJECT STRUCTURE:
+mvep/
+├── app/                          # Next.js App Router
+│   ├── Admin/                    # Admin routes
+│   │   ├── accounts/             # User management
+│   │   ├── analytics/            # Analytics dashboard
+│   │   ├── categories/           # Category management
+│   │   ├── dashboard/            # Admin dashboard
+│   │   ├── orders/               # Order management
+│   │   │   └── history/          # Order history
+│   │   ├── products/             # Product management
+│   │   └── settings/             # System settings
+│   ├── Customer/                  # Customer routes
+│   │   ├── chat/                  # Chat interface
+│   │   ├── dashboard/             # Customer dashboard
+│   │   ├── orders/                # Order management
+│   │   │   ├── [id]/              # Order details
+│   │   │   └── history/           # Order history
+│   │   └── products/              # Product browsing
+│   ├── Vendor/                     # Vendor routes
+│   │   ├── chat/                   # Vendor chat
+│   │   ├── dashboard/              # Vendor dashboard
+│   │   ├── orders/                 # Order management
+│   │   │   └── history/            # Order history
+│   │   └── products/               # Product management
+│   ├── cart/                        # Shopping cart
+│   ├── checkout/                    # Checkout process
+│   ├── components/                  # Reusable components
+│   │   ├── chat/                    # Chat components
+│   │   │   ├── ChatBox.tsx
+│   │   │   ├── ChatLogic.ts
+│   │   │   ├── GroupChatModal.tsx
+│   │   │   ├── MyChats.tsx
+│   │   │   ├── ScrollableChat.tsx
+│   │   │   ├── SearchUser.tsx
+│   │   │   ├── UserBadgeItem.tsx
+│   │   │   └── UserListItem.tsx
+│   │   ├── Navbar.tsx
+│   │   ├── ParticlesBackground.tsx
+│   │   ├── ProductCard.tsx
+│   │   └── Sidebar.tsx
+│   ├── login/                       # Login page
+│   ├── products/                     # Product listing
+│   │   └── [id]/                     # Product details
+│   ├── signup/                        # Registration page
+│   ├── payment/                       # Payment success page
+│   ├── globals.css                     # Global styles
+│   └── layout.tsx                      # Root layout
+├── context/                            # React Context
+│   ├── AuthContext.tsx                 # Authentication
+│   ├── CartContext.tsx                 # Shopping cart
+│   └── ChatContext.tsx                 # Real-time chat
+├── services/                           # API services
+│   ├── adminAccounts.service.ts
+│   ├── auth.api.ts
+│   ├── cart.api.ts
+│   ├── chat.api.ts
+│   ├── http.ts                         # Axios instance
+│   ├── order.api.ts
+│   ├── payment.api.ts
+│   └── product.api.ts
+├── shared/                             # Shared utilities
+│   └── ProtectedRoute.tsx              # Route protection
+├── types/                               # TypeScript types
+│   ├── order.ts
+│   └── user.ts
+├── .env.local                           # Environment variables
+├── next.config.js                       # Next.js config
+├── package.json                         # Dependencies
+├── tailwind.config.js                   # Tailwind config
+└── tsconfig.json                        # TypeScript config
+
+
+

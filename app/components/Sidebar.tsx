@@ -110,7 +110,6 @@ export default function Sidebar({ isOpen, setIsOpen, onToggle }: SidebarProps) {
         shadow-2xl shadow-indigo-500/10
         border-r border-indigo-500/20
       `}>
-        {/* Header with gradient */}
         <div className="h-16 flex items-center justify-between px-4 border-b border-indigo-500/20 bg-gradient-to-r from-indigo-600/10 to-purple-600/10">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">

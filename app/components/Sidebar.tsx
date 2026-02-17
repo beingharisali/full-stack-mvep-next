@@ -172,7 +172,6 @@ export default function Sidebar({ isOpen, setIsOpen, onToggle }: SidebarProps) {
                 
                 <span className="flex-1 text-sm font-medium">{item.label}</span>
                 
-                {/* Arrow on hover */}
                 <span className={`
                   opacity-0 -translate-x-2 transition-all duration-200 text-indigo-400
                   ${isActive ? 'opacity-100 translate-x-0' : 'group-hover:opacity-100 group-hover:translate-x-0'}

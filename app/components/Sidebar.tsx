@@ -183,7 +183,6 @@ export default function Sidebar({ isOpen, setIsOpen, onToggle }: SidebarProps) {
           })}
         </nav>
 
-        {/* Footer */}
         <div className="p-4 border-t border-indigo-500/20">
           <div className="text-xs text-gray-500 text-center">
             <span className="text-indigo-400">MVEP</span> v1.0.0

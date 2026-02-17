@@ -91,16 +91,6 @@ export default function Sidebar({ isOpen, setIsOpen, onToggle }: SidebarProps) {
 
   const menuItems = getMenuItems();
 
-  // Get role badge color
-  const getRoleBadgeColor = (role: string) => {
-    switch (role) {
-      case 'admin': return 'from-purple-500 to-pink-500';
-      case 'vendor': return 'from-blue-500 to-indigo-500';
-      case 'customer': return 'from-green-500 to-teal-500';
-      default: return 'from-gray-500 to-gray-600';
-    }
-  };
-
   return (
     <>
       {isSidebarOpen && (
@@ -143,7 +133,7 @@ export default function Sidebar({ isOpen, setIsOpen, onToggle }: SidebarProps) {
             <X size={18} className="text-gray-400" />
           </button>
         </div>
-        
+
         {/* Navigation */}
         <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
           {menuItems.map((item, index) => {

@@ -156,7 +156,6 @@ export default function Sidebar({ isOpen, setIsOpen, onToggle }: SidebarProps) {
                   }
                 `}
               >
-                {/* Active indicator */}
                 {isActive && (
                   <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-gradient-to-b from-indigo-400 to-purple-400 rounded-r-full" />
                 )}

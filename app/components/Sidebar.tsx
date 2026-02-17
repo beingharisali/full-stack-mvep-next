@@ -170,7 +170,6 @@ export default function Sidebar({ isOpen, setIsOpen, onToggle }: SidebarProps) {
                   <item.icon size={18} />
                 </div>
                 
-                {/* Label */}
                 <span className="flex-1 text-sm font-medium">{item.label}</span>
                 
                 {/* Arrow on hover */}

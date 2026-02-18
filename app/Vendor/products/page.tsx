@@ -217,7 +217,7 @@ export default function VendorProductManagementPage() {
   return (
     <ProtectedRoute allowedRoles={['vendor']} redirectPath="/">
       <div className="min-h-screen bg-[#050a14]">
-        <Navbar />
+        <Navbar onMenuToggle={toggleSidebar} sidebarOpen={sidebarOpen} />
         <div className="flex">
           <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
           <main className={`flex-1 p-4 lg:p-6 transition-all duration-300 ${sidebarOpen ? 'lg:ml-0' : ''}`}>

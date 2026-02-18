@@ -14,6 +14,11 @@ const OrdersPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [statusFilter, setStatusFilter] = useState('all');
   const [updatingOrderId, setUpdatingOrderId] = useState<string | null>(null);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
 
   useEffect(() => {
     const fetchOrders = async () => {

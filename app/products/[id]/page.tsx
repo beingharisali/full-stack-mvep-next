@@ -95,9 +95,9 @@ export default function ProductDetailPage() {
   return (
     <ProtectedRoute allowedRoles={["customer", "vendor", "admin"]}>
       <div className="min-h-screen bg-[#050a14]">
-        <Navbar />
+        <Navbar onMenuToggle={toggleSidebar} sidebarOpen={sidebarOpen} />
         <div className="flex">
-          <Sidebar />
+          <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
 
           <main className="flex-1 p-4 lg:p-6">
             <button

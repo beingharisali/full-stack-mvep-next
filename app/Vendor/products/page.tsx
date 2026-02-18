@@ -46,6 +46,10 @@ export default function VendorProductManagementPage() {
   const [currentProduct, setCurrentProduct] = useState<Partial<Product> | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
 
   useEffect(() => {
     fetchProducts();

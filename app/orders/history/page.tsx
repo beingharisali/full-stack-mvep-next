@@ -62,6 +62,10 @@ const OrderHistoryPage: React.FC = () => {
   const [statusFilter, setStatusFilter] = useState('all');
   const { user } = useAuth(); 
 
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+
   useEffect(() => {
     fetchOrders();
   }, []);
@@ -114,10 +118,6 @@ const OrderHistoryPage: React.FC = () => {
       </ProtectedRoute>
     );
   }
-
-  const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
-  };
 
   return (
     <ProtectedRoute allowedRoles={['customer']} redirectPath="/">

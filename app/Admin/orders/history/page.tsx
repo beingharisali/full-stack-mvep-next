@@ -193,7 +193,7 @@ const AdminOrderHistoryPage: React.FC = () => {
                                 {(item.product.price * item.quantity).toFixed(
                                   2,
                                 )}{" "}
-                                gold
+                                $
                               </div>
                             </div>
                           ))}
@@ -204,7 +204,7 @@ const AdminOrderHistoryPage: React.FC = () => {
                         <div className="flex flex-col sm:flex-row justify-between gap-1">
                           <span className="text-gray-400">Total Reward:</span>
                           <span className="font-semibold text-yellow-400">
-                            💰 {order.totalAmount.toFixed(2)} gold
+                            💰 {order.totalAmount.toFixed(2)} $
                           </span>
                         </div>
                         <div className="flex flex-col sm:flex-row justify-between gap-1 mt-1">

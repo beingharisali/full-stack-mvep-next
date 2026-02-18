@@ -52,7 +52,7 @@ function AdminDashboardPage() {
             <div className="max-w-7xl mx-auto p-4 lg:p-6 container-mobile-xs sm:container-mobile-sm md:container-mobile-md lg:container-mobile-lg xl:container-tablet 2xl:container-desktop">
               <div className="mb-8">
                 <h1 className="text-xl sm:text-2xl md:text-3xl font-bold neon-text mb-2">
-                  ⚔️ Welcome back, {user?.firstName}!
+                   Welcome back, {user?.firstName}!
                 </h1>
                 <p className="text-gray-400">Manage all activities here</p>
               </div>

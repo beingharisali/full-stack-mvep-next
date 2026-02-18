@@ -47,6 +47,10 @@ export default function ProductManagementPage() {
   const [isEditing, setIsEditing] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       const handleResize = () => {

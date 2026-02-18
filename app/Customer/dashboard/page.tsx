@@ -124,7 +124,7 @@ const CustomerDashboard: React.FC = () => {
   return (
     <ProtectedRoute allowedRoles={['customer']} redirectPath="/">
       <div className="min-h-screen bg-[#050a14]">
-        <Navbar onMenuToggle={toggleSidebar}/>
+        <Navbar onMenuToggle={toggleSidebar} sidebarOpen={sidebarOpen} />
         <div className="flex">
           <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} onToggle={toggleSidebar} />
           <main className={`flex-1 transition-all duration-300 ${

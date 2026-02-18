@@ -122,7 +122,7 @@ const OrderHistoryPage: React.FC = () => {
   return (
     <ProtectedRoute allowedRoles={['customer']} redirectPath="/">
       <div className="min-h-screen bg-[#050a14]">
-        <Navbar onMenuToggle={toggleSidebar} />
+        <Navbar onMenuToggle={toggleSidebar} sidebarOpen={sidebarOpen} />
         <div className="flex">
           <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
           <main className={`flex-1 p-4 sm:p-6 transition-all duration-300 ${sidebarOpen ? 'lg:ml-0' : ''}`}>

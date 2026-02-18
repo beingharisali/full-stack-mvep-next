@@ -124,7 +124,7 @@ const AdminOrdersPage: React.FC = () => {
     return (
       <ProtectedRoute allowedRoles={["admin"]} redirectPath="/">
         <div className="min-h-screen bg-[#050a14]">
-          <Navbar />
+          <Navbar onMenuToggle={toggleSidebar} sidebarOpen={sidebarOpen} />
           <div className="flex">
             <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
             <main
@@ -143,7 +143,7 @@ const AdminOrdersPage: React.FC = () => {
   return (
     <ProtectedRoute allowedRoles={["admin"]} redirectPath="/">
       <div className="min-h-screen bg-[#050a14]">
-        <Navbar />
+        <Navbar onMenuToggle={toggleSidebar} sidebarOpen={sidebarOpen} />
         <div className="flex">
           <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
           <main

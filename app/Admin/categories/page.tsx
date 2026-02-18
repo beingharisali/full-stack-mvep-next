@@ -155,9 +155,9 @@ export default function CategoriesManagementPage() {
   return (
     <ProtectedRoute allowedRoles={["admin"]} redirectPath="/">
       <div className="min-h-screen bg-[#050a14]">
-        <Navbar />
+        <Navbar onMenuToggle={toggleSidebar} sidebarOpen={sidebarOpen} />
         <div className="flex">
-          <Sidebar />
+          <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
           <main className="flex-1 p-4 lg:p-6">
             <div className="max-w-7xl mx-auto">
               <h1 className="text-3xl font-bold neon-text mb-6">

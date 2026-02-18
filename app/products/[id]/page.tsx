@@ -59,9 +59,9 @@ export default function ProductDetailPage() {
     return (
       <ProtectedRoute allowedRoles={["customer", "vendor", "admin"]}>
         <div className="min-h-screen bg-[#050a14]">
-          <Navbar />
+          <Navbar onMenuToggle={toggleSidebar} sidebarOpen={sidebarOpen} />
           <div className="flex">
-            <Sidebar />
+            <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
             <main className="flex-1 p-4 lg:p-6">
               <div className="text-center py-20">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-500 mx-auto"></div>
@@ -78,9 +78,9 @@ export default function ProductDetailPage() {
     return (
       <ProtectedRoute allowedRoles={["customer", "vendor", "admin"]}>
         <div className="min-h-screen bg-[#050a14]">
-          <Navbar />
+          <Navbar onMenuToggle={toggleSidebar} sidebarOpen={sidebarOpen} />
           <div className="flex">
-            <Sidebar />
+            <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
             <main className="flex-1 p-4 lg:p-6">
               <div className="text-center py-12">
                 <h1 className="text-xl font-bold text-white">Product not found</h1>

@@ -41,6 +41,10 @@ const AdminOrdersPage: React.FC = () => {
   const [statusFilter, setStatusFilter] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
 
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+
   useEffect(() => {
     fetchOrders();
   }, []);

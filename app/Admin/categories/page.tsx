@@ -26,6 +26,11 @@ export default function CategoriesManagementPage() {
     description: "",
     isActive: true,
   });
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
 
   useEffect(() => {
     fetchCategories();
@@ -38,36 +43,36 @@ export default function CategoriesManagementPage() {
       const mockCategories: Category[] = [
         {
           _id: "1",
-          name: "⚔️ Weapons",
-          description: "Swords, axes, bows and magical weapons",
+          name: "Shirts",
+          description: "Best seller shirts in the market",
           createdAt: "2023-01-15T10:30:00Z",
           isActive: true,
         },
         {
           _id: "2",
-          name: "🛡️ Armor",
-          description: "Protective gear for adventurers",
+          name: "Jackets",
+          description: "Best Seller jackets in the market",
           createdAt: "2023-02-20T14:22:00Z",
           isActive: true,
         },
         {
           _id: "3",
-          name: "🧪 Potions",
-          description: "Healing and magical elixirs",
+          name: "Pents",
+          description: "Best Seller pents in the market",
           createdAt: "2023-03-10T09:15:00Z",
           isActive: true,
         },
         {
           _id: "4",
-          name: "📜 Scrolls",
-          description: "Ancient magical scrolls and spells",
+          name: "Trousers",
+          description: "Best Seller trousers in the market",
           createdAt: "2023-04-05T16:45:00Z",
           isActive: false,
         },
         {
           _id: "5",
-          name: "💎 Artifacts",
-          description: "Rare and legendary items",
+          name: "Frocks",
+          description: "Best Seller frocks in the market",
           createdAt: "2023-05-12T11:30:00Z",
           isActive: true,
         },
@@ -150,9 +155,9 @@ export default function CategoriesManagementPage() {
   return (
     <ProtectedRoute allowedRoles={["admin"]} redirectPath="/">
       <div className="min-h-screen bg-[#050a14]">
-        <Navbar />
+        <Navbar onMenuToggle={toggleSidebar} sidebarOpen={sidebarOpen} />
         <div className="flex">
-          <Sidebar />
+          <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
           <main className="flex-1 p-4 lg:p-6">
             <div className="max-w-7xl mx-auto">
               <h1 className="text-3xl font-bold neon-text mb-6">

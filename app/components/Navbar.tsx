@@ -5,6 +5,7 @@ import { useAuth } from "../../context/AuthContext";
 
 interface NavbarProps {
   onMenuToggle?: () => void;
+  sidebarOpen?: boolean;
 }
 
 const Navbar: React.FC<NavbarProps> = ({ onMenuToggle }) => {
@@ -148,7 +149,7 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle }) => {
                         : "text-gray-300 hover:text-indigo-400 hover:bg-indigo-500/10"
                     }`}
                   >
-                    🏪 Merchant Stall
+                    🏪 Vendor 
                   </button>
                   <button
                     onClick={() => handleNavigation("/Vendor/products")}
@@ -221,7 +222,7 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle }) => {
                   onClick={() => handleNavigation("/register")}
                   className="px-4 py-2 text-sm font-medium text-white gaming-btn rounded-md transition-all whitespace-nowrap"
                 >
-                  Create Character
+                  Register
                 </button>
               </div>
             )}

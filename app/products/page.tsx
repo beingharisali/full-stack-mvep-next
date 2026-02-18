@@ -18,6 +18,10 @@ export default function ProductsPage() {
   const [sortBy, setSortBy] = useState("-createdAt");
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+
   const itemsPerPage = 8;
 
   useEffect(() => {
@@ -72,17 +76,17 @@ export default function ProductsPage() {
 
   return (
     <ProtectedRoute allowedRoles={["customer", "vendor", "admin"]}>
-      <div className="min-h-screen bg-[#050a14] container-mobile-xs sm:container-mobile-sm md:container-mobile-md lg:container-mobile-lg xl:container-tablet 2xl:container-desktop">
-        <Navbar />
+      <div className="min-h-screen bg-[#050a14]">
+        <Navbar onMenuToggle={toggleSidebar} sidebarOpen={sidebarOpen} />
         <div className="flex">
           <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
           
-          <main className={`flex-1 transition-all duration-300 ${sidebarOpen ? '' : 'ml-0'} container-mobile-xs sm:container-mobile-sm md:container-mobile-md lg:container-mobile-lg xl:container-tablet 2xl:container-desktop`}>
-            <div className="max-w-7xl mx-auto p-4 lg:p-6 container-mobile-xs sm:container-mobile-sm md:container-mobile-md lg:container-mobile-lg xl:container-tablet 2xl:container-desktop">
+          <main className={`flex-1 transition-all duration-300 ${sidebarOpen ? '' : 'ml-0'}`}>
+            <div className="max-w-7xl mx-auto p-4 sm:p-6">
               <h1 className="text-2xl md:text-3xl font-bold neon-text mb-6">Products</h1>
 
               <div className="glass-card p-4 mb-6">
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-400 mb-1">
                       Search
@@ -164,7 +168,7 @@ export default function ProductsPage() {
                   </div>
                 </div>
                 
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-4 mt-4 pt-4 border-t border-indigo-500/30">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 pt-4 border-t border-indigo-500/30">
                   <div>
                     <label className="block text-sm font-medium text-gray-400 mb-1">
                       Sort By
@@ -186,7 +190,7 @@ export default function ProductsPage() {
                     </select>
                   </div>
                   
-                  <div className="flex items-end">
+                  <div className="flex items-end mt-4 md:mt-0">
                     <button
                       onClick={() => {
                         setSortBy("-createdAt");
@@ -201,20 +205,20 @@ export default function ProductsPage() {
               </div>
 
               {loading ? (
-                <div className="text-center py-20 container-mobile-xs sm:container-mobile-sm md:container-mobile-md lg:container-mobile-lg xl:container-tablet">
+                <div className="text-center py-20">
                   <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-500 mx-auto"></div>
                   <p className="mt-4 text-gray-400">Loading products...</p>
                 </div>
               ) : (
                 <>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 product-grid">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
                     {products.map((p) => (
                       <ProductCard key={p._id} product={p} />
                     ))}
                   </div>
 
                   {products.length === 0 && (
-                    <div className="text-center py-12 container-mobile-xs sm:container-mobile-sm md:container-mobile-md lg:container-mobile-lg xl:container-tablet">
+                    <div className="text-center py-12">
                       <p className="text-gray-400 text-lg">No products found</p>
                       <p className="text-gray-500">Try adjusting your search criteria</p>
                     </div>
@@ -222,7 +226,7 @@ export default function ProductsPage() {
 
                   {totalPages > 1 && (
                     <div className="flex justify-center mt-8 flex-wrap gap-2">
-                      <div className="flex space-x-2 flex-wrap gap-1">
+                      <div className="flex flex-wrap justify-center gap-1">
                         <button
                           onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                           disabled={currentPage === 1}

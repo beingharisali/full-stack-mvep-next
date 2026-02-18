@@ -62,6 +62,10 @@ const OrderHistoryPage: React.FC = () => {
   const [statusFilter, setStatusFilter] = useState('all');
   const { user } = useAuth(); 
 
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+
   useEffect(() => {
     fetchOrders();
   }, []);
@@ -118,11 +122,11 @@ const OrderHistoryPage: React.FC = () => {
   return (
     <ProtectedRoute allowedRoles={['customer']} redirectPath="/">
       <div className="min-h-screen bg-[#050a14]">
-        <Navbar />
+        <Navbar onMenuToggle={toggleSidebar} sidebarOpen={sidebarOpen} />
         <div className="flex">
           <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
-          <main className={`flex-1 p-4 lg:p-6 transition-all duration-300 ${sidebarOpen ? 'lg:ml-0' : ''}`}>
-            <div className="container-mobile-lg mx-auto max-w-7xl">
+          <main className={`flex-1 p-4 sm:p-6 transition-all duration-300 ${sidebarOpen ? 'lg:ml-0' : ''}`}>
+            <div className="max-w-7xl mx-auto p-4">
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
                 <h1 className="text-2xl sm:text-3xl font-bold neon-text">Order History</h1>
               </div>
@@ -133,7 +137,7 @@ const OrderHistoryPage: React.FC = () => {
                   <select
                     value={statusFilter}
                     onChange={(e) => setStatusFilter(e.target.value)}
-                    className="w-full md:w-64 px-3 py-2 gaming-input rounded-md touch-button"
+                    className="w-full px-3 py-2 gaming-input rounded-md touch-button"
                   >
                     <option value="all">All Completed Orders</option>
                     <option value="delivered">Delivered</option>
@@ -153,7 +157,7 @@ const OrderHistoryPage: React.FC = () => {
                             Placed on {new Date(order.createdAt).toLocaleDateString()}
                           </p>
                         </div>
-                        <div className="mt-2 md:mt-0">
+                        <div className="mt-2 sm:mt-0">
                           <span className={`px-3 py-1 inline-flex text-sm font-semibold rounded-full ${getStatusColor(order.status)}`}>
                             {order.statusInfo.statusDisplay}
                           </span>
@@ -179,8 +183,8 @@ const OrderHistoryPage: React.FC = () => {
                                     </div>
                                   )}
                                 </div>
-                                <div>
-                                  <h4 className="text-sm font-medium text-white">{item.name}</h4>
+                                <div className="flex-1 min-w-0">
+                                  <h4 className="text-sm font-medium text-white truncate">{item.name}</h4>
                                   <p className="text-sm text-gray-400">Qty: {item.quantity}</p>
                                 </div>
                               </div>

@@ -74,7 +74,7 @@ export default function SignupPage() {
       if (err instanceof Error) {
         toast.error(`❌ ${err.message}`);
       } else {
-        toast.error("❌ Failed to create character!");
+        toast.error("❌ Failed to create User!");
       }
     }
   }
@@ -168,7 +168,7 @@ export default function SignupPage() {
 
           <div>
             <label className="text-xs sm:text-sm md:text-base text-gray-400 font-medium flex items-center gap-1">
-              <span>⚔️</span> Character Class
+              <span>⚔️</span> UserRole
             </label>
             <select
               name="role"

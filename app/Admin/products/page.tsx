@@ -47,6 +47,10 @@ export default function ProductManagementPage() {
   const [isEditing, setIsEditing] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       const handleResize = () => {
@@ -148,12 +152,12 @@ export default function ProductManagementPage() {
   const handleDeleteProduct = async (productId: string) => {
     if (
       window.confirm(
-        "⚔️ Are you sure you want to destroy this item? This action cannot be undone!",
+        "⚔️ Are you sure you want to delete this item? This action cannot be undone!",
       )
     ) {
       try {
         await http.delete(`/products/${productId}`);
-        toast.success("🗑️ Item destroyed successfully!");
+        toast.success("🗑️ Item deleted successfully!");
         if (products.length === 1 && currentPage > 1) {
           setCurrentPage((prev) => prev - 1);
         } else {
@@ -266,7 +270,7 @@ export default function ProductManagementPage() {
   return (
     <ProtectedRoute allowedRoles={["admin"]} redirectPath="/">
       <div className="min-h-screen bg-[#050a14] container-mobile-xs sm:container-mobile-sm md:container-mobile-md lg:container-mobile-lg xl:container-tablet 2xl:container-desktop">
-        <Navbar />
+        <Navbar onMenuToggle={toggleSidebar} sidebarOpen={sidebarOpen} />
         <div className="flex">
           <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
           <main
@@ -608,7 +612,7 @@ export default function ProductManagementPage() {
                               {product.category || "N/A"}
                             </td>
                             <td className="px-4 md:px-6 py-4 whitespace-nowrap text-sm text-green-400">
-                              💰 {product.price.toFixed(2)} gold
+                              💰 {product.price.toFixed(2)} $
                             </td>
                             <td className="px-4 md:px-6 py-4 whitespace-nowrap text-sm text-gray-400">
                               {product.stock} 📦
@@ -669,7 +673,7 @@ export default function ProductManagementPage() {
                   {products.length === 0 && !loading && (
                     <div className="text-center py-12 container-mobile-xs sm:container-mobile-sm md:container-mobile-md lg:container-mobile-lg xl:container-tablet">
                       <p className="text-gray-400 text-base sm:text-lg">
-                        🏺 No items found in the forge
+                        🏺 No items found
                       </p>
                       <p className="text-gray-500 text-sm sm:text-base px-4 mt-2">
                         Try adjusting your filters or create new products
@@ -787,7 +791,7 @@ export default function ProductManagementPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                   <div>
                     <label className="block text-xs sm:text-sm font-medium text-gray-400 mb-1">
-                      💰 Price (Gold)
+                      💰 Price ($)
                     </label>
                     <input
                       type="number"

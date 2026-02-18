@@ -62,7 +62,7 @@ export default function AdminAccountsPage() {
   const handleDelete = async (id: string) => {
     if (
       !window.confirm(
-        "⚔️ Are you sure you want to banish this User? This action cannot be undone!",
+        "⚔️ Are you sure you want to delete this User? This action cannot be undone!",
       )
     ) {
       return;
@@ -81,10 +81,10 @@ export default function AdminAccountsPage() {
       setVendors(updatedVendors);
       setCustomers(updatedCustomers);
 
-      alert("✅ User banished successfully!");
+      alert("✅ User deleted successfully!");
     } catch (err: any) {
       console.error("Error deleting account:", err);
-      alert("❌ Failed to banish User. Please try again.");
+      alert("❌ Failed to delete User. Please try again.");
     } finally {
       setDeletingUserId(null);
     }
@@ -215,7 +215,7 @@ export default function AdminAccountsPage() {
               onClick={() => handleDelete(vendor.id)}
               disabled={deletingUserId === vendor.id}
               className={`p-2 text-red-400 hover:bg-red-500/20 rounded-full transition-colors duration-200 border border-red-500/30 hover:border-red-500 touch-button ${deletingUserId === vendor.id ? "opacity-50 cursor-not-allowed" : ""}`}
-              title="Banish merchant"
+              title="Delete vendor"
             >
               <FaTrash />
             </button>
@@ -247,7 +247,7 @@ export default function AdminAccountsPage() {
               onClick={() => handleDelete(customer.id)}
               disabled={deletingUserId === customer.id}
               className={`p-2 text-red-400 hover:bg-red-500/20 rounded-full transition-colors duration-200 border border-red-500/30 hover:border-red-500 touch-button ${deletingUserId === customer.id ? "opacity-50 cursor-not-allowed" : ""}`}
-              title="Banish user"
+              title="Delete user"
             >
               <FaTrash />
             </button>
@@ -274,13 +274,13 @@ export default function AdminAccountsPage() {
 
             <div className="flex flex-col sm:flex-row sm:flex-wrap gap-4">
               <div className="bg-indigo-900/30 rounded-lg px-4 py-3 border-l-4 border-indigo-500 flex-1 min-w-[150px]">
-                <p className="text-sm text-gray-400 font-medium">Merchants</p>
+                <p className="text-sm text-gray-400 font-medium">Vendors</p>
                 <p className="text-2xl font-bold text-indigo-400">
                   {totalVendors}
                 </p>
               </div>
               <div className="bg-green-900/30 rounded-lg px-4 py-3 border-l-4 border-green-500 flex-1 min-w-[150px]">
-                <p className="text-sm text-gray-400 font-medium">Adventurers</p>
+                <p className="text-sm text-gray-400 font-medium">Customers</p>
                 <p className="text-2xl font-bold text-green-400">
                   {totalCustomers}
                 </p>
@@ -327,7 +327,7 @@ export default function AdminAccountsPage() {
               {vendors.length === 0 ? (
                 <div className="text-center py-10">
                   <FaUser className="mx-auto text-gray-600 text-4xl mb-3" />
-                  <p className="text-gray-400">No merchants found</p>
+                  <p className="text-gray-400">No vendors found</p>
                 </div>
               ) : (
                 <div className="space-y-4 max-h-[500px] overflow-y-auto pr-2">
@@ -351,7 +351,7 @@ export default function AdminAccountsPage() {
                             <span>{v.email}</span>
                           </p>
                           <span className="inline-block mt-1 px-2 py-1 bg-indigo-900/50 text-indigo-400 text-xs rounded-full border border-indigo-500/30">
-                            🛡️ Merchant
+                            🛡️ Vendor
                           </span>
                         </div>
                       </div>
@@ -380,7 +380,7 @@ export default function AdminAccountsPage() {
               {customers.length === 0 ? (
                 <div className="text-center py-10">
                   <FaUser className="mx-auto text-gray-600 text-4xl mb-3" />
-                  <p className="text-gray-400">No adventurers found</p>
+                  <p className="text-gray-400">No customers found</p>
                 </div>
               ) : (
                 <div className="space-y-4 max-h-[500px] overflow-y-auto pr-2">
@@ -404,7 +404,7 @@ export default function AdminAccountsPage() {
                             <span>{c.email}</span>
                           </p>
                           <span className="inline-block mt-1 px-2 py-1 bg-green-900/50 text-green-400 text-xs rounded-full border border-green-500/30">
-                            ⚔️ Adventurer
+                            ⚔️ Customer
                           </span>
                         </div>
                       </div>
@@ -521,8 +521,8 @@ export default function AdminAccountsPage() {
                       }
                       className="w-full px-3 py-2 gaming-input rounded-lg"
                     >
-                      <option value="vendor">🛡️ Merchant</option>
-                      <option value="customer">⚔️ Adventurer</option>
+                      <option value="vendor">🛡️ Vendor</option>
+                      <option value="customer">⚔️ Customer</option>
                     </select>
                   </div>
 

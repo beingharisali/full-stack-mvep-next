@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/app/components/Navbar";
 import Sidebar from "@/app/components/Sidebar";
 import ProtectedRoute from "../../../shared/ProtectedRoute";
@@ -10,6 +10,7 @@ import toast from "react-hot-toast";
 export default function SettingsPage() {
   const { user } = useAuth();
   const [activeTab, setActiveTab] = useState("general");
+  const [sidebarOpen, setSidebarOpen] = useState(true);
   const [formData, setFormData] = useState({
     siteName: "MVEP",
     siteDescription: "A legendary marketplace for customers and vendors",
@@ -28,6 +29,26 @@ export default function SettingsPage() {
     minimumGoldForTrade: 100,
     enablePVP: false,
   });
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 1024) {
+        setSidebarOpen(false);
+      } else {
+        setSidebarOpen(true);
+      }
+    };
+
+    handleResize();
+
+    window.addEventListener('resize', handleResize);
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const handleInputChange = (
     e: React.ChangeEvent<
@@ -53,11 +74,11 @@ export default function SettingsPage() {
   return (
     <ProtectedRoute allowedRoles={["admin"]} redirectPath="/">
       <div className="min-h-screen bg-[#050a14]">
-        <Navbar />
+        <Navbar onMenuToggle={toggleSidebar} sidebarOpen={sidebarOpen} />
         <div className="flex">
-          <Sidebar />
-          <main className="flex-1 p-4 lg:p-6">
-            <div className="container-mobile-lg mx-auto max-w-7xl">
+          <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
+          <main className={`flex-1 p-4 sm:p-6 transition-all duration-300 ${sidebarOpen ? '' : 'ml-0'}`}>
+            <div className="max-w-7xl mx-auto p-4">
               <h1 className="text-3xl font-bold neon-text mb-6">Settings</h1>
 
               <div className="glass-card rounded-lg overflow-hidden">
@@ -94,7 +115,7 @@ export default function SettingsPage() {
                         </p>
                       </div>
 
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                         <div>
                           <label
                             htmlFor="siteName"
@@ -133,7 +154,7 @@ export default function SettingsPage() {
                           </select>
                         </div>
 
-                        <div className="sm:col-span-2">
+                        <div className="col-span-2">
                           <label
                             htmlFor="siteDescription"
                             className="block text-sm font-medium text-gray-400 mb-1"
@@ -150,7 +171,7 @@ export default function SettingsPage() {
                           />
                         </div>
 
-                        <div className="sm:col-span-2">
+                        <div className="col-span-2">
                           <label className="flex items-center">
                             <input
                               type="checkbox"
@@ -165,7 +186,7 @@ export default function SettingsPage() {
                           </label>
                         </div>
 
-                        <div className="sm:col-span-2">
+                        <div className="col-span-2">
                           <label className="flex items-center">
                             <input
                               type="checkbox"
@@ -194,7 +215,7 @@ export default function SettingsPage() {
                         </p>
                       </div>
 
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                         <div>
                           <label
                             htmlFor="contactEmail"
@@ -229,7 +250,7 @@ export default function SettingsPage() {
                           />
                         </div>
 
-                        <div className="sm:col-span-2">
+                        <div className="col-span-2">
                           <h3 className="text-md font-medium text-white mb-3">
                             Mail Server Settings
                           </h3>
@@ -317,7 +338,7 @@ export default function SettingsPage() {
                         </p>
                       </div>
 
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                         <div>
                           <label
                             htmlFor="timezone"
@@ -374,7 +395,7 @@ export default function SettingsPage() {
                           </div>
                         </div>
 
-                        <div className="sm:col-span-2">
+                        <div className="col-span-2">
                           <div className="bg-yellow-900/30 border-l-4 border-yellow-500 p-4">
                             <div className="flex">
                               <div className="flex-shrink-0">
@@ -402,7 +423,7 @@ export default function SettingsPage() {
                         </h2>
                       </div>
 
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                         <div>
                           <label
                             htmlFor="maxusersPerOrder"
@@ -440,7 +461,7 @@ export default function SettingsPage() {
                           />
                         </div>
 
-                        <div className="sm:col-span-2">
+                        <div className="col-span-2">
                           <label className="flex items-center">
                             <input
                               type="checkbox"

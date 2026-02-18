@@ -5,6 +5,7 @@ import { useAuth } from "../../context/AuthContext";
 
 interface NavbarProps {
   onMenuToggle?: () => void;
+  sidebarOpen?: boolean;
 }
 
 const Navbar: React.FC<NavbarProps> = ({ onMenuToggle }) => {

@@ -79,9 +79,9 @@ const CartPage: React.FC = () => {
                             <div className="flex flex-col sm:flex-row sm:items-start justify-between">
                               <div className="mb-3 sm:mb-0">
                                 <h3 className="text-lg font-medium text-white">{item.name}</h3>
-                                <p className="mt-1 text-sm text-indigo-400">💰 {item.price.toFixed(2)} gold each</p>
+                                <p className="mt-1 text-sm text-indigo-400">💰 {item.price.toFixed(2)} $ each</p>
                               </div>
-                              <p className="text-lg font-medium text-yellow-400">💰 {(item.price * item.quantity).toFixed(2)} gold</p>
+                              <p className="text-lg font-medium text-yellow-400">💰 {(item.price * item.quantity).toFixed(2)} $</p>
                             </div>
                             
                             <div className="flex flex-col sm:flex-row sm:items-center mt-4 space-y-3 sm:space-y-0">
@@ -121,7 +121,7 @@ const CartPage: React.FC = () => {
                   <div className="border-t border-indigo-500/30 p-4 md:p-6 bg-[#1a1f2e]">
                     <div className="flex justify-between text-lg font-medium text-white mb-4">
                       <p>Subtotal ({getCartItemCount()} items)</p>
-                      <p className="text-yellow-400">💰 {getCartTotal().toFixed(2)} gold</p>
+                      <p className="text-yellow-400">💰 {getCartTotal().toFixed(2)} $</p>
                     </div>
                     <p className="text-sm text-gray-400 mb-6">
                       Shipping and taxes calculated at checkout.

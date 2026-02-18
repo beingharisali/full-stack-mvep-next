@@ -18,6 +18,10 @@ export default function ProductsPage() {
   const [sortBy, setSortBy] = useState("-createdAt");
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+
   const itemsPerPage = 8;
 
   useEffect(() => {

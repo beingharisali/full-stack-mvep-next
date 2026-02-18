@@ -64,9 +64,9 @@ const OrdersPage: React.FC = () => {
     return (
       <ProtectedRoute allowedRoles={['customer']} redirectPath="/">
         <div className="min-h-screen bg-[#050a14]">
-          <Navbar />
+          <Navbar onMenuToggle={toggleSidebar} sidebarOpen={sidebarOpen} />
           <div className="flex">
-            <Sidebar />
+            <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
             <main className="flex-1 p-4 lg:p-6">
               <div className="container-mobile-lg mx-auto max-w-7xl">
                 <h1 className="text-2xl sm:text-3xl font-bold neon-text mb-4 sm:mb-6">My Orders</h1>
@@ -85,9 +85,9 @@ const OrdersPage: React.FC = () => {
     return (
       <ProtectedRoute allowedRoles={['customer']} redirectPath="/">
         <div className="min-h-screen bg-[#050a14]">
-          <Navbar />
+          <Navbar onMenuToggle={toggleSidebar} sidebarOpen={sidebarOpen} />
           <div className="flex">
-            <Sidebar />
+            <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
             <main className="flex-1 p-4 lg:p-6">
               <div className="container-mobile-lg mx-auto max-w-7xl">
                 <h1 className="text-2xl sm:text-3xl font-bold neon-text mb-4 sm:mb-6">My Orders</h1>
@@ -106,9 +106,9 @@ const OrdersPage: React.FC = () => {
   return (
     <ProtectedRoute allowedRoles={['customer']} redirectPath="/">
       <div className="min-h-screen bg-[#050a14]">
-        <Navbar />
+        <Navbar onMenuToggle={toggleSidebar} sidebarOpen={sidebarOpen} />
         <div className="flex">
-          <Sidebar />
+          <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
           <main className="flex-1 p-4 sm:p-6">
             <div className="container-mobile-lg mx-auto max-w-7xl">
               <h1 className="text-2xl sm:text-3xl font-bold neon-text mb-4 sm:mb-6">My Orders</h1>

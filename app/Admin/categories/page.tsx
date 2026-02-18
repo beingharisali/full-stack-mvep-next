@@ -26,6 +26,11 @@ export default function CategoriesManagementPage() {
     description: "",
     isActive: true,
   });
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
 
   useEffect(() => {
     fetchCategories();

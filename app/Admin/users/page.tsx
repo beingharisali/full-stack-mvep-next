@@ -74,9 +74,9 @@ export default function UserManagementPage() {
   return (
     <ProtectedRoute allowedRoles={['admin']} redirectPath="/">
       <div className="min-h-screen bg-[#050a14]">
-        <Navbar />
+        <Navbar onMenuToggle={toggleSidebar} sidebarOpen={sidebarOpen} />
         <div className="flex">
-          <Sidebar />
+          <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
           <main className="flex-1 p-4 lg:p-6">
             <div className="container-mobile-lg mx-auto max-w-7xl">
               <h1 className="text-3xl font-bold neon-text mb-6">User Management</h1>

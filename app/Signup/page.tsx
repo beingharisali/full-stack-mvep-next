@@ -80,7 +80,7 @@ export default function SignupPage() {
   }
 
   return (
-    <section className="min-h-screen flex items-center justify-center bg-[#050a14] px-2 sm:px-4 py-6 sm:py-8 relative overflow-hidden container-mobile-xs sm:container-mobile-sm md:container-mobile-md lg:container-mobile-lg xl:container-tablet 2xl:container-desktop">
+    <section className="min-h-screen flex items-center justify-center px-2 sm:px-4 py-6 sm:py-8 relative overflow-hidden container-mobile-xs sm:container-mobile-sm md:container-mobile-md lg:container-mobile-lg xl:container-tablet 2xl:container-desktop">
       <div className="relative glass-card w-full max-w-lg rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 border border-indigo-500/30 shadow-[0_0_50px_rgba(99,102,241,0.3)] container-mobile-xs sm:container-mobile-sm md:container-mobile-md lg:container-mobile-lg xl:container-tablet">
         <div className="absolute -inset-1 rounded-2xl sm:rounded-3xl bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 opacity-20 blur-xl -z-10 animate-pulse" />
 

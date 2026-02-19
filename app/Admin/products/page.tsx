@@ -269,7 +269,7 @@ export default function ProductManagementPage() {
 
   return (
     <ProtectedRoute allowedRoles={["admin"]} redirectPath="/">
-      <div className="min-h-screen bg-[#050a14] overflow-x-hidden">
+      <div className="min-h-screen overflow-x-hidden">
         <Navbar onMenuToggle={toggleSidebar} sidebarOpen={sidebarOpen} />
         <div className="flex">
           <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />

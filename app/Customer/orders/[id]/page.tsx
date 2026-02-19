@@ -56,7 +56,7 @@ const OrderDetailPage: React.FC = () => {
   if (error) {
     return (
       <ProtectedRoute allowedRoles={['customer']} redirectPath="/">
-        <div className="min-h-screen bg-[#050a14]">
+        <div className="min-h-screen">
           <Navbar />
           <div className="flex">
             <Sidebar />

@@ -119,7 +119,6 @@ export default function AnalyticsPage() {
           allOrders = ordersResponse.data.data;
         }
         
-        // Filter non-delivered orders
         nonDeliveredOrders = allOrders.filter((order: any) => 
           order.status && !['delivered', 'cancelled'].includes(order.status.toLowerCase())
         );

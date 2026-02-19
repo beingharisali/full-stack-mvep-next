@@ -314,7 +314,6 @@ export default function AnalyticsPage() {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-8">
-                {/* Users vs Orders Chart */}
                 <div className="glass-card rounded-lg p-4 sm:p-6">
                   <h3 className="text-base sm:text-lg font-medium text-white mb-4">
                     Users vs Active Orders (Last 7 Days)

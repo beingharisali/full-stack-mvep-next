@@ -238,7 +238,7 @@ export default function AnalyticsPage() {
 
   return (
     <ProtectedRoute allowedRoles={["admin"]} redirectPath="/">
-      <div className="min-h-screen bg-[#050a14]">
+      <div className="min-h-screen">
         <Navbar onMenuToggle={toggleSidebar} sidebarOpen={sidebarOpen} />
         <div className="flex">
           <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />

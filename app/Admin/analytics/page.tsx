@@ -370,7 +370,6 @@ export default function AnalyticsPage() {
                           strokeDashoffset="0"
                           transform="rotate(-90 50 50)"
                         />
-                        {/* Customers slice */}
                         <circle
                           cx="50"
                           cy="50"

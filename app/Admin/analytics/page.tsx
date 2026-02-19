@@ -143,7 +143,6 @@ export default function AnalyticsPage() {
         totalRevenue: totalRevenue,
       });
 
-      // Generate chart data
       const last7Days = generateLast7DaysData(allOrders);
       setChartData(last7Days);
 

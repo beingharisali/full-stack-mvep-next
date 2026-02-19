@@ -170,7 +170,6 @@ export default function AnalyticsPage() {
         return orderDate.toDateString() === date.toDateString();
       });
 
-      // Random users count for demo (you can replace with actual user registration data)
       const usersCount = Math.floor(Math.random() * 20) + 5;
 
       result.push({

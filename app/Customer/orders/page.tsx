@@ -63,7 +63,7 @@ const OrdersPage: React.FC = () => {
   if (loading) {
     return (
       <ProtectedRoute allowedRoles={['customer']} redirectPath="/">
-        <div className="min-h-screen bg-[#050a14]">
+        <div className="min-h-screen">
           <Navbar onMenuToggle={toggleSidebar} sidebarOpen={sidebarOpen} />
           <div className="flex">
             <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
@@ -84,7 +84,7 @@ const OrdersPage: React.FC = () => {
   if (error) {
     return (
       <ProtectedRoute allowedRoles={['customer']} redirectPath="/">
-        <div className="min-h-screen bg-[#050a14]">
+        <div className="min-h-screen">
           <Navbar onMenuToggle={toggleSidebar} sidebarOpen={sidebarOpen} />
           <div className="flex">
             <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
@@ -106,7 +106,7 @@ const OrdersPage: React.FC = () => {
 
   return (
     <ProtectedRoute allowedRoles={['customer']} redirectPath="/">
-      <div className="min-h-screen bg-[#050a14]">
+      <div className="min-h-screen">
         <Navbar onMenuToggle={toggleSidebar} sidebarOpen={sidebarOpen} />
         <div className="flex">
           <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />

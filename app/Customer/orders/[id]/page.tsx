@@ -35,7 +35,7 @@ const OrderDetailPage: React.FC = () => {
   if (loading) {
     return (
       <ProtectedRoute allowedRoles={['customer']} redirectPath="/">
-        <div className="min-h-screen bg-[#050a14]">
+        <div className="min-h-screen">
           <Navbar />
           <div className="flex">
             <Sidebar />
@@ -56,7 +56,7 @@ const OrderDetailPage: React.FC = () => {
   if (error) {
     return (
       <ProtectedRoute allowedRoles={['customer']} redirectPath="/">
-        <div className="min-h-screen bg-[#050a14]">
+        <div className="min-h-screen">
           <Navbar />
           <div className="flex">
             <Sidebar />
@@ -78,7 +78,7 @@ const OrderDetailPage: React.FC = () => {
   if (!order) {
     return (
       <ProtectedRoute allowedRoles={['customer']} redirectPath="/">
-        <div className="min-h-screen bg-[#050a14]">
+        <div className="min-h-screen">
           <Navbar />
           <div className="flex">
             <Sidebar />
@@ -99,7 +99,7 @@ const OrderDetailPage: React.FC = () => {
 
   return (
     <ProtectedRoute allowedRoles={['customer']} redirectPath="/">
-      <div className="min-h-screen bg-[#050a14]">
+      <div className="min-h-screen">
         <Navbar />
         <div className="flex">
           <Sidebar />

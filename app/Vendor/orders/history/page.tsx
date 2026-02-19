@@ -99,7 +99,7 @@ const VendorOrderHistoryPage: React.FC = () => {
   if (loading) {
     return (
       <ProtectedRoute allowedRoles={['vendor']} redirectPath="/">
-        <div className="min-h-screen bg-[#050a14]">
+        <div className="min-h-screen">
           <Navbar />
           <div className="flex">
             <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
@@ -116,7 +116,7 @@ const VendorOrderHistoryPage: React.FC = () => {
 
   return (
     <ProtectedRoute allowedRoles={['vendor']} redirectPath="/">
-      <div className="min-h-screen bg-[#050a14]">
+      <div className="min-h-screen">
         <Navbar />
         <div className="flex">
           <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />

@@ -51,7 +51,7 @@ const PaymentSuccessContent: React.FC = () => {
   if (loading) {
     return (
       <ProtectedRoute allowedRoles={['customer', 'admin', 'vendor']} redirectPath="/">
-        <div className="min-h-screen bg-[#050a14]">
+        <div className="min-h-screen">
           <Navbar />
           <div className="flex">
             <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
@@ -70,7 +70,7 @@ const PaymentSuccessContent: React.FC = () => {
   if (error || !order) {
     return (
       <ProtectedRoute allowedRoles={['customer', 'admin', 'vendor']} redirectPath="/">
-        <div className="min-h-screen bg-[#050a14]">
+        <div className="min-h-screen">
           <Navbar />
           <div className="flex">
             <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
@@ -97,7 +97,7 @@ const PaymentSuccessContent: React.FC = () => {
 
   return (
     <ProtectedRoute allowedRoles={['customer', 'admin', 'vendor']} redirectPath="/">
-      <div className="min-h-screen bg-[#050a14]">
+      <div className="min-h-screen">
         <Navbar />
         <div className="flex">
           <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
@@ -202,7 +202,7 @@ const PaymentSuccessContent: React.FC = () => {
 const SuspendedPaymentSuccessPage: React.FC = () => {
   if (typeof window === 'undefined') {
     return (
-      <div className="min-h-screen bg-[#050a14] flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-500 mx-auto"></div>
           <p className="mt-4 text-gray-400">Loading...</p>

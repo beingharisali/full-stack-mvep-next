@@ -76,7 +76,7 @@ export default function ProductsPage() {
 
   return (
     <ProtectedRoute allowedRoles={["customer", "vendor", "admin"]}>
-      <div className="min-h-screen bg-[#050a14]">
+      <div className="min-h-screen">
         <Navbar onMenuToggle={toggleSidebar} sidebarOpen={sidebarOpen} />
         <div className="flex">
           <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />

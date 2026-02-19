@@ -134,7 +134,6 @@ export default function AnalyticsPage() {
         console.error("Error fetching orders:", err);
       }
 
-      // Set stats
       setStats({
         totalUsers: vendors.length + customers.length,
         totalVendors: vendors.length,

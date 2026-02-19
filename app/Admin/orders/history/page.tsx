@@ -74,7 +74,7 @@ const AdminOrderHistoryPage: React.FC = () => {
   if (loading) {
     return (
       <ProtectedRoute allowedRoles={["admin"]} redirectPath="/">
-        <div className="min-h-screen bg-[#050a14]">
+        <div className="min-h-screen">
           <Navbar />
           <div className="flex">
             <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />

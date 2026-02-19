@@ -258,7 +258,7 @@ export default function AdminAccountsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#050a14] p-4 md:p-8">
+    <div className="min-h-screen p-4 md:p-8">
       <div className="max-w-7xl mx-auto">
         <div className="glass-card rounded-2xl p-6 mb-8">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">

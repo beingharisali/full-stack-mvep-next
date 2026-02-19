@@ -38,7 +38,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased relative container-mobile-xs sm:container-mobile-sm md:container-mobile-md lg:container-mobile-lg xl:container-tablet 2xl:container-desktop`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased relative`}
       >
         <ParticlesBackground />
         <div className="fixed inset-0 pointer-events-none -z-10"></div>

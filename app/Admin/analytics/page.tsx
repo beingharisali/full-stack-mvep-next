@@ -102,7 +102,6 @@ export default function AnalyticsPage() {
         console.error("Error fetching products:", err);
       }
       
-      // 3. Fetch all orders
       console.log("Fetching orders...");
       let allOrders: any[] = [];
       let nonDeliveredOrders: any[] = [];

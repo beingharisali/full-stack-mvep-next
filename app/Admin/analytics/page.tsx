@@ -164,7 +164,6 @@ export default function AnalyticsPage() {
       date.setDate(date.getDate() - i);
       const dayName = days[date.getDay()];
       
-      // Count orders for this day
       const dayOrders = orders.filter((order: any) => {
         if (!order.createdAt) return false;
         const orderDate = new Date(order.createdAt);

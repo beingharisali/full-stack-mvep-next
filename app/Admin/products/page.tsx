@@ -269,7 +269,7 @@ export default function ProductManagementPage() {
 
   return (
     <ProtectedRoute allowedRoles={["admin"]} redirectPath="/">
-      <div className="min-h-screen bg-[#050a14] container-mobile-xs sm:container-mobile-sm md:container-mobile-md lg:container-mobile-lg xl:container-tablet 2xl:container-desktop">
+      <div className="min-h-screen bg-[#050a14]">
         <Navbar onMenuToggle={toggleSidebar} sidebarOpen={sidebarOpen} />
         <div className="flex">
           <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
@@ -278,7 +278,7 @@ export default function ProductManagementPage() {
               sidebarOpen ? "lg:ml-0" : ""
             } ${typeof window !== "undefined" && window.innerWidth < 1024 ? "ml-0" : ""}`}
           >
-            <div className="max-w-7xl mx-auto p-4 lg:p-6 container-mobile-xs sm:container-mobile-sm md:container-mobile-md lg:container-mobile-lg xl:container-tablet 2xl:container-desktop">
+            <div className="max-w-full mx-auto p-4 lg:p-6 container-mobile-xs sm:container-mobile-sm md:container-mobile-md lg:container-mobile-lg xl:container-tablet 2xl:container-desktop">
               <h1 className="text-xl sm:text-2xl md:text-3xl font-bold neon-text mb-4 sm:mb-6">
                 📦 Create & Manage Products
               </h1>

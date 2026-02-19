@@ -302,7 +302,6 @@ export default function AnalyticsPage() {
                   </div>
                 </div>
 
-                {/* Total Revenue */}
                 <div className="glass-card rounded-lg p-4 sm:p-6">
                   <h3 className="text-base sm:text-lg font-medium text-gray-400">Total Revenue</h3>
                   <p className="text-2xl sm:text-3xl font-bold text-yellow-400 mt-2">

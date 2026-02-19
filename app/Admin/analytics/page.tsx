@@ -88,7 +88,6 @@ export default function AnalyticsPage() {
         customers = [];
       }
 
-      // 2. Fetch all products
       console.log("Fetching products...");
       let totalProducts = 0;
       try {

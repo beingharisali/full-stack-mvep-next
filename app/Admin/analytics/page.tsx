@@ -68,7 +68,6 @@ export default function AnalyticsPage() {
       setLoading(true);
       setError(null);
 
-      // 1. Fetch users data
       console.log("Fetching vendors and customers...");
       let vendors: any[] = [];
       let customers: any[] = [];

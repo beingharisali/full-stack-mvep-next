@@ -221,7 +221,7 @@ const CheckoutPage: React.FC = () => {
   if (cart.items.length === 0) {
     return (
       <ProtectedRoute allowedRoles={['customer', 'admin', 'vendor']} redirectPath="/">
-        <div className="min-h-screen bg-[#050a14] container-mobile-xs sm:container-mobile-sm md:container-mobile-md lg:container-mobile-lg xl:container-tablet 2xl:container-desktop">
+        <div className="min-h-screen container-mobile-xs sm:container-mobile-sm md:container-mobile-md lg:container-mobile-lg xl:container-tablet 2xl:container-desktop">
           <Navbar />
           <div className="flex">
             <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />

@@ -91,6 +91,16 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle }) => {
                   >
                     📜 Order History
                   </button>
+                  <button
+                    onClick={() => handleNavigation("/Customer/orders")}
+                    className={`px-3 py-2 rounded-md text-sm font-medium transition-all whitespace-nowrap ${
+                      pathname === "/orders/history"
+                        ? "text-indigo-400 bg-indigo-500/20 border border-indigo-500/50"
+                        : "text-gray-300 hover:text-indigo-400 hover:bg-indigo-500/10"
+                    }`}
+                  >
+                    My Orders
+                  </button>
                 </>
               )}
 
@@ -136,6 +146,26 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle }) => {
                   >
                     ORDERS HISTORY
                   </button>
+                  <button
+                    onClick={() => handleNavigation("/Admin/analytics")}
+                    className={`px-3 py-2 rounded-md text-sm font-medium transition-all whitespace-nowrap ${
+                      pathname === "/Admin/orders/history"
+                        ? "text-indigo-400 bg-indigo-500/20 border border-indigo-500/50"
+                        : "text-gray-300 hover:text-indigo-400 hover:bg-indigo-500/10"
+                    }`}
+                  >
+                    ANALYTICS
+                  </button>
+                  <button
+                    onClick={() => handleNavigation("/Admin/settings")}
+                    className={`px-3 py-2 rounded-md text-sm font-medium transition-all whitespace-nowrap ${
+                      pathname === "/Admin/orders/history"
+                        ? "text-indigo-400 bg-indigo-500/20 border border-indigo-500/50"
+                        : "text-gray-300 hover:text-indigo-400 hover:bg-indigo-500/10"
+                    }`}
+                  >
+                    SETTINGS
+                  </button>
                 </>
               )}
 
@@ -149,7 +179,7 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle }) => {
                         : "text-gray-300 hover:text-indigo-400 hover:bg-indigo-500/10"
                     }`}
                   >
-                    🏪 Vendor 
+                    🏪 Dashboard
                   </button>
                   <button
                     onClick={() => handleNavigation("/Vendor/products")}
@@ -159,7 +189,7 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle }) => {
                         : "text-gray-300 hover:text-indigo-400 hover:bg-indigo-500/10"
                     }`}
                   >
-                    📦 Cart
+                    📦 Products
                   </button>
                   <button
                     onClick={() => handleNavigation("/Vendor/orders")}
@@ -169,7 +199,7 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle }) => {
                         : "text-gray-300 hover:text-indigo-400 hover:bg-indigo-500/10"
                     }`}
                   >
-                    📋 Order Requests
+                    📋 Orders
                   </button>
                   <button
                     onClick={() => handleNavigation("/Vendor/chat")}

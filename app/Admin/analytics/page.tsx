@@ -111,7 +111,6 @@ export default function AnalyticsPage() {
         const ordersResponse = await http.get('/orders/admin/all');
         console.log("Orders response:", ordersResponse.data);
         
-        // Handle different response structures
         if (ordersResponse.data.orders) {
           allOrders = ordersResponse.data.orders;
         } else if (Array.isArray(ordersResponse.data)) {

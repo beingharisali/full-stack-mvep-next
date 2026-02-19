@@ -41,7 +41,7 @@ const VendorChatPage: React.FC = () => {
 
   return (
     <ProtectedRoute allowedRoles={['vendor']} redirectPath="/">
-      <div className="min-h-screen bg-[#050a14]">
+      <div className="min-h-screen">
         <Navbar onMenuToggle={toggleSidebar}/>
         <div className="flex">
           <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} onToggle={toggleSidebar} />

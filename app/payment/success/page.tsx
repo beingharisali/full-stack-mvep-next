@@ -70,7 +70,7 @@ const PaymentSuccessContent: React.FC = () => {
   if (error || !order) {
     return (
       <ProtectedRoute allowedRoles={['customer', 'admin', 'vendor']} redirectPath="/">
-        <div className="min-h-screen bg-[#050a14]">
+        <div className="min-h-screen">
           <Navbar />
           <div className="flex">
             <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />

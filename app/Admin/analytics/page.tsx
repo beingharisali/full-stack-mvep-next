@@ -123,7 +123,6 @@ export default function AnalyticsPage() {
           order.status && !['delivered', 'cancelled'].includes(order.status.toLowerCase())
         );
         
-        // Calculate revenue from all orders (excluding cancelled)
         totalRevenue = allOrders.reduce((sum: number, order: any) => {
           if (order.status && order.status.toLowerCase() !== 'cancelled') {
             return sum + (order.totalAmount || 0);

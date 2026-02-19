@@ -275,7 +275,6 @@ export default function AnalyticsPage() {
                   </div>
                 </div>
 
-                {/* Total Products */}
                 <div className="glass-card rounded-lg p-4 sm:p-6">
                   <h3 className="text-base sm:text-lg font-medium text-gray-400">
                     Total Products

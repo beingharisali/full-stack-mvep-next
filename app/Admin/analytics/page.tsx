@@ -359,7 +359,6 @@ export default function AnalyticsPage() {
                         </div>
                       </div>
                       <svg className="w-full h-full" viewBox="0 0 100 100">
-                        {/* Vendors slice */}
                         <circle
                           cx="50"
                           cy="50"

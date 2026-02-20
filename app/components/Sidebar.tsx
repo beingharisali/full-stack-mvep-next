@@ -45,7 +45,7 @@ export default function Sidebar({ isOpen, setIsOpen, onToggle }: SidebarProps) {
   }, [setIsOpen]);
 
   const toggleSidebar = () => {
-    if (setIsOpen && isOpen !== undefined) {
+    if (setIsOpen) {
       setIsOpen(!isOpen);
     } else {
       setLocalSidebarOpen(!localSidebarOpen);

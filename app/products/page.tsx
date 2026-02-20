@@ -19,12 +19,7 @@ export default function ProductsPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
-    console.log('Toggle sidebar called, current state:', sidebarOpen);
-    setSidebarOpen(prev => {
-      const newState = !prev;
-      console.log('New state will be:', newState);
-      return newState;
-    });
+    setSidebarOpen(!sidebarOpen);
   };
 
   const itemsPerPage = 8;

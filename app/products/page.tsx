@@ -16,7 +16,7 @@ export default function ProductsPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [sortBy, setSortBy] = useState("-createdAt");
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -76,7 +76,7 @@ export default function ProductsPage() {
 
   return (
     <ProtectedRoute allowedRoles={["customer", "vendor", "admin"]}>
-      <div className="min-h-screen">
+      <div className="min-h-screen bg-[#050a14]">
         <Navbar onMenuToggle={toggleSidebar} sidebarOpen={sidebarOpen} />
         <div className="flex">
           <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />

@@ -20,8 +20,13 @@ export const metadata: Metadata = {
   title: "MVEP - Marketplace",
   description:
     "Level up your shopping experience with our multi-vendor marketplace",
-  viewport:
-    "width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes",
+};
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1.0,
+  maximumScale: 5.0,
+  userScalable: true,
 };
 
 export default function RootLayout({

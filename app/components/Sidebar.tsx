@@ -20,19 +20,13 @@ export interface SidebarProps {
 export default function Sidebar({ isOpen, setIsOpen, onToggle }: SidebarProps) {
   const { user } = useAuth();
   const router = useRouter();
-  const [localSidebarOpen, setLocalSidebarOpen] = useState(true);
+  const [localSidebarOpen, setLocalSidebarOpen] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 1024) {
-        if (setIsOpen) {
-          setIsOpen(false);
-        }
         setLocalSidebarOpen(false);
       } else {
-        if (setIsOpen) {
-          setIsOpen(true);
-        }
         setLocalSidebarOpen(true);
       }
     };
@@ -42,31 +36,17 @@ export default function Sidebar({ isOpen, setIsOpen, onToggle }: SidebarProps) {
     window.addEventListener('resize', handleResize);
 
     return () => window.removeEventListener('resize', handleResize);
-  }, [setIsOpen]);
+  }, []);
 
   const toggleSidebar = () => {
-    console.log('Sidebar toggle called');
-    console.log('setIsOpen:', setIsOpen);
-    console.log('isOpen:', isOpen);
-    console.log('localSidebarOpen:', localSidebarOpen);
-    
-    if (setIsOpen) {
-      const newState = !isOpen;
-      console.log('Setting isOpen to:', newState);
-      setIsOpen(newState);
+    if (setIsOpen && isOpen !== undefined) {
+      setIsOpen(!isOpen);
     } else {
-      const newState = !localSidebarOpen;
-      console.log('Setting localSidebarOpen to:', newState);
-      setLocalSidebarOpen(newState);
-    }
-    
-    if (onToggle) {
-      onToggle();
+      setLocalSidebarOpen(!localSidebarOpen);
     }
   };
 
   const isSidebarOpen = isOpen !== undefined ? isOpen : localSidebarOpen;
-  console.log('Sidebar render - isSidebarOpen:', isSidebarOpen);
 
   const getMenuItems = (): MenuItem[] => {
     if (!user) return []; 

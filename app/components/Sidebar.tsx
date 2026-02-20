@@ -100,26 +100,26 @@ export default function Sidebar({ isOpen, setIsOpen, onToggle }: SidebarProps) {
         shadow-2xl shadow-indigo-500/10
         border-r border-indigo-500/20
       `}>
-        <div className="h-16 flex items-center justify-between px-4 border-b border-indigo-500/20 bg-gradient-to-r from-indigo-600/10 to-purple-600/10">
+        <div className="h-14 flex items-center justify-between px-3 border-b border-indigo-500/20 bg-gradient-to-r from-indigo-600/10 to-purple-600/10">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
-              <span className="text-sm font-bold text-white">
+            <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
+              <span className="text-xs font-bold text-white">
                 {user ? user.role.charAt(0).toUpperCase() : 'M'}
               </span>
             </div>
             <div>
-              <span className="text-sm font-medium text-gray-300">Welcome,</span>
-              <h2 className="text-sm font-bold bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
+              <span className="text-xs font-medium text-gray-300">Welcome,</span>
+              <h2 className="text-xs font-bold bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
                 {user ? `${user.firstName} ${user.lastName}` : 'Guest'}
               </h2>
             </div>
           </div>
           <button 
             onClick={toggleSidebar}
-            className="lg:hidden w-8 h-8 rounded-lg bg-gray-800/50 hover:bg-gray-700 flex items-center justify-center transition-all hover:scale-110 border border-indigo-500/30"
+            className="lg:hidden w-7 h-7 rounded-lg bg-gray-800/50 hover:bg-gray-700 flex items-center justify-center transition-all hover:scale-110 border border-indigo-500/30"
             aria-label="Close sidebar"
           >
-            <X size={18} className="text-gray-400" />
+            <X size={16} className="text-gray-400" />
           </button>
         </div>
 

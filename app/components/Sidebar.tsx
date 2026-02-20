@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from 'next/navigation';
-import { Home, Settings, BarChart, ShoppingCart, Package, FileText, MessageSquare, X } from "lucide-react";
+import { Home, Settings, BarChart, ShoppingCart, Package, FileText, MessageSquare, X, Users } from "lucide-react";
 import { useAuth } from '../../context/AuthContext';
 import { useState, useEffect } from 'react';
 
@@ -59,6 +59,8 @@ export default function Sidebar({ isOpen, setIsOpen, onToggle }: SidebarProps) {
           { href: '/Admin/orders', icon: Package, label: 'Orders' },
           { href: '/Admin/analytics', icon: BarChart, label: 'Analytics' },
           { href: '/Admin/settings', icon: Settings, label: 'Settings' },
+          { href: '/Admin/accounts', icon: Users, label: 'Accounts' },
+
         ];
       case 'vendor':
         return [

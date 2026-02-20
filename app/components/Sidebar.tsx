@@ -20,20 +20,20 @@ export interface SidebarProps {
 export default function Sidebar({ isOpen, setIsOpen, onToggle }: SidebarProps) {
   const { user } = useAuth();
   const router = useRouter();
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [localSidebarOpen, setLocalSidebarOpen] = useState(true);
 
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 1024) {
-        setSidebarOpen(false);
         if (setIsOpen) {
           setIsOpen(false);
         }
+        setLocalSidebarOpen(false);
       } else {
-        setSidebarOpen(true);
         if (setIsOpen) {
           setIsOpen(true);
         }
+        setLocalSidebarOpen(true);
       }
     };
 
@@ -45,10 +45,10 @@ export default function Sidebar({ isOpen, setIsOpen, onToggle }: SidebarProps) {
   }, [setIsOpen]);
 
   const toggleSidebar = () => {
-    if (setIsOpen) {
+    if (setIsOpen && isOpen !== undefined) {
       setIsOpen(!isOpen);
     } else {
-      setSidebarOpen(!sidebarOpen);
+      setLocalSidebarOpen(!localSidebarOpen);
     }
     
     if (onToggle) {
@@ -56,7 +56,7 @@ export default function Sidebar({ isOpen, setIsOpen, onToggle }: SidebarProps) {
     }
   };
 
-  const isSidebarOpen = isOpen !== undefined ? isOpen : sidebarOpen;
+  const isSidebarOpen = isOpen !== undefined ? isOpen : localSidebarOpen;
 
   const getMenuItems = (): MenuItem[] => {
     if (!user) return []; 

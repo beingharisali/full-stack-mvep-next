@@ -123,7 +123,7 @@ export default function Sidebar({ isOpen, setIsOpen, onToggle }: SidebarProps) {
           </button>
         </div>
 
-        <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+        <nav className="flex-1 px-2 py-2 space-y-0.5 overflow-y-auto">
           {menuItems.map((item, index) => {
             const isActive = typeof window !== 'undefined' && window.location.pathname === item.href;
             
@@ -138,7 +138,7 @@ export default function Sidebar({ isOpen, setIsOpen, onToggle }: SidebarProps) {
                   router.push(item.href);
                 }}
                 className={`
-                  w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-lg
+                  w-full text-left flex items-center gap-2 px-2 py-2 rounded-md
                   transition-all duration-200 group relative overflow-hidden
                   ${isActive 
                     ? 'bg-gradient-to-r from-indigo-600/20 to-purple-600/20 text-white border border-indigo-500/30 shadow-lg' 
@@ -147,23 +147,23 @@ export default function Sidebar({ isOpen, setIsOpen, onToggle }: SidebarProps) {
                 `}
               >
                 {isActive && (
-                  <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-gradient-to-b from-indigo-400 to-purple-400 rounded-r-full" />
+                  <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-gradient-to-b from-indigo-400 to-purple-400 rounded-r-full" />
                 )}
                 
                 <div className={`
-                  p-1.5 rounded-md transition-all duration-200
+                  p-1 rounded-md transition-all duration-200
                   ${isActive 
                     ? 'bg-indigo-600/30 text-indigo-400' 
                     : 'text-gray-500 group-hover:text-indigo-400 group-hover:bg-indigo-600/20'
                   }
                 `}>
-                  <item.icon size={18} />
+                  <item.icon size={16} />
                 </div>
                 
                 <span className="flex-1 text-sm font-medium">{item.label}</span>
                 
                 <span className={`
-                  opacity-0 -translate-x-2 transition-all duration-200 text-indigo-400
+                  opacity-0 -translate-x-1 transition-all duration-200 text-indigo-400
                   ${isActive ? 'opacity-100 translate-x-0' : 'group-hover:opacity-100 group-hover:translate-x-0'}
                 `}>
                   →
@@ -173,7 +173,7 @@ export default function Sidebar({ isOpen, setIsOpen, onToggle }: SidebarProps) {
           })}
         </nav>
 
-        <div className="p-4 border-t border-indigo-500/20">
+        <div className="p-2 border-t border-indigo-500/20">
           <div className="text-xs text-gray-500 text-center">
             <span className="text-indigo-400">MVEP</span> v1.0.0
           </div>

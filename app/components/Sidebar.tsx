@@ -65,9 +65,8 @@ export default function Sidebar({ isOpen, setIsOpen, onToggle }: SidebarProps) {
     }
   };
 
-  console.log('Sidebar render - isSidebarOpen:', isSidebarOpen);
-
   const isSidebarOpen = isOpen !== undefined ? isOpen : localSidebarOpen;
+  console.log('Sidebar render - isSidebarOpen:', isSidebarOpen);
 
   const getMenuItems = (): MenuItem[] => {
     if (!user) return []; 

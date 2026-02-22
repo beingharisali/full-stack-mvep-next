@@ -157,6 +157,16 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle }) => {
                     ANALYTICS
                   </button>
                   <button
+                    onClick={() => handleNavigation("/Admin/accounts")}
+                    className={`px-3 py-2 rounded-md text-sm font-medium transition-all whitespace-nowrap ${
+                      pathname === "/Admin/orders/history"
+                        ? "text-indigo-400 bg-indigo-500/20 border border-indigo-500/50"
+                        : "text-gray-300 hover:text-indigo-400 hover:bg-indigo-500/10"
+                    }`}
+                  >
+                    ACCOUNTS
+                  </button>
+                  <button
                     onClick={() => handleNavigation("/Admin/settings")}
                     className={`px-3 py-2 rounded-md text-sm font-medium transition-all whitespace-nowrap ${
                       pathname === "/Admin/orders/history"

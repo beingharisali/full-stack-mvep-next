@@ -1,26 +1,33 @@
 "use client";
 
-import Link from "next/link";
-import { Home, Settings, BarChart, ShoppingCart, Package, FileText, X } from "lucide-react";
+import { useRouter } from 'next/navigation';
+import { Home, Settings, BarChart, ShoppingCart, Package, FileText, MessageSquare, X, Users } from "lucide-react";
 import { useAuth } from '../../context/AuthContext';
 import { useState, useEffect } from 'react';
 
-export default function Sidebar({ isOpen, setIsOpen }: { isOpen?: boolean; setIsOpen?: (open: boolean) => void }) {
+interface MenuItem {
+  href: string;
+  icon: React.ComponentType<{ size: number }>;
+  label: string;
+}
+
+export interface SidebarProps {
+  isOpen?: boolean;
+  setIsOpen?: (open: boolean) => void;
+  onToggle?: () => void;
+}
+
+export default function Sidebar({ isOpen, setIsOpen, onToggle }: SidebarProps) {
   const { user } = useAuth();
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const router = useRouter();
+  const [localSidebarOpen, setLocalSidebarOpen] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 1024) {
-        setSidebarOpen(false);
-        if (setIsOpen) {
-          setIsOpen(false);
-        }
+        setLocalSidebarOpen(false);
       } else {
-        setSidebarOpen(true);
-        if (setIsOpen) {
-          setIsOpen(true);
-        }
+        setLocalSidebarOpen(true);
       }
     };
 
@@ -29,19 +36,19 @@ export default function Sidebar({ isOpen, setIsOpen }: { isOpen?: boolean; setIs
     window.addEventListener('resize', handleResize);
 
     return () => window.removeEventListener('resize', handleResize);
-  }, [setIsOpen]);
+  }, []);
 
   const toggleSidebar = () => {
-    if (setIsOpen) {
+    if (setIsOpen && isOpen !== undefined) {
       setIsOpen(!isOpen);
     } else {
-      setSidebarOpen(!sidebarOpen);
+      setLocalSidebarOpen(!localSidebarOpen);
     }
   };
 
-  const isSidebarOpen = isOpen !== undefined ? isOpen : sidebarOpen;
+  const isSidebarOpen = isOpen !== undefined ? isOpen : localSidebarOpen;
 
-  const getMenuItems = () => {
+  const getMenuItems = (): MenuItem[] => {
     if (!user) return []; 
 
     switch (user.role) {
@@ -52,18 +59,22 @@ export default function Sidebar({ isOpen, setIsOpen }: { isOpen?: boolean; setIs
           { href: '/Admin/orders', icon: Package, label: 'Orders' },
           { href: '/Admin/analytics', icon: BarChart, label: 'Analytics' },
           { href: '/Admin/settings', icon: Settings, label: 'Settings' },
+          { href: '/Admin/accounts', icon: Users, label: 'Accounts' },
+
         ];
       case 'vendor':
         return [
           { href: '/Vendor/dashboard', icon: Home, label: 'Home' },
           { href: '/Vendor/products', icon: ShoppingCart, label: 'My Products' },
           { href: '/Vendor/orders', icon: FileText, label: 'Orders' },
+          { href: '/Vendor/chat', icon: MessageSquare, label: 'Chat' },
         ];
       case 'customer':
         return [
           { href: '/Customer/dashboard', icon: Home, label: 'Home' },
           { href: '/Customer/products', icon: ShoppingCart, label: 'Products' },
           { href: '/Customer/orders', icon: Package, label: 'My Orders' },
+          { href: '/Customer/chat', icon: MessageSquare, label: 'Chat' },
         ];
       default:
         return [];
@@ -76,63 +87,100 @@ export default function Sidebar({ isOpen, setIsOpen }: { isOpen?: boolean; setIs
     <>
       {isSidebarOpen && (
         <div 
-          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden transition-opacity duration-300"
           onClick={toggleSidebar}
         />
       )}
       
       <aside className={`
         fixed lg:relative inset-y-0 left-0 z-50
-        transform transition-transform duration-300 ease-in-out
+        transform transition-all duration-300 ease-in-out
         ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
         lg:translate-x-0
-        h-screen w-64 bg-gray-900 text-white flex flex-col
+        h-screen w-64 bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 text-white flex flex-col
         ${isSidebarOpen ? 'block' : 'hidden'} lg:block
+        shadow-2xl shadow-indigo-500/10
+        border-r border-indigo-500/20
       `}>
-        <div className="h-16 flex items-center justify-between px-4 text-lg font-bold border-b border-gray-700">
-          <span>{user ? `${user.role.charAt(0).toUpperCase() + user.role.slice(1)} Dashboard` : 'Dashboard'}</span>
+        <div className="h-14 flex items-center justify-between px-3 border-b border-indigo-500/20 bg-gradient-to-r from-indigo-600/10 to-purple-600/10">
+          <div className="flex items-center gap-2">
+            <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
+              <span className="text-xs font-bold text-white">
+                {user ? user.role.charAt(0).toUpperCase() : 'M'}
+              </span>
+            </div>
+            <div>
+              <span className="text-xs font-medium text-gray-300">Welcome,</span>
+              <h2 className="text-xs font-bold bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
+                {user ? `${user.firstName} ${user.lastName}` : 'Guest'}
+              </h2>
+            </div>
+          </div>
           <button 
             onClick={toggleSidebar}
-            className="lg:hidden text-white hover:text-gray-300"
+            className="lg:hidden w-7 h-7 rounded-lg bg-gray-800/50 hover:bg-gray-700 flex items-center justify-center transition-all hover:scale-110 border border-indigo-500/30"
             aria-label="Close sidebar"
           >
-            <X size={20} />
+            <X size={16} className="text-gray-400" />
           </button>
         </div>
 
-        <nav className="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
-          {menuItems.map((item, index) => (
-            <Link
-              key={index}
-              href={item.href}
-              className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-800 transition-colors"
-              onClick={() => {
-                if (window.innerWidth < 1024) { 
-                  toggleSidebar();
-                }
-              }}
-            >
-              <item.icon size={20} />
-              <span className="truncate">{item.label}</span>
-            </Link>
-          ))}
+        <nav className="flex-1 px-2 py-2 space-y-0.5 overflow-y-auto">
+          {menuItems.map((item, index) => {
+            const isActive = typeof window !== 'undefined' && window.location.pathname === item.href;
+            
+            return (
+              <button
+                key={index}
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (window.innerWidth < 1024) { 
+                    toggleSidebar();
+                  }
+                  router.push(item.href);
+                }}
+                className={`
+                  w-full text-left flex items-center gap-2 px-2 py-2 rounded-md
+                  transition-all duration-200 group relative overflow-hidden
+                  ${isActive 
+                    ? 'bg-gradient-to-r from-indigo-600/20 to-purple-600/20 text-white border border-indigo-500/30 shadow-lg' 
+                    : 'text-gray-400 hover:text-white hover:bg-gray-800/50 border border-transparent hover:border-indigo-500/30'
+                  }
+                `}
+              >
+                {isActive && (
+                  <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-gradient-to-b from-indigo-400 to-purple-400 rounded-r-full" />
+                )}
+                
+                <div className={`
+                  p-1 rounded-md transition-all duration-200
+                  ${isActive 
+                    ? 'bg-indigo-600/30 text-indigo-400' 
+                    : 'text-gray-500 group-hover:text-indigo-400 group-hover:bg-indigo-600/20'
+                  }
+                `}>
+                  <item.icon size={16} />
+                </div>
+                
+                <span className="flex-1 text-sm font-medium">{item.label}</span>
+                
+                <span className={`
+                  opacity-0 -translate-x-1 transition-all duration-200 text-indigo-400
+                  ${isActive ? 'opacity-100 translate-x-0' : 'group-hover:opacity-100 group-hover:translate-x-0'}
+                `}>
+                  →
+                </span>
+              </button>
+            );
+          })}
         </nav>
-      </aside>
 
-      <button
-        onClick={toggleSidebar}
-        className="fixed top-20 left-4 z-30 lg:hidden bg-gray-900 text-white p-2 rounded-full shadow-lg"
-        aria-label="Toggle sidebar"
-      >
-        <svg
-          className={`w-5 h-5 transform transition-transform ${isSidebarOpen ? 'rotate-180' : ''}`}
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-        </svg>
-      </button>
+        <div className="p-2 border-t border-indigo-500/20">
+          <div className="text-xs text-gray-500 text-center">
+            <span className="text-indigo-400">MVEP</span> v1.0.0
+          </div>
+        </div>
+      </aside>
     </>
   );
 }

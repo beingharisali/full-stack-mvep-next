@@ -1,201 +1,293 @@
 "use client";
 
-import Link from "next/link";
-import { useAuth } from "../../context/AuthContext";
 import { useRouter, usePathname } from "next/navigation";
+import { useAuth } from "../../context/AuthContext";
 
-const Navbar: React.FC = () => {
+interface NavbarProps {
+  onMenuToggle?: () => void;
+  sidebarOpen?: boolean;
+}
+
+const Navbar: React.FC<NavbarProps> = ({ onMenuToggle }) => {
   const { user, logout } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
+  
+  const handleNavigation = (path: string) => {
+    router.push(path);
+  };
 
   const handleLogout = () => {
     logout();
-    router.push('/');
+    router.push("/");
   };
 
   return (
-    <nav className="bg-white shadow-sm border-b border-gray-200">
+    <nav className="glass-card border-b border-indigo-500/20 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
+        <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
-            <Link href="/" className="flex-shrink-0 flex items-center">
-              <span className="text-xl font-bold text-indigo-600">MVEP</span>
-            </Link>
+            <button 
+              onClick={() => handleNavigation("/")} 
+              className="flex-shrink-0 flex items-center group"
+            >
+              <span className="text-xl font-bold neon-text group-hover:scale-105 transition-transform">
+                MVEP
+              </span>
+            </button>
           </div>
-          
-          <div className="hidden md:flex items-center space-x-8">
-            {user?.role === 'customer' && (
-              <>
-                <Link 
-                  href="/products" 
-                  className={`px-3 py-2 rounded-md text-sm font-medium ${
-                    pathname === '/products' 
-                      ? 'text-indigo-600 bg-indigo-50' 
-                      : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50'
-                  }`}
-                >
-                  Products
-                </Link>
-                <Link 
-                  href="/cart" 
-                  className={`px-3 py-2 rounded-md text-sm font-medium ${
-                    pathname === '/cart' 
-                      ? 'text-indigo-600 bg-indigo-50' 
-                      : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50'
-                  }`}
-                >
-                  Cart
-                </Link>
-                <Link 
-                  href="/checkout" 
-                  className={`px-3 py-2 rounded-md text-sm font-medium ${
-                    pathname === '/checkout' 
-                      ? 'text-indigo-600 bg-indigo-50' 
-                      : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50'
-                  }`}
-                >
-                  Checkout
-                </Link>
-                <Link 
-                  href="/orders/history" 
-                  className={`px-3 py-2 rounded-md text-sm font-medium ${
-                    pathname === '/orders/history' 
-                      ? 'text-indigo-600 bg-indigo-50' 
-                      : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50'
-                  }`}
-                >
-                  Order History
-                </Link>
-              </>
-            )}
-            
-            {user?.role === 'admin' && (
-              <>
-                <Link 
-                  href="/Admin/dashboard" 
-                  className={`px-3 py-2 rounded-md text-sm font-medium ${
-                    pathname === '/Admin/dashboard' 
-                      ? 'text-indigo-600 bg-indigo-50' 
-                      : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50'
-                  }`}
-                >
-                  Dashboard
-                </Link>
-                <Link 
-                  href="/Admin/products" 
-                  className={`px-3 py-2 rounded-md text-sm font-medium ${
-                    pathname === '/Admin/products' 
-                      ? 'text-indigo-600 bg-indigo-50' 
-                      : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50'
-                  }`}
-                >
-                  Products
-                </Link>
-                <Link 
-                  href="/Admin/orders" 
-                  className={`px-3 py-2 rounded-md text-sm font-medium ${
-                    pathname === '/Admin/orders' 
-                      ? 'text-indigo-600 bg-indigo-50' 
-                      : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50'
-                  }`}
-                >
-                  Orders
-                </Link>
-                <Link 
-                  href="/Admin/orders/history" 
-                  className={`px-3 py-2 rounded-md text-sm font-medium ${
-                    pathname === '/Admin/orders/history' 
-                      ? 'text-indigo-600 bg-indigo-50' 
-                      : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50'
-                  }`}
-                >
-                  Order History
-                </Link>
-              </>
-            )}
-            
-            {user?.role === 'vendor' && (
-              <>
-                <Link 
-                  href="/Vendor/dashboard" 
-                  className={`px-3 py-2 rounded-md text-sm font-medium ${
-                    pathname === '/Vendor/dashboard' 
-                      ? 'text-indigo-600 bg-indigo-50' 
-                      : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50'
-                  }`}
-                >
-                  Dashboard
-                </Link>
-                <Link 
-                  href="/Vendor/products" 
-                  className={`px-3 py-2 rounded-md text-sm font-medium ${
-                    pathname === '/Vendor/products' 
-                      ? 'text-indigo-600 bg-indigo-50' 
-                      : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50'
-                  }`}
-                >
-                  Products
-                </Link>
-                <Link 
-                  href="/Vendor/orders" 
-                  className={`px-3 py-2 rounded-md text-sm font-medium ${
-                    pathname === '/Vendor/orders' 
-                      ? 'text-indigo-600 bg-indigo-50' 
-                      : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50'
-                  }`}
-                >
-                  Orders
-                </Link>
-                <Link 
-                  href="/Vendor/orders/history" 
-                  className={`px-3 py-2 rounded-md text-sm font-medium ${
-                    pathname === '/Vendor/orders/history' 
-                      ? 'text-indigo-600 bg-indigo-50' 
-                      : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50'
-                  }`}
-                >
-                  Order History
-                </Link>
-              </>
-            )}
-            
+
+          <div className="hidden md:flex items-center justify-center flex-1 px-4">
+            <div className="flex items-center space-x-2 lg:space-x-4">
+              {user?.role === "customer" && (
+                <>
+                  <button
+                    onClick={() => handleNavigation("/products")}
+                    className={`px-3 py-2 rounded-md text-sm font-medium transition-all whitespace-nowrap ${
+                      pathname === "/products"
+                        ? "text-indigo-400 bg-indigo-500/20 border border-indigo-500/50"
+                        : "text-gray-300 hover:text-indigo-400 hover:bg-indigo-500/10"
+                    }`}
+                  >
+                    Products
+                  </button>
+                  <button
+                    onClick={() => handleNavigation("/cart")}
+                    className={`px-3 py-2 rounded-md text-sm font-medium transition-all whitespace-nowrap ${
+                      pathname === "/cart"
+                        ? "text-indigo-400 bg-indigo-500/20 border border-indigo-500/50"
+                        : "text-gray-300 hover:text-indigo-400 hover:bg-indigo-500/10"
+                    }`}
+                  >
+                    🛒 Cart
+                  </button>
+                  <button
+                    onClick={() => handleNavigation("/checkout")}
+                    className={`px-3 py-2 rounded-md text-sm font-medium transition-all whitespace-nowrap ${
+                      pathname === "/checkout"
+                        ? "text-indigo-400 bg-indigo-500/20 border border-indigo-500/50"
+                        : "text-gray-300 hover:text-indigo-400 hover:bg-indigo-500/10"
+                    }`}
+                  >
+                    Checkout
+                  </button>
+                  <button
+                    onClick={() => handleNavigation("/Customer/chat")}
+                    className={`px-3 py-2 rounded-md text-sm font-medium transition-all whitespace-nowrap ${
+                      pathname === "/Customer/chat"
+                        ? "text-indigo-400 bg-indigo-500/20 border border-indigo-500/50"
+                        : "text-gray-300 hover:text-indigo-400 hover:bg-indigo-500/10"
+                    }`}
+                  >
+                    💬 Chat
+                  </button>
+                  <button
+                    onClick={() => handleNavigation("/orders/history")}
+                    className={`px-3 py-2 rounded-md text-sm font-medium transition-all whitespace-nowrap ${
+                      pathname === "/orders/history"
+                        ? "text-indigo-400 bg-indigo-500/20 border border-indigo-500/50"
+                        : "text-gray-300 hover:text-indigo-400 hover:bg-indigo-500/10"
+                    }`}
+                  >
+                    📜 Order History
+                  </button>
+                  <button
+                    onClick={() => handleNavigation("/Customer/orders")}
+                    className={`px-3 py-2 rounded-md text-sm font-medium transition-all whitespace-nowrap ${
+                      pathname === "/orders/history"
+                        ? "text-indigo-400 bg-indigo-500/20 border border-indigo-500/50"
+                        : "text-gray-300 hover:text-indigo-400 hover:bg-indigo-500/10"
+                    }`}
+                  >
+                    My Orders
+                  </button>
+                </>
+              )}
+
+              {user?.role === "admin" && (
+                <>
+                  <button
+                    onClick={() => handleNavigation("/Admin/dashboard")}
+                    className={`px-3 py-2 rounded-md text-sm font-medium transition-all whitespace-nowrap ${
+                      pathname === "/Admin/dashboard"
+                        ? "text-indigo-400 bg-indigo-500/20 border border-indigo-500/50"
+                        : "text-gray-300 hover:text-indigo-400 hover:bg-indigo-500/10"
+                    }`}
+                  >
+                    DASHBOARD
+                  </button>
+                  <button
+                    onClick={() => handleNavigation("/Admin/products")}
+                    className={`px-3 py-2 rounded-md text-sm font-medium transition-all whitespace-nowrap ${
+                      pathname === "/Admin/products"
+                        ? "text-indigo-400 bg-indigo-500/20 border border-indigo-500/50"
+                        : "text-gray-300 hover:text-indigo-400 hover:bg-indigo-500/10"
+                    }`}
+                  >
+                    PRODUCTS
+                  </button>
+                  <button
+                    onClick={() => handleNavigation("/Admin/orders")}
+                    className={`px-3 py-2 rounded-md text-sm font-medium transition-all whitespace-nowrap ${
+                      pathname === "/Admin/orders"
+                        ? "text-indigo-400 bg-indigo-500/20 border border-indigo-500/50"
+                        : "text-gray-300 hover:text-indigo-400 hover:bg-indigo-500/10"
+                    }`}
+                  >
+                    ORDERS
+                  </button>
+                  <button
+                    onClick={() => handleNavigation("/Admin/orders/history")}
+                    className={`px-3 py-2 rounded-md text-sm font-medium transition-all whitespace-nowrap ${
+                      pathname === "/Admin/orders/history"
+                        ? "text-indigo-400 bg-indigo-500/20 border border-indigo-500/50"
+                        : "text-gray-300 hover:text-indigo-400 hover:bg-indigo-500/10"
+                    }`}
+                  >
+                    ORDERS HISTORY
+                  </button>
+                  <button
+                    onClick={() => handleNavigation("/Admin/analytics")}
+                    className={`px-3 py-2 rounded-md text-sm font-medium transition-all whitespace-nowrap ${
+                      pathname === "/Admin/orders/history"
+                        ? "text-indigo-400 bg-indigo-500/20 border border-indigo-500/50"
+                        : "text-gray-300 hover:text-indigo-400 hover:bg-indigo-500/10"
+                    }`}
+                  >
+                    ANALYTICS
+                  </button>
+                  <button
+                    onClick={() => handleNavigation("/Admin/accounts")}
+                    className={`px-3 py-2 rounded-md text-sm font-medium transition-all whitespace-nowrap ${
+                      pathname === "/Admin/orders/history"
+                        ? "text-indigo-400 bg-indigo-500/20 border border-indigo-500/50"
+                        : "text-gray-300 hover:text-indigo-400 hover:bg-indigo-500/10"
+                    }`}
+                  >
+                    ACCOUNTS
+                  </button>
+                  <button
+                    onClick={() => handleNavigation("/Admin/settings")}
+                    className={`px-3 py-2 rounded-md text-sm font-medium transition-all whitespace-nowrap ${
+                      pathname === "/Admin/orders/history"
+                        ? "text-indigo-400 bg-indigo-500/20 border border-indigo-500/50"
+                        : "text-gray-300 hover:text-indigo-400 hover:bg-indigo-500/10"
+                    }`}
+                  >
+                    SETTINGS
+                  </button>
+                </>
+              )}
+
+              {user?.role === "vendor" && (
+                <>
+                  <button
+                    onClick={() => handleNavigation("/Vendor/dashboard")}
+                    className={`px-3 py-2 rounded-md text-sm font-medium transition-all whitespace-nowrap ${
+                      pathname === "/Vendor/dashboard"
+                        ? "text-indigo-400 bg-indigo-500/20 border border-indigo-500/50"
+                        : "text-gray-300 hover:text-indigo-400 hover:bg-indigo-500/10"
+                    }`}
+                  >
+                    🏪 Dashboard
+                  </button>
+                  <button
+                    onClick={() => handleNavigation("/Vendor/products")}
+                    className={`px-3 py-2 rounded-md text-sm font-medium transition-all whitespace-nowrap ${
+                      pathname === "/Vendor/products"
+                        ? "text-indigo-400 bg-indigo-500/20 border border-indigo-500/50"
+                        : "text-gray-300 hover:text-indigo-400 hover:bg-indigo-500/10"
+                    }`}
+                  >
+                    📦 Products
+                  </button>
+                  <button
+                    onClick={() => handleNavigation("/Vendor/orders")}
+                    className={`px-3 py-2 rounded-md text-sm font-medium transition-all whitespace-nowrap ${
+                      pathname === "/Vendor/orders"
+                        ? "text-indigo-400 bg-indigo-500/20 border border-indigo-500/50"
+                        : "text-gray-300 hover:text-indigo-400 hover:bg-indigo-500/10"
+                    }`}
+                  >
+                    📋 Orders
+                  </button>
+                  <button
+                    onClick={() => handleNavigation("/Vendor/chat")}
+                    className={`px-3 py-2 rounded-md text-sm font-medium transition-all whitespace-nowrap ${
+                      pathname === "/Vendor/chat"
+                        ? "text-indigo-400 bg-indigo-500/20 border border-indigo-500/50"
+                        : "text-gray-300 hover:text-indigo-400 hover:bg-indigo-500/10"
+                    }`}
+                  >
+                    💬 Chat
+                  </button>
+                  <button
+                    onClick={() => handleNavigation("/Vendor/orders/history")}
+                    className={`px-3 py-2 rounded-md text-sm font-medium transition-all whitespace-nowrap ${
+                      pathname === "/Vendor/orders/history"
+                        ? "text-indigo-400 bg-indigo-500/20 border border-indigo-500/50"
+                        : "text-gray-300 hover:text-indigo-400 hover:bg-indigo-500/10"
+                    }`}
+                  >
+                    📜 Order History
+                  </button>
+                </>
+              )}
+            </div>
+          </div>
+
+          <div className="flex items-center justify-end">
             {user ? (
               <div className="flex items-center space-x-4">
-                <span className="text-sm text-gray-700">
-                  Welcome, {user.firstName} {user.lastName}
+                <span className="text-sm text-gray-300 hidden lg:flex items-center gap-2 whitespace-nowrap">
+                  <span className="text-indigo-400">⚡</span>
+                  {user.firstName} {user.lastName}
                 </span>
                 <button
                   onClick={handleLogout}
-                  className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  className="px-4 py-2 text-sm font-medium text-white gaming-btn rounded-md transition-all whitespace-nowrap"
                 >
-                  Logout
+                  🚪 Logout
                 </button>
               </div>
             ) : (
-              <div className="flex items-center space-x-4">
-                <Link 
-                  href="/login" 
-                  className="px-4 py-2 text-sm font-medium text-indigo-600 bg-indigo-50 rounded-md hover:bg-indigo-100"
+              <div className="flex items-center space-x-3">
+                <button
+                  onClick={() => handleNavigation("/login")}
+                  className="px-4 py-2 text-sm font-medium text-indigo-400 border border-indigo-500/50 rounded-md hover:bg-indigo-500/10 transition-all whitespace-nowrap"
                 >
                   Login
-                </Link>
-                <Link 
-                  href="/register" 
-                  className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700"
+                </button>
+                <button
+                  onClick={() => handleNavigation("/register")}
+                  className="px-4 py-2 text-sm font-medium text-white gaming-btn rounded-md transition-all whitespace-nowrap"
                 >
                   Register
-                </Link>
+                </button>
               </div>
             )}
-          </div>
-          
-          <div className="md:hidden flex items-center">
-            <button className="text-gray-500 hover:text-gray-700">
-              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            </button>
+
+            <div className="md:hidden flex items-center ml-3">
+              <button
+                onClick={onMenuToggle}
+                className="text-gray-400 hover:text-indigo-400 transition-colors p-2"
+                aria-label="Toggle menu"
+              >
+                <svg
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
       </div>

@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 // import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import "../app/globals.css";
 import { AuthProvider } from "../context/AuthContext";
 import { CartProvider } from "../context/CartContext";
 import { Toaster } from "react-hot-toast";
+import ParticlesBackground from "../app/components/ParticlesBackground";
 
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
@@ -16,11 +17,16 @@ import { Toaster } from "react-hot-toast";
 // });
 
 export const metadata: Metadata = {
-  title: "MVEP - Multi-Vendor E-Commerce Platform",
+  title: "MVEP - Marketplace",
   description:
-    "A comprehensive e-commerce platform for multiple vendors and customers",
-  viewport:
-    "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no",
+    "Level up your shopping experience with our multi-vendor marketplace",
+};
+
+export const viewport = {
+  width: "device-width",
+  initialScale: 1.0,
+  maximumScale: 5.0,
+  userScalable: true,
 };
 
 export default function RootLayout({
@@ -30,40 +36,43 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-        />
-      </head>
-      <body className={`antialiased`}>
-        <AuthProvider>
-          <CartProvider>
-            {children}
-            <Toaster
-              position="top-center"
-              toastOptions={{
-                duration: 4000,
-                style: {
-                  background: "#363636",
-                  color: "#fff",
-                },
-                success: {
-                  duration: 3000,
+      <head></head>
+      <body className={` antialiased relative`}>
+        <ParticlesBackground />
+        <div className="fixed inset-0 pointer-events-none -z-10"></div>
+        <div className="relative z-10">
+          <AuthProvider>
+            <CartProvider>
+              {children}
+              <Toaster
+                position="top-center"
+                toastOptions={{
+                  duration: 4000,
                   style: {
-                    background: "#10B981",
+                    background: "#1a1f2e",
+                    color: "#fff",
+                    border: "1px solid #6366f1",
+                    boxShadow: "0 0 20px rgba(99, 102, 241, 0.3)",
                   },
-                },
-                error: {
-                  duration: 5000,
-                  style: {
-                    background: "#EF4444",
+                  success: {
+                    duration: 3000,
+                    style: {
+                      background: "#10B981",
+                      border: "1px solid #34d399",
+                    },
                   },
-                },
-              }}
-            />
-          </CartProvider>
-        </AuthProvider>
+                  error: {
+                    duration: 5000,
+                    style: {
+                      background: "#EF4444",
+                      border: "1px solid #f87171",
+                    },
+                  },
+                }}
+              />
+            </CartProvider>
+          </AuthProvider>
+        </div>
       </body>
     </html>
   );
